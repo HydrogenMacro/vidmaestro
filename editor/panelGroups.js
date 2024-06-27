@@ -12,6 +12,7 @@ let adjustmentState = {
 	originalRightwardPanelWidth: 0
 };
 let editor = document.querySelector("#editor");
+let header = document.querySelector("header");
 let borderSelectTolerance = 5;
 let minEditorWidth = window.innerWidth / 5;
 const pointerStatus = {
@@ -37,6 +38,7 @@ let pointerUpCb = e => {
 	pointerStatus.posX = e.clientX;
 	pointerStatus.posY = e.clientY;
 	update()
+	document.body.style.cursor = "default";
 };
 editor.addEventListener("pointerup", pointerUpCb);
 editor.addEventListener("pointercancel", pointerUpCb);
@@ -48,7 +50,7 @@ function update() {
 		Math.abs(panelGroupWidths[0] - pointerStatus.posX) < borderSelectTolerance,
 		Math.abs(panelGroupWidths[0] + panelGroupWidths[1] - pointerStatus.posX) < borderSelectTolerance,
 	];
-	if (isBetweenPanels[0] || isBetweenPanels[1] || isAdjusting) {
+	if ((pointerStatus.posY > header.clientHeight && (isBetweenPanels[0] || isBetweenPanels[1])) || isAdjusting) {
 		document.body.style.cursor = "col-resize";
 	} else {
 		document.body.style.cursor = "default";

@@ -8,10 +8,16 @@ body {
 	user-select: none;
 	-webkit-user-select: none;
 }
+
 header {
+	background: grey;
 	width: 100%;
 	height: 1.5rem;
+	display: flex;
+	gap: 1rem;
+	padding: 0 .5rem;
 }
+
 #editor {
 	width: 100%;
 	height: calc(100svh - 1.5rem);
