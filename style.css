@@ -6,14 +6,14 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 1rem;
 }
 #title {
 	font-size: 3rem;
 	color: black;
 	text-align: center;
+	padding: 1rem;
 }
-#title-card-btn {
+.cta-btn {
 	padding: 1rem;
 	background: rgb(43, 164, 164);
 	text-decoration: none;
@@ -22,18 +22,61 @@
 }
 
 .body-card {
-	padding: 1rem;
+	padding: 2rem;
 	display: flex;
-	gap: 1rem;
+	gap: 2rem;
 }
 .body-card-half {
-	width: 49.5rem;
+	width: 49rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
-#body-tagline {
+.body-card-title {
 	font-size: 1.75rem;
 	text-align: center;
+}
+#cta-card {
+	height: 18rem;
+	background: lightcyan;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+}
+#cta-footer-gap {
+	height: 6rem;
+}
+footer {
+	display: flex;
+	flex-direction: column;
+	background: grey;
+	padding: 1rem;
+	height: 15rem;
+}
+#footer-top {
+	display: flex;
+	gap: 6rem;
+}
+.footer-column {
+	height: 8rem;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+}
+#footer-bottom {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	margin-top: auto;
+}
+#footer-bottom-statement {
+	padding: 0 1rem;
+}
+#footer-socials {
+	display: flex;
+	gap: 1rem;
+	padding: 0 1rem;
 }
