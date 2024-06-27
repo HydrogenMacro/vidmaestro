@@ -19,9 +19,9 @@ header {
 	display: flex;
 }
 
-.panel-groups {
+.panel-group {
 	height: 100svh;
-	
+	flex: 0 0 auto;
 }
 
 #left {
