@@ -1,3 +1,22 @@
+body {
+	display: flex;
+	flex-direction: column;
+}
+header {
+	width: 100%;
+	height: 3.5rem;
+	position: fixed;
+	display: flex;
+	align-items: center;
+	top: -3.5rem;
+	transition: top .2s ease-in-out;
+	background: grey;
+}
+#header-logo {
+	height: 3rem;
+	padding-left: .75rem;
+	aspect-ratio: 1;
+}
 #title-card {
 	width: 100%;
 	height: 24rem;
@@ -19,10 +38,25 @@
 	text-decoration: none;
 	color: black;
 	font-size: 1.2rem;
+	position: relative;
+}
+.cta-btn::after {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 0%;
+	height: .5rem;
+	background: blue;
+	left: 0;
+	bottom: 0;
+	transition: width .15s ease-in-out;
+}
+.cta-btn:hover::after {
+	width: 100%;
 }
 
 .body-card {
-	padding: 2rem;
+	padding: 6rem 2rem;
 	display: flex;
 	gap: 2rem;
 }
@@ -53,7 +87,7 @@ footer {
 	display: flex;
 	flex-direction: column;
 	background: grey;
-	padding: 1rem;
+	padding: 2rem;
 	height: 15rem;
 }
 #footer-top {
@@ -71,9 +105,6 @@ footer {
 	display: flex;
 	justify-content: space-between;
 	margin-top: auto;
-}
-#footer-bottom-statement {
-	padding: 0 1rem;
 }
 #footer-socials {
 	display: flex;
