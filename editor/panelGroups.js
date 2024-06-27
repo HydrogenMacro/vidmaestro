@@ -92,7 +92,9 @@ window.addEventListener("resize", () => {
 	minEditorWidth = window.innerWidth / 5;
 	let windowWidthChange = window.innerWidth - currentWindowWidth;
 	currentWindowWidth = window.innerWidth;
-	panelGroupWidths.forEach(a => a += windowWidthChange / 3);
+	for (let i = 0; i < 3; i++) {
+		panelGroupWidths[i] += windowWidthChange / 3
+	}
 	console.log(currentWindowWidth)
 	respectMinPanelGroupSize();
 	update();
