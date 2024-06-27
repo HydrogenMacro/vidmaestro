@@ -20,7 +20,7 @@ header {
 }
 
 .panel-group {
-	height: 100svh;
+	height: 100%;
 	flex: 0 0 auto;
 }
 
@@ -32,6 +32,15 @@ header {
 
 #middle {
 	width: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#video-display {
+	width: min(100%, calc(100svh - 1.5rem));
+	aspect-ratio: 1;
+	background: mediumaquamarine;
 }
 
 #right {

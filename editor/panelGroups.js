@@ -86,14 +86,16 @@ function update() {
 			panelGroupWidths[adjustmentState.borderToBeAdjusted + 1] = minEditorWidth;
 		}
 	}
-	console.log(panelGroupWidths.reduce((acc, i) => acc + i, 0))
 }
 update()
 window.addEventListener("resize", () => {
+	minEditorWidth = window.innerWidth / 5;
 	let windowWidthChange = window.innerWidth - currentWindowWidth;
 	currentWindowWidth = window.innerWidth;
-	panelGroupWidths[2] += windowWidthChange;
-	// respectMinPanelGroupSize();
+	panelGroupWidths.forEach(a => a += windowWidthChange / 3);
+	console.log(currentWindowWidth)
+	respectMinPanelGroupSize();
+	update();
 })
 function respectMinPanelGroupSize() {
 	for (let i = 0; i < 3; i++) {
