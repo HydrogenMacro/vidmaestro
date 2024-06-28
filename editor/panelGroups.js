@@ -17,7 +17,7 @@ let editor = document.querySelector("#editor");
 let header = document.querySelector("header");
 let borderSelectTolerance = 5;
 let minEditorWidth = window.innerWidth / 5;
-const pointerStatus = {
+export const pointerStatus = {
 	down: false,
 	up: false,
 	posX: 0,
@@ -100,7 +100,6 @@ window.addEventListener("resize", () => {
 	for (let i = 0; i < 3; i++) {
 		panelGroupWidths[i] += windowWidthChange / 3
 	}
-	console.log(currentWindowWidth)
 	respectMinPanelGroupSize();
 	update();
 })
