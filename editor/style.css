@@ -12,10 +12,29 @@ body {
 header {
 	background: grey;
 	width: 100%;
-	height: 1.5rem;
+	height: 2rem;
+	display: flex;
+	padding-left: .5rem;
+	align-items: center;
+}
+#header-breadcrumbs {
+	font-style: italic;
+}
+#header-listings {
+	position: relative;
 	display: flex;
 	gap: 1rem;
-	padding: 0 .5rem;
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	scrollbar-width: none;
+	flex: 1;
+}
+
+#header-listings div {
+	flex: 0 0 auto;
+	border: 2px solid black;
+	line-height:.8rem;
+	padding: .2rem;
 }
 
 #editor {
@@ -25,9 +44,15 @@ header {
 	display: flex;
 }
 
+#track-panel {
+	width: 100%;
+	height: 100px;
+	background: red;
+}
 .panel-group {
 	height: 100%;
 	flex: 0 0 auto;
+	position: relative;
 }
 
 #left {
@@ -41,12 +66,20 @@ header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
-
+#video-display-container {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	background: yellow;
+}
 #video-display {
-	width: min(100%, calc(100svh - 1.5rem));
-	aspect-ratio: 1;
 	background: mediumaquamarine;
+	aspect-ratio: 1 / 1;
+	flex: 0;
 }
 
 #right {

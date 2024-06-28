@@ -1,3 +1,5 @@
+import { updateVideoDisplaySize } from "./videoDisplay.js";
+
 const panelGroups = Array.from(document.getElementsByClassName("panel-group"));
 const panelGroupWidths = [
 	window.innerWidth / 3,
@@ -88,6 +90,7 @@ function update() {
 			panelGroupWidths[adjustmentState.borderToBeAdjusted + 1] = minEditorWidth;
 		}
 	}
+	updateVideoDisplaySize();
 }
 update()
 window.addEventListener("resize", () => {

@@ -1,8 +1,8 @@
 import { showFilePicker } from "./utils.js"
 const headerMap = {
-	__proto__: null,
 	File: {
 		Import: importFile,
+		Export: () => {}
 	},
 	Edit: {
 
@@ -11,17 +11,32 @@ const headerMap = {
 
 	},
 	Options: {
+		"General": {
 
+		},
+		"Editor Settings": {
+
+		},
+		"Project Settings": {
+
+		}
 	}
-}
-function importFile() {
-	showFilePicker()
 }
 const currentPath = [];
 const currentHeaderBtns = [];
-const header = document.querySelector("header");
+const headerListings = document.querySelector("#header-listings");
+const headerBreadcrumbs = document.querySelector("#header-breadcrumbs");
 function update() {
 	currentHeaderBtns.length = 0;
+	if (currentPath.length > 0) {
+		let backBtn = document.createElement("div");
+		backBtn.textContent = "Back";
+		backBtn.onclick = () => {
+			currentPath.pop();
+			update();
+		}
+		currentHeaderBtns.push(backBtn);
+	}
 	for (const headerBtnID of Object.keys(traverse(headerMap, currentPath))) {
 		let headerBtn = document.createElement("div");
 		headerBtn.textContent = headerBtnID;
@@ -37,7 +52,10 @@ function update() {
 		};
 		currentHeaderBtns.push(headerBtn)
 	}
-	header.replaceChildren(...currentHeaderBtns);
+	headerListings.replaceChildren(...currentHeaderBtns);
+	headerBreadcrumbs.textContent = currentPath.length > 0
+		? "In " + currentPath.join(" > ") + ":⠀"
+		: "";
 }
 function traverse(objTree, path) {
 	for (const pathSeg of path) {
@@ -46,3 +64,7 @@ function traverse(objTree, path) {
 	return objTree;
 }
 update();
+
+function importFile() {
+	showFilePicker()
+}
