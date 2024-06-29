@@ -3,6 +3,6 @@ const projectState = {
 	videoSizeRatio: [1, 1],
 	videoSeekPos: 0,
 	currentVideoLength: 0,
-	selectedVideoLayer: null
+	selectedVideoComponent: null
 };
 export default projectState;

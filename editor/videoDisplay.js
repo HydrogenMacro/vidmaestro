@@ -1,9 +1,9 @@
 import projectState from "./projectState.js";
 import { resizeCallbacks } from "./panelSizes.js";
-import TextLayer from "./videoLayerPrefabs/text.js";
-import PolygonLayer from "./videoLayerPrefabs/geometry.js";
+import TextComponent from "./componentPrefabs/text.js";
+import PolygonComponent from "./componentPrefabs/geometry.js";
 
-const videoLayers = [];
+const components = [];
 
 const videoDisplay = document.querySelector("#video-display");
 const videoDisplayContainer = document.querySelector("#video-display-container");
@@ -12,8 +12,8 @@ let videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDispla
 resizeCallbacks.push(() => {
 	videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDisplayContainer.clientHeight;
 	updateVideoDisplayDimensions();
-	for (const videoLayer of videoLayers) {
-		videoLayer.display();
+	for (const component of components) {
+		component.display();
 	}
 	updateVideoDebugDisplay();
 });
@@ -32,32 +32,31 @@ function updateVideoDisplayDimensions() {
 }
 updateVideoDisplayDimensions();
 
-export function addVideoLayer(videoLayer) {
-	videoDisplay.appendChild(videoLayer.canvas);
-	videoLayers.push(videoLayer);
-	videoLayer.display();
+export function addComponent(component) {
+	videoDisplay.appendChild(component.canvas);
+	components.push(component);
+	component.display();
 }
 
 const videoDebugDisplayCtx = videoDebugDisplay.getContext("2d");
 function updateVideoDebugDisplay() {
-	if (projectState.selectedVideoLayer) {
+	if (projectState.selectedVideoComponent) {
 		videoDebugDisplay.width = videoDisplay.clientWidth;
 		videoDebugDisplay.height = videoDisplay.clientHeight;
 		videoDebugDisplayCtx.strokeStyle = "green"
-		const [x, y, w, h] = projectState.selectedVideoLayer.getBoundingBox();
+		const [x, y, w, h] = projectState.selectedVideoComponent.getBoundingBox();
 		videoDebugDisplayCtx.strokeRect(x, y, w, h);
 	}
 }
-/*
-const textLayer = new TextLayer(0, 100);
-textLayer.translation = [100, 74];
-setInterval(() => { textLayer.rotation += .05; textLayer.display(); updateVideoDebugDisplay() }, 100)
-addVideoLayer(textLayer);
-projectState.selectedVideoLayer = textLayer;
-*/
-const polyLayer = new PolygonLayer();
-polyLayer.translation = [69, 42];
-addVideoLayer(polyLayer);
-projectState.selectedVideoLayer = polyLayer;
+
+const polyComponent = new TextComponent();
+polyComponent.translation = [69, 42];
+setInterval(() => {
+	polyComponent.rotation += .1;
+	polyComponent.display();
+	updateVideoDebugDisplay()
+}, 100);
+addComponent(polyComponent);
+projectState.selectedVideoComponent = polyComponent;
 console.log()
 updateVideoDebugDisplay()

@@ -1,5 +1,6 @@
-import Layer from "../layer.js";
-export default class PolygonLayer extends Layer {
+import Component from "../component.js";
+import { rotateBoundingBox } from "../utils.js";
+export default class PolygonComponent extends Component {
 	fill = "purple";
 	_points = [
 		[0, 0],
@@ -24,7 +25,7 @@ export default class PolygonLayer extends Layer {
 	getBoundingBox() {
 		const [rx, ry, w, h] = this._bounds;
 		const [x, y] = this.translation;
-		return [x + rx, y + ry, w, h];
+		return rotateBoundingBox([x + rx, y + ry, w, h], this.rotation);
 	}
 	setPoints(newPoints) {
 		this._points = newPoints;

@@ -1,14 +1,14 @@
 import { resizeCallbacks } from "./panelSizes.js";
 import projectState from "./projectState.js";
-export default class Layer {
+export default class Component {
 	translation = [0, 0]
 	rotation = 0 // radians
 	zIndex = 0
 	constructor(startTime, duration) {
-		this.className = "video-layer";
 		this.startTime = startTime;
 		this.duration = duration;
 		this.canvas = document.createElement("canvas");
+		this.canvas.className = "video-component"
 		this.ctx = this.canvas.getContext("2d");
 	}
 	draw(ctx, relativeFrame) {}
