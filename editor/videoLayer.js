@@ -1,23 +1,29 @@
 import { resizeCallbacks } from "./panelSizes.js";
 import projectState from "./projectState.js";
-export default class VideoLayer extends HTMLCanvasElement {
-	constructor(startTime, duration, drawFn) {
-		super();
+export default class VideoLayer {
+	translation = [0, 0]
+	rotation = 0 // radians
+	constructor(startTime, duration) {
 		this.className = "video-layer";
 		this.startTime = startTime;
 		this.duration = duration;
-		this.drawFn = drawFn;
-		this.ctx = this.getContext("2d");
+		this.canvas = document.createElement("canvas");
+		this.ctx = this.canvas.getContext("2d");
 	}
-	draw() {
-		this.width = this.parentElement.clientWidth;
-		this.height = this.parentElement.clientHeight;
+	draw(ctx, relativeFrame) {}
+	display() {
+		this.canvas.width = this.canvas.parentElement.clientWidth;
+		this.canvas.height = this.canvas.parentElement.clientHeight;
+		this.ctx.reset();
 		if (
-			projectState.videoSeekPos < this.startTime 
+			projectState.videoSeekPos < this.startTime
 			|| projectState.videoSeekPos > this.startTime + this.duration
-		) {
-			this.drawFn(this.ctx, projectState.videoSeekPos - this.startTime);
-			this.ctx.reset();
-		}
+		) return;
+		this.ctx.translate(this.translation[0], this.translation[1]);
+		this.ctx.rotate(this.rotation);
+		this.draw(this.ctx, projectState.videoSeekPos - this.startTime);
+	}
+	getBoundingBox() {
+		return [this.translation[0], this.translation[0], 0, 0];
 	}
 }

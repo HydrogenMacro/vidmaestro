@@ -6,25 +6,25 @@ const videoLayers = [];
 
 const videoDisplay = document.querySelector("#video-display");
 const videoDisplayContainer = document.querySelector("#video-display-container");
+const videoDebugDisplay = document.querySelector("#video-debug-display");
 let videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDisplayContainer.clientHeight;
 resizeCallbacks.push(() => {
 	videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDisplayContainer.clientHeight;
 	updateVideoDisplayDimensions();
 	for (const videoLayer of videoLayers) {
-		videoLayer.draw();
+		videoLayer.display();
 	}
+	updateVideoDebugDisplay();
 });
 
 function updateVideoDisplayDimensions() {
 	const videoDisplayRatio = projectState.videoSizeRatio[0] / projectState.videoSizeRatio[1];
 	if (videoDisplayContainerRatio > videoDisplayRatio) {
 		// pillar box: ||
-		console.log("pillar box")
 		videoDisplay.style.width = videoDisplayContainer.clientHeight * videoDisplayRatio + "px";
 		videoDisplay.style.height = videoDisplayContainer.clientHeight + "px";
 	} else {
 		// letter box: =
-		console.log("letter box");
 		videoDisplay.style.width = videoDisplayContainer.clientWidth + "px";
 		videoDisplay.style.height = videoDisplayContainer.clientWidth * videoDisplayRatio + "px";
 	}
@@ -32,7 +32,25 @@ function updateVideoDisplayDimensions() {
 updateVideoDisplayDimensions();
 
 export function addVideoLayer(videoLayer) {
-	this.videoLayer.push(videoLayer);
-	videoLayer.draw();
+	videoDisplay.appendChild(videoLayer.canvas);
+	videoLayers.push(videoLayer);
+	videoLayer.display();
 }
-addVideoLayer(new TextLayer(0, 100, "adssud"))
+
+const videoDebugDisplayCtx = videoDebugDisplay.getContext("2d");
+function updateVideoDebugDisplay() {
+	if (projectState.selectedVideoLayer) {
+		videoDebugDisplay.width = videoDisplay.clientWidth;
+		videoDebugDisplay.height = videoDisplay.clientHeight;
+		videoDebugDisplayCtx.strokeStyle = "green"
+		const [x, y, w, h] = projectState.selectedVideoLayer.getBoundingBox();
+		videoDebugDisplayCtx.strokeRect(x, y, w, h);
+	}
+}
+
+const textLayer = new TextLayer(0, 100);
+textLayer.translation = [20, 3];
+addVideoLayer(textLayer);
+projectState.selectedVideoLayer = textLayer;
+
+updateVideoDebugDisplay()
