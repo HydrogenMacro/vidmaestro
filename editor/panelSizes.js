@@ -1,6 +1,6 @@
 const workspaceSeparator = document.querySelector("#workspace-separator");
 const videoTracksSeparator = document.querySelector("#video-tracks-separator");
-const videoDisplay = document.querySelector("#video-display");
+const videoDisplayContainer = document.querySelector("#video-display-container");
 const workspaceLeft = document.querySelector("#workspace-left");
 const header = document.querySelector("header");
 let separatorBeingAdjusted = null;
@@ -13,15 +13,15 @@ videoTracksSeparator.addEventListener("pointerdown", () => {
 document.body.addEventListener("pointerup", () => {
 	separatorBeingAdjusted = null;
 });
-
+export const resizeCallbacks = [];
 document.body.addEventListener("pointermove", e => {
 	switch (separatorBeingAdjusted) {
 		case null:
 			return;
 		case workspaceSeparator:
-			if (window.innerWidth - e.clientX < 10) {
+			if (window.innerWidth - e.clientX < 20) {
 				workspaceLeft.style.width = window.innerWidth + "px";
-			} else if (e.clientX < 10) {
+			} else if (e.clientX < 20) {
 				workspaceLeft.style.width = "0px";
 			} else {
 				workspaceLeft.style.width = e.clientX + "px";
@@ -30,13 +30,17 @@ document.body.addEventListener("pointermove", e => {
 		case videoTracksSeparator:
 			const headerHeight = header.clientHeight;
 			let targetPos = e.clientY - headerHeight;
-			if (window.innerHeight - e.clientY < 10) {
-				videoDisplay.style.height = (window.innerHeight - headerHeight - videoTracksSeparator.clientHeight) + "px";
-			} else if (targetPos < 10) {
-				videoDisplay.style.height = "0px";
+			if (window.innerHeight - e.clientY < 20) {
+				videoDisplayContainer.style.height = (workspaceLeft.clientHeight - videoTracksSeparator.clientHeight) + "px";
+			} else if (targetPos < 20) {
+				videoDisplayContainer.style.height = "0px";
 			} else {
-				videoDisplay.style.height = targetPos + "px";
+				videoDisplayContainer.style.height = targetPos + "px";
 			}
 			break;
 	}
+	for (const cb of resizeCallbacks) {
+		cb();
+	}
 });
+

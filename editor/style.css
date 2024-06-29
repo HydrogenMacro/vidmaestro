@@ -13,7 +13,7 @@ body {
 }
 header {
 	width: 100%;
-	height: 2rem;
+	height: 1.35rem;
 	background: grey;
 }
 
@@ -28,10 +28,16 @@ header {
 	display: flex;
 	flex-direction: column;
 }
-#video-display {
+#video-display-container {
 	width: 100%;
 	height: 55svh;
-	background: aliceblue;
+	background: black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#video-display {
+	background: greenyellow;
 }
 #video-tracks-separator {
 	width: 100%;
@@ -49,7 +55,7 @@ header {
 	background: grey;
 	cursor: col-resize;
 }
-#properties-panel{
+#properties-panel {
 	flex: 1;
 	background: purple;
 	display: flex;
