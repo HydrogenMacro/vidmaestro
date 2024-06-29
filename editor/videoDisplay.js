@@ -49,7 +49,8 @@ function updateVideoDebugDisplay() {
 }
 
 const textLayer = new TextLayer(0, 100);
-textLayer.translation = [20, 3];
+textLayer.translation = [100, 74];
+setInterval(() => { textLayer.rotation += .05; textLayer.display(); updateVideoDebugDisplay() }, 100)
 addVideoLayer(textLayer);
 projectState.selectedVideoLayer = textLayer;
 
