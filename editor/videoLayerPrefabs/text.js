@@ -1,6 +1,7 @@
-import VideoLayer from "../videoLayer.js";
+import Layer from "../layer.js";
+import { rotateBoundingBox } from "../utils.js";
 const measureCtx = document.createElement("canvas").getContext("2d");
-export default class TextLayer extends VideoLayer {
+export default class TextLayer extends Layer {
 	text = "abacadabra"
 	font = ""
 	fill = "green"
@@ -22,17 +23,4 @@ export default class TextLayer extends VideoLayer {
 			textMeasurement.fontBoundingBoxAscent
 		], this.rotation);
 	}
-}
-function rotateBoundingBox(boundingBox, rot) {
-	if (rot === 0) return boundingBox;
-	let [x, y, w, h] = boundingBox;
-	const { sin, cos, abs } = Math;
-	// normalize rot to be between -pi and pi
-	rot -= 2 * Math.PI * Math.floor((rot + Math.PI) / (2 * Math.PI)) 
-	return [
-		x + cos(rot) * w,
-		y - sin(rot) * h,
-		w,
-		h
-	];
 }

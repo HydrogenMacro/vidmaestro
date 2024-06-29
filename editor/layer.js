@@ -1,8 +1,9 @@
 import { resizeCallbacks } from "./panelSizes.js";
 import projectState from "./projectState.js";
-export default class VideoLayer {
+export default class Layer {
 	translation = [0, 0]
 	rotation = 0 // radians
+	zIndex = 0
 	constructor(startTime, duration) {
 		this.className = "video-layer";
 		this.startTime = startTime;

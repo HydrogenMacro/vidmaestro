@@ -1,6 +1,7 @@
 import projectState from "./projectState.js";
 import { resizeCallbacks } from "./panelSizes.js";
 import TextLayer from "./videoLayerPrefabs/text.js";
+import PolygonLayer from "./videoLayerPrefabs/geometry.js";
 
 const videoLayers = [];
 
@@ -47,11 +48,16 @@ function updateVideoDebugDisplay() {
 		videoDebugDisplayCtx.strokeRect(x, y, w, h);
 	}
 }
-
+/*
 const textLayer = new TextLayer(0, 100);
 textLayer.translation = [100, 74];
 setInterval(() => { textLayer.rotation += .05; textLayer.display(); updateVideoDebugDisplay() }, 100)
 addVideoLayer(textLayer);
 projectState.selectedVideoLayer = textLayer;
-
+*/
+const polyLayer = new PolygonLayer();
+polyLayer.translation = [69, 42];
+addVideoLayer(polyLayer);
+projectState.selectedVideoLayer = polyLayer;
+console.log()
 updateVideoDebugDisplay()
