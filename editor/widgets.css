@@ -1,0 +1,14 @@
+::-webkit-outer-spin-button, ::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.input-number-widget {
+	all: unset;
+	background: orangered;
+	width: 3rem;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	text-align: center;
+	border: .1rem solid blue;
+	border-radius: .4rem;
+}

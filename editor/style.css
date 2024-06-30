@@ -78,6 +78,7 @@ header {
 	display: flex;
 	flex: 1;
 	overflow: hidden;
+	align-items: center;
 }
 #video-control-group-left {
 	justify-content: left;
@@ -89,16 +90,23 @@ header {
 	justify-content: right;
 }
 .video-control-btn {
+	width: 1.2rem;
 	font-size: 1.2rem;
 	line-height: 1.2rem;
 }
-.video-control-btn:hover {
+.video-control-btn:not(.video-control-btn-disabled):hover {
 	background: rgba(10, 10, 10, .2);
 	border-radius: .2rem;
 }
-.video-control-btn:active {
+.video-control-btn:not(.video-control-btn-disabled):active {
 	background: rgba(10, 10, 10, .3);
 	border-radius: .2rem;
+}
+.video-control-btn-disabled {
+	color: #888;
+}
+#video-control-time-separator {
+	padding: 0 .2rem;
 }
 #workspace-separator {
 	width: .3rem;

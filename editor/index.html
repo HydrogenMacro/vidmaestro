@@ -31,20 +31,21 @@
 			</div>
 			<div id="video-tracks-separator"></div>
 			<div id="tracks-area">
-				<div id="video-controls"class="material-symbols-outlined">
+				<div id="video-controls">
 					<div id="video-control-group-left" class="video-control-group">
-						<div id="video-control-add-btn" class="video-control-btn">add</div>
+						<div id="video-control-add-btn" class="video-control-btn material-symbols-outlined">add</div>
 					</div>
 					<div id="video-control-group-middle" class="video-control-group">
-						<div id="video-control-seek-to-start-btn" class="video-control-btn">keyboard_double_arrow_left</div>
-						<div id="video-control-seek-backward-btn" class="video-control-btn">keyboard_arrow_left</div>
-						<div id="video-control-play-btn" class="video-control-btn">play_arrow</div>
-						<div id="video-control-seek-forward-btn" class="video-control-btn">keyboard_arrow_right</div>
-						<div id="video-control-seek-to-end-btn" class="video-control-btn">keyboard_double_arrow_right</div>
+						<div id="video-control-seek-to-start-btn" class="video-control-btn material-symbols-outlined">keyboard_double_arrow_left</div>
+						<div id="video-control-seek-backward-btn" class="video-control-btn material-symbols-outlined">keyboard_arrow_left</div>
+						<div id="video-control-play-btn" class="video-control-btn material-symbols-outlined">play_arrow</div>
+						<div id="video-control-seek-forward-btn" class="video-control-btn material-symbols-outlined">keyboard_arrow_right</div>
+						<div id="video-control-seek-to-end-btn" class="video-control-btn material-symbols-outlined">keyboard_double_arrow_right</div>
 					</div>
 					<div id="video-control-group-right" class="video-control-group">
-						<div id="video-control-zoom-out" class="video-control-btn">zoom_out</div>
-						<div id="video-control-zoom-in" class="video-control-btn">zoom_in</div>
+						<input id="video-control-seek-pos" class="input-number-widget" type="number" min="0" max="10.2" step=".2" value="3.2" maxlength="5" />
+						<div id="video-control-time-separator">/</div>
+						<input id="video-control-total-length" class="input-number-widget" type="number" min="0" max="10.2" step=".2" value="3.2" maxlength="5"/>
 					</div>
 				</div>
 			</div>
