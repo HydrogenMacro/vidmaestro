@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>All Local Fonts</title>
+</head>
+
+<body>
+	<p>
+		Click the button below to get a list of the local fonts on your machine.<br>
+		There will be a popup asking you for permission to list the fonts; the reason why is
+		because malicious people can track you with this using your 
+		<a href="https://www.nytimes.com/2019/07/03/technology/personaltech/fingerprinting-track-devices-what-to-do.html">digital fingerprint</a>.
+		There is no malicious code on this page, and you can check the source code <a href="https://github.com/HydrogenMacro/vidmaster">here (github)</a>.
+		The reason why this is on a separate page is so that the main editor does not become too laggy.
+		<br>
+		<br>
+		Tip: Search the list by using ctrl+F to find if specific fonts are installed
+	</p>
+	<script>
+		const demoText = `\
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+0123456789`;
+		function getFonts() {
+			queryLocalFonts().then(fonts => {
+				document.querySelector('#fonts-list').innerHTML = dedup(
+					fonts
+						.map(
+							f => `
+							${f.family}: <textarea 
+								style='font-family:"${f.family}";width:100%;height:3rem;'
+							>${demoText}</textarea>
+							`
+						)
+				).join('<br><br>')
+			})
+		}
+		function dedup(a) {
+				var seen = {};
+				var out = [];
+				var len = a.length;
+				var j = 0;
+				for (var i = 0; i < len; i++) {
+					var item = a[i];
+					if (seen[item] !== 1) {
+						seen[item] = 1;
+						out[j++] = item;
+					}
+				}
+				return out;
+			}
+	</script>
+	<button onclick="
+		getFonts()
+	">Get All Local Fonts</button>
+	<p id="fonts-list">
+
+	</p>
+</body>
+
+</html>

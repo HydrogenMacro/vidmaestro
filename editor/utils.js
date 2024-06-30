@@ -8,44 +8,41 @@ export function rotateBoundingBox(boundingBox, rot) {
 	const hst = h * sin(rot);
 	const wct = w * cos(rot);
 	const wst = w * sin(rot);
-	let x_min = 0;
-	let y_min = 0;
-	let x_max = 0;
-	let y_max = 0;
+	// thanks https://stackoverflow.com/a/624082/20913545
 	if (rot > 0) {
-		if (rot < Math.PI / 2)
-		{
-			y_min = y;
-			y_max = y + hct + wst;
-			x_min = x - hst;
-			x_max = x + wct;
-		}
-    else
-		{
-			y_min = y + hct;
-			y_max = y + wst;
-			x_min = x - hst + wct;
-			x_max = x;
-		}
-	}
-	else {
-		if (rot > -Math.PI / 2) {
-			y_min = y + wst;
-			y_max = y + hct;
-			x_min = x;
-			x_max = x + wct - hst;
+		if (rot < Math.PI / 2) {
+			return [
+				x - hst,
+				y,
+				wct + hst,
+				hct + wst
+			]
 		}
 		else {
-			y_min = y + wst + hct;
-			y_max = y;
-			x_min = x + wct;
-			x_max = x - hst;
+			return [
+				x - hst + wct,
+				y + hct,
+				hst - wct,
+				wst - hct
+			];
+		}
+	} else {
+		if (rot > -Math.PI / 2) {
+			return [
+				x,
+				y + wst,
+				wct - hst,
+				hct - wst
+			];
+		}
+		else {
+			return [
+				x + wct,
+				y + wst + hct,
+				-hst - wct,
+				-wst - hct,
+			];
 		}
 	}
-	return [
-		x_min,
-		y_min,
-		x_max - x_min,
-		y_max - y_min
-	];
+
 }

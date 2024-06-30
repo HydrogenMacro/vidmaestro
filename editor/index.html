@@ -10,6 +10,8 @@
 	<link
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 		rel="stylesheet">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 	<link rel="stylesheet" href="/reset.css" />
 	<link rel="stylesheet" href="/theme.css" />
 	<link rel="stylesheet" href="style.css" />
@@ -29,10 +31,21 @@
 			</div>
 			<div id="video-tracks-separator"></div>
 			<div id="tracks-area">
-				<div id="video-controls">
-					<div id="add-component-btn">+</div>
-					<div id="seek-to-start-btn">&lt;&lt;</div>
-					<div id="seek-backwards-btn">&lt;</div>
+				<div id="video-controls"class="material-symbols-outlined">
+					<div id="video-control-group-left" class="video-control-group">
+						<div id="video-control-add-btn" class="video-control-btn">add</div>
+					</div>
+					<div id="video-control-group-middle" class="video-control-group">
+						<div id="video-control-seek-to-start-btn" class="video-control-btn">keyboard_double_arrow_left</div>
+						<div id="video-control-seek-backward-btn" class="video-control-btn">keyboard_arrow_left</div>
+						<div id="video-control-play-btn" class="video-control-btn">play_arrow</div>
+						<div id="video-control-seek-forward-btn" class="video-control-btn">keyboard_arrow_right</div>
+						<div id="video-control-seek-to-end-btn" class="video-control-btn">keyboard_double_arrow_right</div>
+					</div>
+					<div id="video-control-group-right" class="video-control-group">
+						<div id="video-control-zoom-out" class="video-control-btn">zoom_out</div>
+						<div id="video-control-zoom-in" class="video-control-btn">zoom_in</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -22,6 +22,7 @@ header {
 	width: 100%;
 	flex: 1;
 	display: flex;
+	overflow: hidden;
 }
 
 #workspace-left {
@@ -29,6 +30,7 @@ header {
 	background: mediumseagreen;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 }
 
 #video-display-container {
@@ -66,6 +68,37 @@ header {
 	width: 100%;
 	height: 1.5rem;
 	background: bisque;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 .25rem;
+	overflow: hidden;
+}
+.video-control-group {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+}
+#video-control-group-left {
+	justify-content: left;
+}
+#video-control-group-middle {
+	justify-content: center;
+}
+#video-control-group-right {
+	justify-content: right;
+}
+.video-control-btn {
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+}
+.video-control-btn:hover {
+	background: rgba(10, 10, 10, .2);
+	border-radius: .2rem;
+}
+.video-control-btn:active {
+	background: rgba(10, 10, 10, .3);
+	border-radius: .2rem;
 }
 #workspace-separator {
 	width: .3rem;
@@ -79,4 +112,5 @@ header {
 	background: purple;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 }

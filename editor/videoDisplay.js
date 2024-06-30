@@ -51,12 +51,13 @@ function updateVideoDebugDisplay() {
 
 const polyComponent = new TextComponent();
 polyComponent.translation = [69, 42];
+/*
 setInterval(() => {
 	polyComponent.rotation += .1;
 	polyComponent.display();
 	updateVideoDebugDisplay()
-}, 100);
+}, 100); 
+*/
 addComponent(polyComponent);
 projectState.selectedVideoComponent = polyComponent;
-console.log()
 updateVideoDebugDisplay()
