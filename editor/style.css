@@ -1,5 +1,5 @@
 @import url("./widgets.css");
-
+/* #region base, header */
 body {
 	width: 100%;
 	height: 100vh;
@@ -17,14 +17,13 @@ header {
 	height: 1.35rem;
 	background: grey;
 }
-
 #workspace {
 	width: 100%;
 	flex: 1;
 	display: flex;
 	overflow: hidden;
 }
-
+/* #endregion */
 #workspace-left {
 	width: 60vw;
 	background: mediumseagreen;
@@ -32,7 +31,7 @@ header {
 	flex-direction: column;
 	overflow: hidden;
 }
-
+/* #region video display */
 #video-display-container {
 	width: 100%;
 	height: 55svh;
@@ -49,21 +48,19 @@ header {
 #video-debug-display, .video-component {
 	position: absolute;
 }
-#video-controls {
-	display: flex;
-}
-#video-tracks-separator {
+/* #endregion */
+#horizontal-separator {
 	width: 100%;
 	height: .3rem;
 	background: grey;
 	cursor: row-resize;
 }
-
-#tracks-area {
+#workspace-bottom {
 	flex: 1;
 	background: blue;
 	overflow: hidden;
 }
+/* #region video controls */
 #video-controls {
 	width: 100%;
 	height: 1.5rem;
@@ -105,16 +102,51 @@ header {
 .video-control-btn-disabled {
 	color: #888;
 }
-#video-control-time-separator {
-	padding: 0 .2rem;
+/* #endregion */
+/* #region tracks area */
+#track-area {
+	width: 100%;
+	height: calc(100% - 1.5rem);
+	display: grid;
+	grid-template-areas: 
+		"a b"
+		"c d";
+	grid-template-rows: 1.4rem 1fr;
+	grid-template-columns: 2rem 1fr;
 }
-#workspace-separator {
+#track-area-zoom {
+	grid-area: a;
+	background: magenta;
+	font-size: .7rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#track-area-zoom-input {
+	width: calc(100% - .3rem);
+	height: calc(100% - .3rem);
+	line-height: calc(100% - .3rem);
+}
+#track-area-ruler {
+	grid-area: b;
+	background: palegoldenrod;
+}
+#track-area-track-labels {
+	grid-area: c;
+	background: burlywood;
+}
+#track-area-tracks {
+	grid-area: d;
+	background: lawngreen;
+}
+/* #endregion */
+#vertical-separator {
 	width: .3rem;
 	height: 100%;
 	background: grey;
 	cursor: col-resize;
 }
-
+/* #region workspace right*/
 #properties-panel {
 	flex: 1;
 	background: purple;
@@ -122,3 +154,4 @@ header {
 	flex-direction: column;
 	overflow: hidden;
 }
+/* #endregion */

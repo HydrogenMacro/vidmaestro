@@ -2,7 +2,7 @@
 	-webkit-appearance: none;
 	margin: 0;
 }
-.number-input {
+.input {
 	all: unset;
 	background: #aaa;
 	width: 4.5rem;
@@ -10,7 +10,8 @@
 	padding: 0 .2rem;
 	text-align: center;
 	border: .1rem solid #777;
-	border-radius: .4rem;
+	border-radius: .25rem;
 	font-size: .8rem;
 	line-height: .8rem;
+	box-sizing: border-box;
 }

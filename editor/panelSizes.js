@@ -1,14 +1,14 @@
-const workspaceSeparator = document.querySelector("#workspace-separator");
-const videoTracksSeparator = document.querySelector("#video-tracks-separator");
+const verticalSeparator = document.querySelector("#vertical-separator");
+const horizontalSeparator = document.querySelector("#horizontal-separator");
 const videoDisplayContainer = document.querySelector("#video-display-container");
 const workspaceLeft = document.querySelector("#workspace-left");
 const header = document.querySelector("header");
 let separatorBeingAdjusted = null;
-workspaceSeparator.addEventListener("pointerdown", () => {
-	separatorBeingAdjusted = workspaceSeparator;
+verticalSeparator.addEventListener("pointerdown", () => {
+	separatorBeingAdjusted = verticalSeparator;
 });
-videoTracksSeparator.addEventListener("pointerdown", () => {
-	separatorBeingAdjusted = videoTracksSeparator;
+horizontalSeparator.addEventListener("pointerdown", () => {
+	separatorBeingAdjusted = horizontalSeparator;
 });
 document.body.addEventListener("pointerup", () => {
 	separatorBeingAdjusted = null;
@@ -18,7 +18,7 @@ document.body.addEventListener("pointermove", e => {
 	switch (separatorBeingAdjusted) {
 		case null:
 			return;
-		case workspaceSeparator:
+		case verticalSeparator:
 			if (window.innerWidth - e.clientX < 20) {
 				workspaceLeft.style.width = window.innerWidth + "px";
 			} else if (e.clientX < 20) {
@@ -27,11 +27,12 @@ document.body.addEventListener("pointermove", e => {
 				workspaceLeft.style.width = e.clientX + "px";
 			}
 			break;
-		case videoTracksSeparator:
+		case horizontalSeparator:
 			const headerHeight = header.clientHeight;
 			let targetPos = e.clientY - headerHeight;
 			if (window.innerHeight - e.clientY < 20) {
-				videoDisplayContainer.style.height = (workspaceLeft.clientHeight - videoTracksSeparator.clientHeight) + "px";
+				// +1 because some browsers show a pixel extra
+				videoDisplayContainer.style.height = (workspaceLeft.clientHeight - horizontalSeparator.clientHeight + 1) + "px";
 			} else if (targetPos < 20) {
 				videoDisplayContainer.style.height = "0px";
 			} else {
