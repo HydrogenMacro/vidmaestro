@@ -2,13 +2,15 @@
 	-webkit-appearance: none;
 	margin: 0;
 }
-.input-number-widget {
+.number-input {
 	all: unset;
-	background: orangered;
-	width: 3rem;
-	height: 1.2rem;
-	line-height: 1.2rem;
+	background: #aaa;
+	width: 4.5rem;
+	height: 1rem;
+	padding: 0 .2rem;
 	text-align: center;
-	border: .1rem solid blue;
+	border: .1rem solid #777;
 	border-radius: .4rem;
+	font-size: .8rem;
+	line-height: .8rem;
 }

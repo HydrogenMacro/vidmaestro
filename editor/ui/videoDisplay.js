@@ -1,7 +1,7 @@
-import projectState from "./projectState.js";
-import { resizeCallbacks } from "./panelSizes.js";
-import TextComponent from "./componentPrefabs/text.js";
-import PolygonComponent from "./componentPrefabs/geometry.js";
+import projectState from "../projectState.js";
+import { resizeCallbacks } from "../panelSizes.js";
+import TextComponent from "../componentPrefabs/text.js";
+import PolygonComponent from "../componentPrefabs/geometry.js";
 
 const components = [];
 

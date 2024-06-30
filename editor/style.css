@@ -98,7 +98,7 @@ header {
 	background: rgba(10, 10, 10, .2);
 	border-radius: .2rem;
 }
-.video-control-btn:not(.video-control-btn-disabled):active {
+.video-control-btn:not(.video-control-btn-disabled):active, .video-control-btn-active {
 	background: rgba(10, 10, 10, .3);
 	border-radius: .2rem;
 }

@@ -1,2 +1,4 @@
 import "./panelSizes.js";
-import "./videoDisplay.js";
+import "./ui/videoDisplay.js";
+import "./ui/videoControls.js";
+import "./widgets.js";

@@ -6,7 +6,6 @@ export default class TextComponent extends Component {
 	font = ""
 	fill = "green"
 	draw(ctx, relativeFrame) {
-		console.log(this.ctx.getTransform())
 		ctx.font = this.font;
 		ctx.fillStyle = this.fill;
 		const textHeight = ctx.measureText(this.text).fontBoundingBoxAscent;
