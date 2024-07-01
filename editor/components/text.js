@@ -1,4 +1,4 @@
-import Component from "../component.js";
+import Component from "./component.js";
 import { rotateBoundingBox } from "../utils.js";
 const measureCtx = document.createElement("canvas").getContext("2d");
 export default class TextComponent extends Component {

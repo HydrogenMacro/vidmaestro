@@ -1,4 +1,4 @@
-import Component from "../component.js";
+import Component from "./component.js";
 import { rotateBoundingBox } from "../utils.js";
 export default class PolygonComponent extends Component {
 	fill = "purple";
