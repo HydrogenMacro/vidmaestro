@@ -7,10 +7,10 @@ export default class PolygonComponent extends Component {
 		[30, 30],
 		[-30, 30]
 	];
-	_bounds = [];
+	_localBounds = [];
 	constructor(startTime, duration) {
 		super(startTime, duration);
-		this._calcBounds();
+		this._calcLocalBounds();
 	}
 	draw(ctx, relativeFrame) {
 		ctx.fillStyle = this.fill;
@@ -23,7 +23,7 @@ export default class PolygonComponent extends Component {
 		ctx.fill();
 	}
 	getBoundingBox() {
-		const [rx, ry, w, h] = this._bounds;
+		const [rx, ry, w, h] = this._localBounds;
 		const [x, y] = this.translation;
 		return rotateBoundingBox([x + rx, y + ry, w, h], this.rotation);
 	}
@@ -31,7 +31,7 @@ export default class PolygonComponent extends Component {
 		this._points = newPoints;
 		this._calcBoundingBox();
 	}
-	_calcBounds() {
+	_calcLocalBounds() {
 		let xmin = Infinity;
 		let xmax = -Infinity;
 		let ymin = Infinity;
@@ -42,6 +42,6 @@ export default class PolygonComponent extends Component {
 			if (y > ymax) ymax = y;
 			if (y < ymin) ymin = y;
 		}
-		this._bounds = [xmin, ymin, xmax-xmin, ymax-ymin];
+		this._localBounds = [xmin, ymin, xmax-xmin, ymax-ymin];
 	}
 }

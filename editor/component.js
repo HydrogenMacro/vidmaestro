@@ -1,12 +1,12 @@
 import { resizeCallbacks } from "./panelSizes.js";
 import projectState from "./projectState.js";
 export default class Component {
-	translation = [0, 0]
-	rotation = 0 // radians
-	zIndex = 0
-	constructor(startTime, duration) {
-		this.startTime = startTime;
-		this.duration = duration;
+	translation = [0, 0];
+	rotation = 0; // radians
+	zIndex = 0;
+	startTime = 0;
+	duration = 0;
+	constructor() {
 		this.canvas = document.createElement("canvas");
 		this.canvas.className = "video-component"
 		this.ctx = this.canvas.getContext("2d");
