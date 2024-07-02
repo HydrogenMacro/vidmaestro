@@ -9,7 +9,7 @@ export default class Component {
 	attributes = attributes();
 	constructor() {
 		this.canvas = document.createElement("canvas");
-		this.canvas.className = "video-component"
+		this.canvas.className = "video-component";
 		this.ctx = this.canvas.getContext("2d");
 	}
 	draw(ctx, relativeFrame) {}
@@ -18,9 +18,10 @@ export default class Component {
 		this.canvas.height = this.canvas.parentElement.clientHeight;
 		this.ctx.reset();
 		if (
-			projectState.videoSeekPos < this.startTime
-			|| projectState.videoSeekPos > this.startTime + this.duration
-		) return;
+			projectState.videoSeekPos < this.startTime ||
+			projectState.videoSeekPos > this.startTime + this.duration
+		)
+			return;
 		this.ctx.translate(this.translation[0], this.translation[1]);
 		this.ctx.rotate(this.rotation);
 		this.draw(this.ctx, projectState.videoSeekPos - this.startTime);
@@ -31,5 +32,16 @@ export default class Component {
 }
 
 function attributes() {
-
+	return [
+		{
+			field: "def",
+			alias: "abc",
+			baseType: "Number",
+			isArray: true,
+			arrayLengthRange: ["-3", "42"],
+			valueRange: ["-2", "7"],
+			labels: ["abc", "def", "ghi"],
+			tags: { info: "a", multiline: true, abc: "defg" },
+		},
+	];
 }

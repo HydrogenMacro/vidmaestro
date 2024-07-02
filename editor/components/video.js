@@ -1,4 +1,2 @@
 import Component from "../component.js";
-export default class VideoComponent extends Component {
-	
-}
+export default class VideoComponent extends Component {}

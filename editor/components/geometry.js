@@ -5,7 +5,7 @@ export default class PolygonComponent extends Component {
 	_points = [
 		[0, 0],
 		[30, 30],
-		[-30, 30]
+		[-30, 30],
 	];
 	_localBounds = [];
 	constructor(startTime, duration) {
@@ -42,6 +42,6 @@ export default class PolygonComponent extends Component {
 			if (y > ymax) ymax = y;
 			if (y < ymin) ymin = y;
 		}
-		this._localBounds = [xmin, ymin, xmax-xmin, ymax-ymin];
+		this._localBounds = [xmin, ymin, xmax - xmin, ymax - ymin];
 	}
 }
