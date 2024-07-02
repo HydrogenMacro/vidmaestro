@@ -3,38 +3,38 @@ import projectState from "../projectState.js";
 export default class Component {
 	translation = [0, 0];
 	rotation = 0; // radians
+	scale = [1, 1];
 	zIndex = 0;
 	startTime = 0;
 	duration = 0;
-	attributes = attributes();
+	attributeTree = [];
+	attributes = componentAttributes()
+	name = "Component"
+	isComponent = true;
+	parentComponent = null;
 	constructor() {
 		this.canvas = document.createElement("canvas");
 		this.canvas.className = "video-component";
 		this.ctx = this.canvas.getContext("2d");
+		this.attributeTree.push({
+			name: this.name,
+			attributes: this.attributes
+		});
 	}
 	draw(relativeFrame) {}
-	updateCanvas() {
-		this.canvas.width = this.canvas.parentElement.clientWidth;
-		this.canvas.height = this.canvas.parentElement.clientHeight;
-	}
-	display() {
-		
+	update() {
+		this.canvas.width = projectState.videoSize[0];
+		this.canvas.height = projectState.videoSize[1];
 		this.ctx.reset();
-		if (
-			projectState.videoSeekPos < this.startTime ||
-			projectState.videoSeekPos > this.startTime + this.duration
-		)
-			return;
 		this.ctx.translate(this.translation[0], this.translation[1]);
 		this.ctx.rotate(this.rotation);
-		this.draw(this.ctx, projectState.videoSeekPos - this.startTime);
 	}
 	getBoundingBox() {
 		return [this.translation[0], this.translation[0], 0, 0];
 	}
 }
 
-function attributes() {
+function componentAttributes() {
 	return [
 		{
 			field: "def",

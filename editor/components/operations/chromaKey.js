@@ -5,28 +5,20 @@ export default class ChromaKeyOperation extends Operation {
 	tolerance = 10;
 	backgroundComponent = null;
 	foregroundComponent = null;
-	foregroundCtx = document.createElement("canvas").getContext("2d");
-	backgroundCtx = document.createElement("canvas").getContext("2d");
-	draw(ctx, relativeFrame) {
-		this.foregroundCtx.canvas.width = ctx.canvas.width;
-		this.foregroundCtx.canvas.height = ctx.canvas.height;
-		this.foregroundCtx.reset();
-		this.backgroundCtx.canvas.width = ctx.canvas.width;
-		this.backgroundCtx.canvas.height = ctx.canvas.height;
-		this.backgroundCtx.reset();
-		this.foregroundComponent.draw(this.foregroundCtx, relativeFrame);
-		this.backgroundComponent.draw(this.backgroundCtx, relativeFrame);
-		const foregroundImgData = this.foregroundCtx.getImageData(
+	draw(relativeFrame) {
+		this.foregroundComponent.draw(relativeFrame);
+		this.backgroundComponent.draw(relativeFrame);
+		const foregroundImgData = this.foregroundComponent.ctx.getImageData(
 			0,
 			0,
-			this.foregroundCtx.canvas.width,
-			this.foregroundCtx.canvas.height
+			this.foregroundComponent.canvas.width,
+			this.foregroundComponent.canvas.height
 		);
-		const backgroundImgData = this.backgroundCtx.getImageData(
+		const backgroundImgData = this.foregroundComponent.ctx.getImageData(
 			0,
 			0,
-			this.backgroundCtx.canvas.width,
-			this.backgroundCtx.canvas.height
+			this.foregroundComponent.canvas.width,
+			this.foregroundComponent.canvas.height
 		);
 		const [tr, tg, tb] = this.color;
 		for (
@@ -52,5 +44,6 @@ export default class ChromaKeyOperation extends Operation {
 				foregroundImgData.data[i + 3] = backgroundImgData.data[i + 3];
 			}
 		}
+		ctx.putImageData(foregroundImgData, 0, 0);
 	}
 }

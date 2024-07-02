@@ -14,13 +14,12 @@ resizeCallbacks.push(() => {
 	videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDisplayContainer.clientHeight;
 	updateVideoDisplayDimensions();
 	updateVideoDebugDisplay();
-	for (const component of components) {
-		component.draw();
-	}
+	updateComponents();
 });
 
 function updateVideoDisplayDimensions() {
 	const videoDisplayRatio = projectState.videoSize[0] / projectState.videoSize[1];
+	console.log(videoDisplayContainerRatio, videoDisplayRatio);
 	if (videoDisplayContainerRatio > videoDisplayRatio) {
 		// pillar box: ||
 		videoDisplay.style.width = videoDisplayContainer.clientHeight * videoDisplayRatio + "px";
@@ -28,7 +27,7 @@ function updateVideoDisplayDimensions() {
 	} else {
 		// letter box: =
 		videoDisplay.style.width = videoDisplayContainer.clientWidth + "px";
-		videoDisplay.style.height = videoDisplayContainer.clientWidth * videoDisplayRatio + "px";
+		videoDisplay.style.height = videoDisplayContainer.clientWidth / videoDisplayRatio + "px";
 	}
 }
 updateVideoDisplayDimensions();
@@ -37,7 +36,6 @@ export function addComponents(...componentsToAdd) {
 	for (const component of componentsToAdd) {
 		videoDisplay.appendChild(component.canvas);
 		components.push(component);
-		component.display();
 	}
 }
 
@@ -51,8 +49,11 @@ function updateVideoDebugDisplay() {
 		videoDebugDisplayCtx.strokeRect(x, y, w, h);
 	}
 }
-function drawComponent() {
-
+function updateComponents() {
+	for (const component of components) {
+		component.update();
+		component.draw();
+	}
 }
 const t1 = new TextComponent();
 t1.text = "AAAA"
@@ -72,3 +73,4 @@ setInterval(() => {
 addComponents(o1)
 //projectState.selectedVideoComponent = polyComponent;
 updateVideoDebugDisplay()
+updateComponents();

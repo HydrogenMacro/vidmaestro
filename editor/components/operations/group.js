@@ -2,9 +2,10 @@ import Operation from "./operation.js";
 
 export default class GroupOperation extends Operation {
 	components = [];
-	draw(ctx, relativeFrame) {
+	draw(relativeFrame) {
 		for (const component of this.components) {
-			component.draw(ctx, relativeFrame);
+			component.draw(relativeFrame);
+			this.ctx.drawImage(component.canvas, 0, 0);
 		}
 	}
 }

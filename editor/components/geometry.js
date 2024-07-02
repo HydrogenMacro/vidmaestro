@@ -8,19 +8,19 @@ export default class PolygonComponent extends Component {
 		[-30, 30],
 	];
 	_localBounds = [];
-	constructor(startTime, duration) {
-		super(startTime, duration);
+	constructor() {
+		super();
 		this._calcLocalBounds();
 	}
-	draw(ctx, relativeFrame) {
-		ctx.fillStyle = this.fill;
+	draw(relativeFrame) {
+		this.ctx.fillStyle = this.fill;
 		let [lastX, lastY] = this._points[this._points.length - 1];
-		ctx.moveTo(lastX, lastY);
+		this.ctx.moveTo(lastX, lastY);
 		for (let i = 0; i < this._points.length; i++) {
 			let [x, y] = this._points[i];
-			ctx.lineTo(x, y);
+			this.ctx.lineTo(x, y);
 		}
-		ctx.fill();
+		this.ctx.fill();
 	}
 	getBoundingBox() {
 		const [rx, ry, w, h] = this._localBounds;
