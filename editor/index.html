@@ -47,12 +47,20 @@
 							keyboard_double_arrow_right</div>
 					</div>
 					<div id="video-control-group-right" class="video-control-group">
-						<input id="video-control-seek-pos" class="input" type="text" min="0" value="0" step=".01" />
+						<input id="video-control-seek-pos" class="input" type="text" value="0 0/60"/>
 					</div>
 				</div>
 				<div id="track-area">
 					<div id="track-area-zoom">
-						<input id="track-area-zoom-input" class="input" />
+						<input 
+							id="track-area-zoom-input" 
+							class="input" 
+							type="number" 
+							min="0"
+							step=".1"
+							value="1"
+							onmousewheel
+						/>
 					</div>
 					<div id="track-area-ruler"></div>
 					<div id="track-area-track-labels"></div>
