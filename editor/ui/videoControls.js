@@ -12,7 +12,7 @@ seekPosInput.addEventListener("change", () => {
 	}
 	console.log(currentSeekPos)
 	updateSeekPosInput();
-})
+});
 function secsToSeekPos(secs) {
 	return [
 		Math.floor(secs),
@@ -21,4 +21,6 @@ function secsToSeekPos(secs) {
 }
 function updateSeekPosInput() {
 	seekPosInput.value = `${currentSeekPos[0]} ${currentSeekPos[1]}/${projectState.fps}`;
+	seekPosInput.style.fontSize = Math.max(1 / Math.sqrt(seekPosInput.value.length * .35), .5) + "rem"
 }
+updateSeekPosInput();

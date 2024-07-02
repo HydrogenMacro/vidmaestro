@@ -2,6 +2,7 @@ import projectState from "../projectState.js";
 import { resizeCallbacks } from "../panelSizes.js";
 import TextComponent from "../components/text.js";
 import PolygonComponent from "../components/geometry.js";
+import OverlayOperation from "../components/operations/overlay.js";
 
 const components = [];
 
@@ -12,14 +13,14 @@ let videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDispla
 resizeCallbacks.push(() => {
 	videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDisplayContainer.clientHeight;
 	updateVideoDisplayDimensions();
-	for (const component of components) {
-		component.display();
-	}
 	updateVideoDebugDisplay();
+	for (const component of components) {
+		component.draw();
+	}
 });
 
 function updateVideoDisplayDimensions() {
-	const videoDisplayRatio = projectState.videoSizeRatio[0] / projectState.videoSizeRatio[1];
+	const videoDisplayRatio = projectState.videoSize[0] / projectState.videoSize[1];
 	if (videoDisplayContainerRatio > videoDisplayRatio) {
 		// pillar box: ||
 		videoDisplay.style.width = videoDisplayContainer.clientHeight * videoDisplayRatio + "px";
@@ -32,10 +33,12 @@ function updateVideoDisplayDimensions() {
 }
 updateVideoDisplayDimensions();
 
-export function addComponent(component) {
-	videoDisplay.appendChild(component.canvas);
-	components.push(component);
-	component.display();
+export function addComponents(...componentsToAdd) {
+	for (const component of componentsToAdd) {
+		videoDisplay.appendChild(component.canvas);
+		components.push(component);
+		component.display();
+	}
 }
 
 const videoDebugDisplayCtx = videoDebugDisplay.getContext("2d");
@@ -48,9 +51,17 @@ function updateVideoDebugDisplay() {
 		videoDebugDisplayCtx.strokeRect(x, y, w, h);
 	}
 }
+function drawComponent() {
 
-const polyComponent = new TextComponent();
-polyComponent.translation = [69, 42];
+}
+const t1 = new TextComponent();
+t1.text = "AAAA"
+t1.translation = [69, 42];
+const t2 = new TextComponent();
+t2.text = "BBBB"
+t2.translation = [69, 42];
+const o1 = new OverlayOperation();
+o1.args = [t1, t2];
 /*
 setInterval(() => {
 	polyComponent.rotation += .1;
@@ -58,6 +69,6 @@ setInterval(() => {
 	updateVideoDebugDisplay()
 }, 100); 
 */
-addComponent(polyComponent);
-projectState.selectedVideoComponent = polyComponent;
+addComponents(o1)
+//projectState.selectedVideoComponent = polyComponent;
 updateVideoDebugDisplay()

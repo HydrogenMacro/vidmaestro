@@ -12,10 +12,13 @@ export default class Component {
 		this.canvas.className = "video-component";
 		this.ctx = this.canvas.getContext("2d");
 	}
-	draw(ctx, relativeFrame) {}
-	display() {
+	draw(relativeFrame) {}
+	updateCanvas() {
 		this.canvas.width = this.canvas.parentElement.clientWidth;
 		this.canvas.height = this.canvas.parentElement.clientHeight;
+	}
+	display() {
+		
 		this.ctx.reset();
 		if (
 			projectState.videoSeekPos < this.startTime ||

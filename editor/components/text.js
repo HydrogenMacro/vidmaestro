@@ -2,8 +2,8 @@ import Component from "./component.js";
 import { rotateBoundingBox } from "../utils.js";
 const measureCtx = document.createElement("canvas").getContext("2d");
 export default class TextComponent extends Component {
-	text = "abacadabra";
-	font = "";
+	text = "";
+	font = "20px serif";
 	fill = "green";
 	draw(ctx, relativeFrame) {
 		ctx.font = this.font;
