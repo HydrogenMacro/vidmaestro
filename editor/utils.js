@@ -46,3 +46,13 @@ export function rotateBoundingBox(boundingBox, rot) {
 	}
 
 }
+export function mergeBoundingBoxes(firstBoundingBox, ...boundingBoxes) {
+	let [mbx, mby, mbw, mbh] = structuredClone(firstBoundingBox);
+	for (const [bx, by, bw, bh] of boundingBoxes) {
+		mbx = Math.min(mbx, bx);
+		mby = Math.min(mby, by);
+		mbw = Math.max(mbx + mbw, bx + bw) - mbx;
+		mbh = Math.max(mby + mbh, by + bh) - mby;
+	}
+	return [mbx, mby, mbw, mbh];
+}
