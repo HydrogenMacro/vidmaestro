@@ -1,3 +1,5 @@
+import projectState from "./projectState.js";
+
 export function rotateBoundingBox(boundingBox, rot) {
 	if (rot === 0) return boundingBox;
 	let [x, y, w, h] = boundingBox;
@@ -56,3 +58,26 @@ export function mergeBoundingBoxes(firstBoundingBox, ...boundingBoxes) {
 	}
 	return [mbx, mby, mbw, mbh];
 }
+
+export function parseHTML(html) {
+	// https://stackoverflow.com/a/34333750/20913545
+	var t = document.createElement("template");
+	t.innerHTML = html;
+	return t.content;
+}
+export function secsToFrameTime(secs) {
+	return [
+		Math.floor(secs),
+		Math.round((secs - Math.floor(secs)) * projectState.fps),
+		projectState.fps
+	];
+}
+export function frameTimeToSecs([frameTimeSecs, frameTimeFrames, fps]) {
+	return frameTimeSecs + frameTimeFrames / fps;
+}
+export function updateFrameTime(frameTime) {
+	let [frameTimeSecs, frameTimeFrames, fps] = frameTime;
+	if (fps === projectState.fps) return frameTime;
+	return secsToFrameTime(frameTimeToSecs(frameTime));
+}
+export const frameTime = secsToFrameTime;

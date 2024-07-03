@@ -8,17 +8,12 @@ seekPosInput.addEventListener("click", () => {
 seekPosInput.addEventListener("change", () => {
 	seekPosInput.blur();
 	if (!Number.isNaN(+seekPosInput.value)) {
-		currentSeekPos = secsToSeekPos(seekPosInput.value);
+		currentSeekPos = secsToFrameTime(seekPosInput.value);
 	}
 	console.log(currentSeekPos)
 	updateSeekPosInput();
 });
-function secsToSeekPos(secs) {
-	return [
-		Math.floor(secs),
-		Math.round((secs - Math.floor(secs)) * projectState.fps)
-	];
-}
+
 function updateSeekPosInput() {
 	seekPosInput.value = `${currentSeekPos[0]} ${currentSeekPos[1]}/${projectState.fps}`;
 	seekPosInput.style.fontSize = Math.max(1 / Math.sqrt(seekPosInput.value.length * .35), .5) + "rem"

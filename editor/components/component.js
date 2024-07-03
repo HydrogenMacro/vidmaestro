@@ -1,15 +1,16 @@
 import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
+import { frameTime } from "../utils.js";
 export default class Component {
 	translation = [0, 0];
 	rotation = 0; // radians
 	scale = [1, 1];
 	zIndex = 0;
-	startTime = 0;
-	duration = 0;
+	startTime = frameTime(0);
+	duration = frameTime(0);
 	attributeTree = [];
-	attributes = componentAttributes()
-	name = "Component"
+	attributes = componentAttributes();
+	name = "Component";
 	isComponent = true;
 	parentComponent = null;
 	constructor() {
@@ -18,7 +19,7 @@ export default class Component {
 		this.ctx = this.canvas.getContext("2d");
 		this.attributeTree.push({
 			name: this.name,
-			attributes: this.attributes
+			attributes: this.attributes,
 		});
 	}
 	draw(relativeFrame) {}
