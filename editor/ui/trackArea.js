@@ -12,7 +12,10 @@ export function updateTrackLength() {
 	let currentLength = 0;
 	for (const track of projectState.currentTracks) {
 		for (const component of track) {
-			currentLength = Math.max(currentLength, component.startTime + component.duration);
+			currentLength = Math.max(
+				currentLength,
+				component.startTime + component.duration
+			);
 		}
 	}
 	projectState.currentLength = currentLength;
@@ -35,10 +38,21 @@ export function addComponentToTrack(component, trackIndex) {
 			</div>
 		</div>
 	`);
-	componentToHTMLElementStore.set(component, new WeakRef(componentTrackDisplayElement));
+	componentToHTMLElementStore.set(
+		component,
+		new WeakRef(componentTrackDisplayElement)
+	);
 	projectState.currentTracks[trackIndex].push(component);
 }
 function createNewTrack() {
 	projectState.currentTracks.push([]);
-	// todo: create corresponding element
+	trackAreaTrackLabels.insertAdjacentHTML(
+		"beforeend",
+		`<div class="track-area-track-label">${trackAreaTrackLabels.children.length + 1}</div>`
+	);
+	trackAreaTracks.insertAdjacentHTML(
+		"beforeend",
+		`<div class="track-area-track"></div>`
+	);
 }
+createNewTrack()

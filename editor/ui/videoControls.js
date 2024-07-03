@@ -1,4 +1,5 @@
 import projectState from "../projectState.js";
+import { secsToFrameTime } from "../utils.js";
 
 const seekPosInput = document.querySelector("#video-control-seek-pos");
 let currentSeekPos = [0, 0];
@@ -10,7 +11,6 @@ seekPosInput.addEventListener("change", () => {
 	if (!Number.isNaN(+seekPosInput.value)) {
 		currentSeekPos = secsToFrameTime(seekPosInput.value);
 	}
-	console.log(currentSeekPos)
 	updateSeekPosInput();
 });
 

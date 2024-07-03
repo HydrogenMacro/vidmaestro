@@ -81,3 +81,25 @@ export function updateFrameTime(frameTime) {
 	return secsToFrameTime(frameTimeToSecs(frameTime));
 }
 export const frameTime = secsToFrameTime;
+
+function _quicksort(array, lo, hi) {
+	if (lo >= hi || lo < 0) return array;
+	let pivot = partition(array, lo, hi);
+	quicksort(array, lo, pivot - 1);
+	quicksort(array, pivot + 1, hi);
+	function partition(array, lo, hi) {
+		let pivot = array[hi];
+		let i = lo;
+		for (let j = lo; j < hi; j++) {
+			if (array[j] <= pivot) {
+				[array[i], array[j]] = [array[j], array[i]];
+				i += 1;
+			}
+		}
+		[array[i], array[hi]] = [array[hi], array[i]];
+		return i;
+	}
+}
+export function quicksort(array) {
+	_quicksort(array, 0, array.length - 1);
+}

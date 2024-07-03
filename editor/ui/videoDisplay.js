@@ -48,10 +48,12 @@ function updateVideoDebugDisplay() {
 	}
 }
 function updateComponents() {
-	for (const component of components) {
+	for (const track of projectState.currentTracks) {
+		for (const component of track) {
+		}
+	}
 		component.update();
 		component.draw();
-	}
 }
 const t1 = new TextComponent();
 t1.text = "AAAA"
@@ -71,4 +73,3 @@ setInterval(() => {
 addComponents(o1)
 //projectState.selectedVideoComponent = polyComponent;
 updateVideoDebugDisplay()
-updateComponents();
