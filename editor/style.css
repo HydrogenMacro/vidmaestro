@@ -1,4 +1,12 @@
 @import url("./widgets.css");
+/*  #region general */
+.btn:hover {
+	filter: brightness(1.1);
+}
+.btn:active {
+	filter: brightness(.9);
+}
+/* #endregion */
 /* #region base, header */
 body {
 	width: 100%;
@@ -100,7 +108,7 @@ header {
 	border-radius: .2rem;
 }
 .video-control-btn:not(.video-control-btn-disabled):active, .video-control-btn-active {
-	background: rgba(10, 10, 10, .3);
+	background: rgba(10, 10, 10, .35);
 	border-radius: .2rem;
 }
 .video-control-btn-disabled {
@@ -114,22 +122,15 @@ header {
 	display: grid;
 	grid-template-areas: 
 		"a b"
-		"c d";
-	grid-template-rows: 1.4rem 1fr;
+		"c d"
+		"e f";
+	grid-template-rows: 1.4rem 1fr 1.4rem;
 	grid-template-columns: 2rem 1fr;
 }
-#track-area-zoom {
+#track-area-scroll-up-btn {
 	grid-area: a;
-	background: magenta;
-	font-size: .7rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-#track-area-zoom-input {
-	width: calc(100% - .3rem);
-	height: calc(100% - .3rem);
-	line-height: calc(100% - .3rem);
+	background: darkseagreen;
+	text-align: center;
 }
 #track-area-ruler {
 	grid-area: b;
@@ -138,10 +139,37 @@ header {
 #track-area-track-labels {
 	grid-area: c;
 	background: burlywood;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+.track-area-track-label {
+	height: 2rem;
+	background: purple;
+	text-align: center;
+	line-height: 2rem;
 }
 #track-area-tracks {
 	grid-area: d;
 	background: lawngreen;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+.track-area-track {
+	width: 100%;
+	height: 2rem;
+	background: blue;
+}
+#track-area-scroll-down-btn {
+	grid-area: e;
+	background: lavenderblush;
+	text-align: center;
+}
+#track-area-add-track-btn {
+	grid-area: f;
+	background: violet;
+	text-align: center;
 }
 /* #endregion */
 #vertical-separator {

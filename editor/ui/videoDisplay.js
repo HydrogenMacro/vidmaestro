@@ -4,8 +4,6 @@ import TextComponent from "../components/text.js";
 import PolygonComponent from "../components/geometry.js";
 import OverlayOperation from "../components/operations/overlay.js";
 
-const components = [];
-
 const videoDisplay = document.querySelector("#video-display");
 const videoDisplayContainer = document.querySelector("#video-display-container");
 const videoDebugDisplay = document.querySelector("#video-debug-display");
@@ -35,7 +33,7 @@ updateVideoDisplayDimensions();
 export function addComponents(...componentsToAdd) {
 	for (const component of componentsToAdd) {
 		videoDisplay.appendChild(component.canvas);
-		components.push(component);
+		projectState.currentTracks.push(component);
 	}
 }
 

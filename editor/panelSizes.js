@@ -31,8 +31,7 @@ document.body.addEventListener("pointermove", e => {
 			const headerHeight = header.clientHeight;
 			let targetPos = e.clientY - headerHeight;
 			if (window.innerHeight - e.clientY < 20) {
-				// +1 because some browsers show a pixel extra
-				videoDisplayContainer.style.height = (workspaceLeft.clientHeight - horizontalSeparator.clientHeight + 1) + "px";
+				videoDisplayContainer.style.height = (workspaceLeft.clientHeight - horizontalSeparator.clientHeight) + "px";
 			} else if (targetPos < 20) {
 				videoDisplayContainer.style.height = "0px";
 			} else {

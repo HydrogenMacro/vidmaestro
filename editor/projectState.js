@@ -3,6 +3,7 @@ const projectState = {
 	videoSize: [1920, 1080],
 	videoSeekPos: 0,
 	selectedVideoComponent: null,
-	trackAreaZoom: 1
+	trackAreaZoom: 1,
+	currentTracks: []
 };
 export default projectState;
