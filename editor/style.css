@@ -142,13 +142,18 @@ header {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
+	overflow: hidden;
 }
 .track-area-track-label {
+	width: 100%;
 	height: 1.2rem;
 	background: purple;
+	flex: 0 0 auto;
 	text-align: center;
-	line-height: 1.2rem;
+	position: relative;
 	font-size: .8rem;
+	line-height: 1.4rem;
+	overflow: hidden;
 }
 #track-area-tracks {
 	grid-area: d;
@@ -156,14 +161,16 @@ header {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
+	overflow: hidden;
 }
 .track-area-track {
 	width: 100%;
 	height: 1.2rem;
 	background: blue;
 	display: flex;
+	flex: 0 0 auto;
 	align-items: center;
-	display: relative;
+	position: relative;
 }
 #track-area-scroll-down-btn {
 	grid-area: e;

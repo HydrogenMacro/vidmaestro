@@ -103,3 +103,12 @@ function _quicksort(array, lo, hi) {
 export function quicksort(array) {
 	_quicksort(array, 0, array.length - 1);
 }
+export function clamp(x, min, max) {
+	return Math.min(Math.max(x, min), max);
+}
+export function lerp(x, target, progress) {
+	return (target - x) * progress + x;
+}
+export function easeOut(x) {
+	return 1 - Math.pow(1 - x, 5);
+}

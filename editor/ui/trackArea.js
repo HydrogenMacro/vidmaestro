@@ -1,11 +1,17 @@
 import projectState from "../projectState.js";
-import { parseHTML } from "../utils.js";
+import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
 
 const trackArea = document.querySelector("#track-area");
 const trackAreaRuler = document.querySelector("#track-area-ruler");
 const trackAreaTrackLabels = document.querySelector("#track-area-track-labels");
 const trackAreaTracks = document.querySelector("#track-area-tracks");
-
+const trackAreaAddBtn = document.querySelector("#track-area-add-track-btn");
+const trackAreaScrollUpBtn = document.querySelector(
+	"#track-area-scroll-up-btn"
+);
+const trackAreaScrollDownBtn = document.querySelector(
+	"#track-area-scroll-down-btn"
+);
 let trackAreaZoom = 1;
 const componentToHTMLElementStore = new WeakMap(); // component -> weakref<htmlelement>
 export function updateTrackLength() {
@@ -48,11 +54,36 @@ function createNewTrack() {
 	projectState.currentTracks.push([]);
 	trackAreaTrackLabels.insertAdjacentHTML(
 		"beforeend",
-		`<div class="track-area-track-label">${trackAreaTrackLabels.children.length + 1}</div>`
+		`<div class="track-area-track-label">${
+			trackAreaTrackLabels.children.length + 1
+		}</div>`
 	);
 	trackAreaTracks.insertAdjacentHTML(
 		"beforeend",
 		`<div class="track-area-track"></div>`
 	);
 }
-createNewTrack()
+trackAreaAddBtn.addEventListener("click", createNewTrack);
+let trackAreaScrollDir = 0;
+trackAreaScrollUpBtn.addEventListener("pointerdown", () => {
+	trackAreaScrollDir = -10;
+});
+trackAreaScrollDownBtn.addEventListener("pointerdown", () => {
+	trackAreaScrollDir = 10;
+});
+document.body.addEventListener("pointerup", () => {
+	trackAreaScrollDir = 0;
+});
+setInterval(() => {
+	scrollTrackAreaBy(trackAreaScrollDir);
+}, 50);
+trackAreaTracks.addEventListener("wheel", (e) => {
+	scrollTrackAreaBy(e.deltaY);
+});
+trackAreaTrackLabels.addEventListener("wheel", (e) => {
+	scrollTrackAreaBy(e.deltaY);
+});
+function scrollTrackAreaBy(delta) {
+	trackAreaTracks.scrollTop += delta;
+	trackAreaTrackLabels.scrollTop += delta;
+}
