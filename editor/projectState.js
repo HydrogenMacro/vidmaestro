@@ -4,6 +4,7 @@ const projectState = {
 	videoSeekPos: [0, 0, 60],
 	selectedVideoComponent: null,
 	currentTracks: [[], [], []],
-	currentVideoLength: [0, 0]
+	currentVideoLength: [0, 0],
+	focusArea: "video"
 };
 export default projectState;

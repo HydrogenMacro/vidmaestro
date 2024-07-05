@@ -1,3 +1,4 @@
+import Keybinds from "../keybinds.js";
 import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
 
@@ -62,27 +63,56 @@ function createNewTrack() {
 		"beforeend",
 		`<div class="track-area-track"></div>`
 	);
+	trackAreaTrackLabels.scrollTop = trackAreaTrackLabels.scrollHeight;
+	trackAreaTracks.scrollTop = trackAreaTracks.scrollHeight;
 }
 trackAreaAddBtn.addEventListener("click", createNewTrack);
 let trackAreaScrollDir = 0;
+let currentScrollIntervalHandle = setInterval(() => {
+	scrollTrackAreaBy(trackAreaScrollDir);
+}, 200);
+// #region scroll listeners
 trackAreaScrollUpBtn.addEventListener("pointerdown", () => {
-	trackAreaScrollDir = -10;
+	trackAreaScrollDir = -1;
+	resetCurrentScrollInterval();
+});
+Keybinds.register("ArrowUp", Keybinds.FocusArea.Tracks, () => {
+	trackAreaScrollDir = -1;
+	resetCurrentScrollInterval();
 });
 trackAreaScrollDownBtn.addEventListener("pointerdown", () => {
-	trackAreaScrollDir = 10;
+	trackAreaScrollDir = 1;
+	resetCurrentScrollInterval();
+});
+Keybinds.register("ArrowDown", Keybinds.FocusArea.Tracks, () => {
+	trackAreaScrollDir = 1;
+	resetCurrentScrollInterval();
 });
 document.body.addEventListener("pointerup", () => {
 	trackAreaScrollDir = 0;
+	clearInterval(currentScrollIntervalHandle);
 });
-setInterval(() => {
-	scrollTrackAreaBy(trackAreaScrollDir);
-}, 50);
+// #endregion
 trackAreaTracks.addEventListener("wheel", (e) => {
 	scrollTrackAreaBy(e.deltaY);
 });
 trackAreaTrackLabels.addEventListener("wheel", (e) => {
 	scrollTrackAreaBy(e.deltaY);
 });
+function resetCurrentScrollInterval() {
+	let trackAndMarginHeight = trackAreaTracks.lastChild.clientHeight + 3;
+	const scrollCb = () => {
+		const rem = trackAreaTracks.scrollTop % trackAndMarginHeight;
+		if (rem) {
+			trackAreaTracks.scrollTop -=
+				trackAreaTracks.scrollTop % trackAndMarginHeight;
+		}
+		trackAreaTracks.scrollTop += trackAreaScrollDir * trackAndMarginHeight;
+		trackAreaTrackLabels.scrollTop = trackAreaTracks.scrollTop;
+	};
+	currentScrollIntervalHandle = setInterval(scrollCb, 200);
+	scrollCb();
+}
 function scrollTrackAreaBy(delta) {
 	trackAreaTracks.scrollTop += delta;
 	trackAreaTrackLabels.scrollTop += delta;
