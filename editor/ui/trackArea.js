@@ -88,7 +88,6 @@ document.body.addEventListener("pointerup", () => {
 	trackAreaScrollDir = -15;
 	clearInterval(currentScrollIntervalHandle);
 });
-// #endregion
 trackAreaTracks.addEventListener("wheel", (e) => {
 	scrollTrackAreaBy(e.deltaY / 10);
 });
@@ -103,3 +102,4 @@ function scrollTrackAreaBy(delta) {
 	trackAreaTracks.scrollTop += delta;
 	trackAreaTrackLabels.scrollTop += delta;
 }
+// #endregion

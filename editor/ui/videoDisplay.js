@@ -33,7 +33,7 @@ updateVideoDisplayDimensions();
 export function addComponents(...componentsToAdd) {
 	for (const component of componentsToAdd) {
 		videoDisplay.appendChild(component.canvas);
-		projectState.currentTracks.push(component);
+		projectState.currentTracks.push([component]);
 	}
 }
 
@@ -48,13 +48,12 @@ function updateVideoDebugDisplay() {
 	}
 }
 function updateComponents() {
-	let sortedComponents = projectState.currentTracks;
+	let sortedComponents = projectState.currentTracks.flat();
 	quicksort(sortedComponents, c => c.zIndex);
 	for (const component of sortedComponents) {
-
+		component.update();
+		component.draw();
 	}
-	component.update();
-	component.draw();
 }
 const t1 = new TextComponent();
 t1.text = "AAAA"

@@ -142,6 +142,21 @@ header {
 #track-area-ruler {
 	grid-area: b;
 	background: palegoldenrod;
+	display: flex;
+}
+.track-area-ruler-gradation-mark {
+	width: 4px;
+	height: 20%;
+	background: lightseagreen;
+}
+.track-area-ruler-gradation-mark:nth-child(2n + 1) {
+	height: 40%;
+}
+.track-area-ruler-gradation-mark:nth-child(4n + 1) {
+	height: 60%;
+}
+.track-area-ruler-gradation-mark:nth-child(8n + 1) {
+	height: 80%;
 }
 #track-area-track-labels {
 	grid-area: c;

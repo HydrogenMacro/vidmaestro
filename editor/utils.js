@@ -88,10 +88,9 @@ function _quicksort(array, lo, hi, mapFn) {
 	quicksort(array, lo, pivot - 1, mapFn);
 	quicksort(array, pivot + 1, hi, mapFn);
 	function partition(array, lo, hi, mapFn) {
-		let pivot = array[hi];
 		let i = lo;
 		for (let j = lo; j < hi; j++) {
-			if (mapFn(array[j]) <= mapFn(pivot)) {
+			if (mapFn(array[j]) <= mapFn(array[i])) {
 				[array[i], array[j]] = [array[j], array[i]];
 				i += 1;
 			}
@@ -100,6 +99,7 @@ function _quicksort(array, lo, hi, mapFn) {
 		return i;
 	}
 }
+
 export function quicksort(array, mapFn = a => a) {
 	_quicksort(array, 0, array.length - 1, mapFn);
 }
