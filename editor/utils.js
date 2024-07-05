@@ -82,16 +82,16 @@ export function updateFrameTime(frameTime) {
 }
 export const frameTime = secsToFrameTime;
 
-function _quicksort(array, lo, hi) {
-	if (lo >= hi || lo < 0) return array;
-	let pivot = partition(array, lo, hi);
-	quicksort(array, lo, pivot - 1);
-	quicksort(array, pivot + 1, hi);
-	function partition(array, lo, hi) {
+function _quicksort(array, lo, hi, mapFn) {
+	if (lo >= hi || lo < 0) return;
+	let pivot = partition(array, lo, hi, mapFn);
+	quicksort(array, lo, pivot - 1, mapFn);
+	quicksort(array, pivot + 1, hi, mapFn);
+	function partition(array, lo, hi, mapFn) {
 		let pivot = array[hi];
 		let i = lo;
 		for (let j = lo; j < hi; j++) {
-			if (array[j] <= pivot) {
+			if (mapFn(array[j]) <= mapFn(pivot)) {
 				[array[i], array[j]] = [array[j], array[i]];
 				i += 1;
 			}
@@ -100,8 +100,8 @@ function _quicksort(array, lo, hi) {
 		return i;
 	}
 }
-export function quicksort(array) {
-	_quicksort(array, 0, array.length - 1);
+export function quicksort(array, mapFn = a => a) {
+	_quicksort(array, 0, array.length - 1, mapFn);
 }
 export function clamp(x, min, max) {
 	return Math.min(Math.max(x, min), max);

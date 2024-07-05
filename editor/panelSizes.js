@@ -43,3 +43,8 @@ document.body.addEventListener("pointermove", e => {
 		cb();
 	}
 });
+window.addEventListener("resize", () => {
+	for (const cb of resizeCallbacks) {
+		cb();
+	}
+});

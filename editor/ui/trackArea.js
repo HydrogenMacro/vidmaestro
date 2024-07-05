@@ -68,50 +68,36 @@ function createNewTrack() {
 }
 trackAreaAddBtn.addEventListener("click", createNewTrack);
 let trackAreaScrollDir = 0;
-let currentScrollIntervalHandle = setInterval(() => {
-	scrollTrackAreaBy(trackAreaScrollDir);
-}, 200);
+let currentScrollIntervalHandle = null;
 // #region scroll listeners
 trackAreaScrollUpBtn.addEventListener("pointerdown", () => {
-	trackAreaScrollDir = -1;
+	trackAreaScrollDir = -15;
 	resetCurrentScrollInterval();
 });
 Keybinds.register("ArrowUp", Keybinds.FocusArea.Tracks, () => {
-	trackAreaScrollDir = -1;
-	resetCurrentScrollInterval();
+	scrollTrackAreaBy(-8);
 });
 trackAreaScrollDownBtn.addEventListener("pointerdown", () => {
-	trackAreaScrollDir = 1;
+	trackAreaScrollDir = 30;
 	resetCurrentScrollInterval();
 });
 Keybinds.register("ArrowDown", Keybinds.FocusArea.Tracks, () => {
-	trackAreaScrollDir = 1;
-	resetCurrentScrollInterval();
+	scrollTrackAreaBy(8);
 });
 document.body.addEventListener("pointerup", () => {
-	trackAreaScrollDir = 0;
+	trackAreaScrollDir = -15;
 	clearInterval(currentScrollIntervalHandle);
 });
 // #endregion
 trackAreaTracks.addEventListener("wheel", (e) => {
-	scrollTrackAreaBy(e.deltaY);
+	scrollTrackAreaBy(e.deltaY / 10);
 });
 trackAreaTrackLabels.addEventListener("wheel", (e) => {
-	scrollTrackAreaBy(e.deltaY);
+	scrollTrackAreaBy(e.deltaY / 10);
 });
 function resetCurrentScrollInterval() {
-	let trackAndMarginHeight = trackAreaTracks.lastChild.clientHeight + 3;
-	const scrollCb = () => {
-		const rem = trackAreaTracks.scrollTop % trackAndMarginHeight;
-		if (rem) {
-			trackAreaTracks.scrollTop -=
-				trackAreaTracks.scrollTop % trackAndMarginHeight;
-		}
-		trackAreaTracks.scrollTop += trackAreaScrollDir * trackAndMarginHeight;
-		trackAreaTrackLabels.scrollTop = trackAreaTracks.scrollTop;
-	};
-	currentScrollIntervalHandle = setInterval(scrollCb, 200);
-	scrollCb();
+	currentScrollIntervalHandle = setInterval(scrollTrackAreaBy.bind(this, trackAreaScrollDir), 50);
+	scrollTrackAreaBy(trackAreaScrollDir);
 }
 function scrollTrackAreaBy(delta) {
 	trackAreaTracks.scrollTop += delta;

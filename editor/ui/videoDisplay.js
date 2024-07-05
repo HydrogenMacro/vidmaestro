@@ -3,6 +3,7 @@ import { resizeCallbacks } from "../panelSizes.js";
 import TextComponent from "../components/text.js";
 import PolygonComponent from "../components/geometry.js";
 import OverlayOperation from "../components/operations/overlay.js";
+import { quicksort } from "../utils.js";
 
 const videoDisplay = document.querySelector("#video-display");
 const videoDisplayContainer = document.querySelector("#video-display-container");
@@ -17,7 +18,6 @@ resizeCallbacks.push(() => {
 
 function updateVideoDisplayDimensions() {
 	const videoDisplayRatio = projectState.videoSize[0] / projectState.videoSize[1];
-	console.log(videoDisplayContainerRatio, videoDisplayRatio);
 	if (videoDisplayContainerRatio > videoDisplayRatio) {
 		// pillar box: ||
 		videoDisplay.style.width = videoDisplayContainer.clientHeight * videoDisplayRatio + "px";
@@ -48,12 +48,13 @@ function updateVideoDebugDisplay() {
 	}
 }
 function updateComponents() {
-	for (const track of projectState.currentTracks) {
-		for (const component of track) {
-		}
+	let sortedComponents = projectState.currentTracks;
+	quicksort(sortedComponents, c => c.zIndex);
+	for (const component of sortedComponents) {
+
 	}
-		component.update();
-		component.draw();
+	component.update();
+	component.draw();
 }
 const t1 = new TextComponent();
 t1.text = "AAAA"
