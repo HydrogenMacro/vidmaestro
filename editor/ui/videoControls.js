@@ -7,15 +7,15 @@ seekPosInput.addEventListener("click", () => {
 })
 seekPosInput.addEventListener("change", () => {
 	seekPosInput.blur();
-	if (!Number.isNaN(+seekPosInput.value)) {
-		projectState.videoSeekPos = FrameTime.fromSecs(+seekPosInput.value);
-	}
+	projectState.videoSeekPos =
+		FrameTime.fromString(seekPosInput.value) ??
+		projectState.videoSeekPos;
 	updateSeekPosInput();
 });
 
 function updateSeekPosInput() {
 	console.log(projectState.videoSeekPos)
 	seekPosInput.value = projectState.videoSeekPos.toFormattedString();
-	seekPosInput.style.fontSize = Math.max(1 / Math.sqrt(seekPosInput.value.length * .35), .5) + "rem"
+	seekPosInput.style.fontSize = Math.max(1 / Math.sqrt(seekPosInput.value.length * .2), .5) + "rem"
 }
 updateSeekPosInput();

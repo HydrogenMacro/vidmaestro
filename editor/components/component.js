@@ -6,8 +6,8 @@ export default class Component {
 	rotation = 0; // radians
 	scale = [1, 1];
 	zIndex = 0;
-	startTime = FrameTime.ZERO;
-	duration = FrameTime.ZERO;
+	startTime = FrameTime.zero();
+	duration = FrameTime.zero();
 	attributeTree = [];
 	attributes = componentAttributes();
 	name = "Component";
