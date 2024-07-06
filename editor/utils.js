@@ -65,22 +65,6 @@ export function parseHTML(html) {
 	t.innerHTML = html;
 	return t.content;
 }
-export function secsToFrameTime(secs) {
-	return [
-		Math.floor(secs),
-		Math.round((secs - Math.floor(secs)) * projectState.fps),
-		projectState.fps
-	];
-}
-export function frameTimeToSecs([frameTimeSecs, frameTimeFrames, fps]) {
-	return frameTimeSecs + frameTimeFrames / fps;
-}
-export function updateFrameTime(frameTime) {
-	let [frameTimeSecs, frameTimeFrames, fps] = frameTime;
-	if (fps === projectState.fps) return frameTime;
-	return secsToFrameTime(frameTimeToSecs(frameTime));
-}
-export const frameTime = secsToFrameTime;
 
 function _quicksort(array, lo, hi, mapFn) {
 	if (lo >= hi || lo < 0) return;

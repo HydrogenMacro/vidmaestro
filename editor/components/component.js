@@ -1,13 +1,13 @@
+import FrameTime from "../frameTime.js";
 import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
-import { frameTime } from "../utils.js";
 export default class Component {
 	translation = [0, 0];
 	rotation = 0; // radians
 	scale = [1, 1];
 	zIndex = 0;
-	startTime = frameTime(0);
-	duration = frameTime(0);
+	startTime = FrameTime.ZERO;
+	duration = FrameTime.ZERO;
 	attributeTree = [];
 	attributes = componentAttributes();
 	name = "Component";

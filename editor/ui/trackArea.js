@@ -1,3 +1,4 @@
+import FrameTime from "../frameTime.js";
 import Keybinds from "../keybinds.js";
 import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
@@ -13,7 +14,6 @@ const trackAreaScrollUpBtn = document.querySelector(
 const trackAreaScrollDownBtn = document.querySelector(
 	"#track-area-scroll-down-btn"
 );
-let trackAreaZoom = 1;
 const componentToHTMLElementStore = new WeakMap(); // component -> weakref<htmlelement>
 export function updateTrackLength() {
 	let currentLength = 0;
@@ -103,3 +103,14 @@ function scrollTrackAreaBy(delta) {
 	trackAreaTrackLabels.scrollTop += delta;
 }
 // #endregion
+
+const trackScaleUnits = [
+	new FrameTime(0, 4, 120),
+	new FrameTime(0, 30, 120),
+	new FrameTime(1, 0, 120),
+	new FrameTime(5, 0, 120),
+	new FrameTime(20, 0, 120),
+	new FrameTime(60, 0, 120),
+	new FrameTime(240, 0, 120),
+	new FrameTime(960, 0, 120),
+];
