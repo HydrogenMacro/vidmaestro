@@ -34,12 +34,11 @@ export default class FrameTime {
 	}
 	static fromString(frameTimeString) {
 		let regex =
-			/(?:(?<hrs>\d+):(?=\d+:\d+))?(?:(?<mins>\d+):)?(?<secs>\d+(?!\d*\/))?(?: ?(?:(?<frame>\d+)\/(?<fps>\d+)))?/;
+			/^(?:(?:(?<hrs>\d+):(?=\d+:\d+))?(?:(?<mins>\d+):)?(?<secs>\d+)?(?:(?: ?(?:(?<frame>\d+)(?:\/(?<fps>\d+))?))|(?<secsDecimal>\.\d+)))$/;
 		let groups = regex.exec(frameTimeString)?.groups;
 		if (groups) {
-			let { hrs, mins, secs, frame, fps } = groups;
+			let { hrs, mins, secs, secsDecimal, frame, fps } = groups;
 			if (!(secs || frame)) return null;
-			console.log(hrs, mins, secs, frame, fps);
 			if (secs && !mins) {
 				// only secs
 				hrs = Math.floor(+secs / (60 * 60));
@@ -50,9 +49,13 @@ export default class FrameTime {
 				mins = +(mins || 0);
 				secs = +(secs || 0);
 			}
-			frame = +(frame || 0);
-			fps = +(fps || 120);
-			console.log(hrs, mins, secs, frame, fps);
+			if (secsDecimal) {
+				frame = Math.floor(parseFloat(secsDecimal) * 120);
+				fps = 120;
+			} else {
+				frame = +(frame || 0);
+				fps = +(fps || projectState.fps);
+			}
 			if (
 				mins >= 60 ||
 				secs >= 60 ||

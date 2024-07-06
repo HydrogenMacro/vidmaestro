@@ -1,5 +1,6 @@
 import FrameTime from "../frameTime.js";
 import Keybinds from "../keybinds.js";
+import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
 
@@ -95,7 +96,10 @@ trackAreaTrackLabels.addEventListener("wheel", (e) => {
 	scrollTrackAreaBy(e.deltaY / 10);
 });
 function resetCurrentScrollInterval() {
-	currentScrollIntervalHandle = setInterval(scrollTrackAreaBy.bind(this, trackAreaScrollDir), 50);
+	currentScrollIntervalHandle = setInterval(
+		scrollTrackAreaBy.bind(this, trackAreaScrollDir),
+		50
+	);
 	scrollTrackAreaBy(trackAreaScrollDir);
 }
 function scrollTrackAreaBy(delta) {
@@ -105,12 +109,36 @@ function scrollTrackAreaBy(delta) {
 // #endregion
 
 const trackScaleUnits = [
-	new FrameTime(0, 4, 120),
-	new FrameTime(0, 30, 120),
+	new FrameTime(0, 8, 120),
+	new FrameTime(0, 40, 120),
 	new FrameTime(1, 0, 120),
-	new FrameTime(5, 0, 120),
-	new FrameTime(20, 0, 120),
+	new FrameTime(8, 0, 120),
+	new FrameTime(32, 0, 120),
 	new FrameTime(60, 0, 120),
 	new FrameTime(240, 0, 120),
-	new FrameTime(960, 0, 120),
+	new FrameTime(1000, 0, 120),
 ];
+let currentTrackScale = 3;
+const trackAreaRulerCtx = trackAreaRuler.getContext("2d");
+let trackAreaScreenPos = 0;
+function updateTrackRuler() {
+	trackAreaRulerCtx.reset();
+	let rulerWidth = (trackAreaRulerCtx.canvas.width =
+		trackAreaRulerCtx.canvas.clientWidth);
+	let rulerHeight = (trackAreaRulerCtx.canvas.height =
+		trackAreaRulerCtx.canvas.clientHeight);
+	for (
+		let i = (projectState.trackAreaScreenPos % 50) - 50;
+		i < rulerWidth;
+		i += 50
+	) {
+		trackAreaRulerCtx.fillRect(i, 0, 5, rulerHeight);
+	}
+	projectState.trackAreaScreenPos;
+}
+resizeCallbacks.push(updateTrackRuler);
+updateTrackRuler();
+setInterval(() => {
+	projectState.trackAreaScreenPos += 2;
+	updateTrackRuler();
+}, 50);

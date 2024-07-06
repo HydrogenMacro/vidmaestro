@@ -142,6 +142,7 @@ header {
 #track-area-ruler {
 	grid-area: b;
 	background: palegoldenrod;
+	width: 100%;
 	display: flex;
 	gap: 30px;
 	counter-reset: count -1;
@@ -175,7 +176,7 @@ header {
 }
 .track-area-track-label {
 	width: 100%;
-	height: var(--track-height);
+	height: max(var(--track-height), 20px);
 	background: purple;
 	flex: 0 0 auto;
 	display: flex;
@@ -195,7 +196,7 @@ header {
 }
 .track-area-track {
 	width: 100%;
-	height: var(--track-height);
+	height: max(var(--track-height), 20px);
 	background: blue;
 	display: flex;
 	flex: 0 0 auto;

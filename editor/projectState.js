@@ -7,7 +7,7 @@ const projectState = {
 	selectedVideoComponent: null,
 	currentTracks: [[], [], []],
 	currentVideoLength: FrameTime.zero(),
-	trackZoom: FrameTime.oneSec(), // per 100px
+	trackAreaScreenPos: 0,
 	focusArea: "video",
 };
 export default projectState;
