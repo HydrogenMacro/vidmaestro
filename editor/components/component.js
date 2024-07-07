@@ -8,16 +8,16 @@ export default class Component {
 	zIndex = 0;
 	startTime = FrameTime.zero();
 	duration = FrameTime.zero();
-	attributeTree = [];
+	parentAttributes = [];
 	attributes = componentAttributes();
 	name = "Component";
 	isComponent = true;
-	parentComponent = null;
+	trackDisplayElement = null;
 	constructor() {
 		this.canvas = document.createElement("canvas");
 		this.canvas.className = "video-component";
 		this.ctx = this.canvas.getContext("2d");
-		this.attributeTree.push({
+		this.parentAttributes.push({
 			name: this.name,
 			attributes: this.attributes,
 		});

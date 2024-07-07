@@ -33,7 +33,7 @@ updateVideoDisplayDimensions();
 export function addComponents(...componentsToAdd) {
 	for (const component of componentsToAdd) {
 		videoDisplay.appendChild(component.canvas);
-		projectState.currentTracks.push([component]);
+		projectState.currentTracks[0].push(component);
 	}
 }
 

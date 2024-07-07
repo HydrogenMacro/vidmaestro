@@ -98,6 +98,9 @@ export default class FrameTime {
 		let additionalSecs = (multipliedFrame - rem) / 120;
 		return new FrameTime(t1.secs * amount + additionalSecs, rem, 120);
 	}
+	static getScaleFactor(fromFT, toFT) {
+		toFT.toSecs() / fromFT.toSecs();
+	}
 	static zero = () => FrameTime.fromSecs(0);
 	static oneSec = () => FrameTime.fromSecs(1);
 }

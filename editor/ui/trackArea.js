@@ -15,7 +15,17 @@ const trackAreaScrollUpBtn = document.querySelector(
 const trackAreaScrollDownBtn = document.querySelector(
 	"#track-area-scroll-down-btn"
 );
-const componentToHTMLElementStore = new WeakMap(); // component -> weakref<htmlelement>
+const trackScaleUnits = [
+	new FrameTime(0, 8, 120),
+	new FrameTime(0, 40, 120),
+	new FrameTime(1, 0, 120),
+	new FrameTime(8, 0, 120),
+	new FrameTime(32, 0, 120),
+	new FrameTime(60, 0, 120),
+	new FrameTime(240, 0, 120),
+	new FrameTime(1000, 0, 120),
+];
+let currentTrackScale = 3;
 export function updateTrackLength() {
 	let currentLength = 0;
 	for (const track of projectState.currentTracks) {
@@ -28,30 +38,44 @@ export function updateTrackLength() {
 	}
 	projectState.currentLength = currentLength;
 }
-function updateTrackComponents() {
+function updateTracks() {
+	const trackElems = document.getElementsByClassName("track-area-track");
 	for (let i = 0; i < projectState.currentTracks.length; i++) {
 		const track = trackAreaTracks.children.item(i);
 		const trackComponents = projectState.currentTracks[i];
+		let trackElem = trackElems.item(i);
+		// clears all children of trackElem
+		console.log(projectState.currentTracks)
+		while (trackElem.lastElementChild) {
+			trackElem.removeChild(trackElem.lastElementChild);
+		}
+		for (const trackComponent of trackComponents) {
+			if (!trackComponent.trackDisplayElement) {
+				trackComponent.trackDisplayElement = parseHTML(`
+					<div class="track-area-track-component">
+						<div class="track-area-track-component-left-handle">
+						</div>
+						<div class="track-area-track-component-body-handle">
+						</div>
+						<div class="track-area-track-component-right-handle">
+						</div>
+					</div>
+				`);
+			}
+			trackElem.style.left =
+				projectState.trackAreaScreenPos *
+					FrameTime.getScaleFactor(
+						trackComponent.startTime,
+						trackScaleUnits[currentTrackScale]
+					) +
+				"px";
+
+			trackElem.appendChild(trackComponent.trackDisplayElement);
+		}
 	}
 }
+updateTracks();
 
-export function addComponentToTrack(component, trackIndex) {
-	const componentTrackDisplayElement = parseHTML(`
-		<div class="track-area-track-component">
-			<div class="track-area-track-component-left-handle">
-			</div>
-			<div class="track-area-track-component-body-handle">
-			</div>
-			<div class="track-area-track-component-right-handle">
-			</div>
-		</div>
-	`);
-	componentToHTMLElementStore.set(
-		component,
-		new WeakRef(componentTrackDisplayElement)
-	);
-	projectState.currentTracks[trackIndex].push(component);
-}
 function createNewTrack() {
 	projectState.currentTracks.push([]);
 	trackAreaTrackLabels.insertAdjacentHTML(
@@ -76,51 +100,36 @@ trackAreaScrollUpBtn.addEventListener("pointerdown", () => {
 	resetCurrentScrollInterval();
 });
 Keybinds.register("ArrowUp", Keybinds.FocusArea.Tracks, () => {
-	scrollTrackAreaBy(-8);
+	scrollTrackAreaVerticallyBy(-8);
 });
 trackAreaScrollDownBtn.addEventListener("pointerdown", () => {
 	trackAreaScrollDir = 30;
 	resetCurrentScrollInterval();
 });
 Keybinds.register("ArrowDown", Keybinds.FocusArea.Tracks, () => {
-	scrollTrackAreaBy(8);
+	scrollTrackAreaVerticallyBy(8);
 });
 document.body.addEventListener("pointerup", () => {
 	trackAreaScrollDir = -15;
 	clearInterval(currentScrollIntervalHandle);
 });
-trackAreaTracks.addEventListener("wheel", (e) => {
-	scrollTrackAreaBy(e.deltaY / 10);
-});
 trackAreaTrackLabels.addEventListener("wheel", (e) => {
-	scrollTrackAreaBy(e.deltaY / 10);
+	scrollTrackAreaVerticallyBy(e.deltaY / 6);
 });
 function resetCurrentScrollInterval() {
 	currentScrollIntervalHandle = setInterval(
-		scrollTrackAreaBy.bind(this, trackAreaScrollDir),
+		scrollTrackAreaVerticallyBy.bind(this, trackAreaScrollDir),
 		50
 	);
-	scrollTrackAreaBy(trackAreaScrollDir);
+	scrollTrackAreaVerticallyBy(trackAreaScrollDir);
 }
-function scrollTrackAreaBy(delta) {
+function scrollTrackAreaVerticallyBy(delta) {
 	trackAreaTracks.scrollTop += delta;
 	trackAreaTrackLabels.scrollTop += delta;
 }
 // #endregion
 
-const trackScaleUnits = [
-	new FrameTime(0, 8, 120),
-	new FrameTime(0, 40, 120),
-	new FrameTime(1, 0, 120),
-	new FrameTime(8, 0, 120),
-	new FrameTime(32, 0, 120),
-	new FrameTime(60, 0, 120),
-	new FrameTime(240, 0, 120),
-	new FrameTime(1000, 0, 120),
-];
-let currentTrackScale = 3;
 const trackAreaRulerCtx = trackAreaRuler.getContext("2d");
-let trackAreaScreenPos = 0;
 function resizeTrackRuler() {
 	trackAreaRulerCtx.canvas.width =
 		trackAreaRulerCtx.canvas.clientWidth * window.devicePixelRatio;
@@ -133,12 +142,14 @@ resizeTrackRuler();
 function updateTrackRuler() {
 	let rulerWidth = trackAreaRulerCtx.canvas.clientWidth;
 	let rulerHeight = trackAreaRulerCtx.canvas.clientHeight;
-	trackAreaRulerCtx.clearRect(0, 0, rulerWidth, rulerHeight)
+	trackAreaRulerCtx.clearRect(0, 0, rulerWidth, rulerHeight);
 	trackAreaRulerCtx.font = "10px Inter";
 	for (
-		let gradationMarkNum = Math.floor(
-			projectState.trackAreaScreenPos / projectState.rulerGradationMarkGap
-		) - 1;
+		let gradationMarkNum =
+			Math.floor(
+				projectState.trackAreaScreenPos /
+					projectState.rulerGradationMarkGap
+			) - 1;
 		gradationMarkNum <
 		Math.floor(
 			projectState.trackAreaScreenPos / projectState.rulerGradationMarkGap
@@ -187,10 +198,20 @@ function updateTrackRuler() {
 resizeCallbacks.push(updateTrackRuler);
 updateTrackRuler();
 
-trackAreaRuler.addEventListener("wheel", e => {
-	let scrollDelta = Math.max(
-
-	);
-	projectState.trackAreaScreenPos = Math.max(projectState.trackAreaScreenPos + e.deltaX / 4, 0);
-	updateTrackRuler();
+trackAreaRuler.addEventListener("wheel", (e) => {
+	let scrollDelta = e.deltaX / 4;
+	if (!scrollDelta) scrollDelta = -e.deltaY / 4;
+	scrollTrackAreaHorizonatallyBy(scrollDelta);
 });
+trackAreaTracks.addEventListener("wheel", (e) => {
+	let scrollDelta = e.deltaX / 4;
+	if (!scrollDelta) scrollDelta = -e.deltaY / 4;
+	scrollTrackAreaHorizonatallyBy(scrollDelta);
+});
+function scrollTrackAreaHorizonatallyBy(delta) {
+	projectState.trackAreaScreenPos = Math.max(
+		projectState.trackAreaScreenPos + delta,
+		0
+	);
+	updateTrackRuler();
+}
