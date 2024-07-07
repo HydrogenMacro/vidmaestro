@@ -128,17 +128,46 @@ function updateTrackRuler() {
 	let rulerHeight = (trackAreaRulerCtx.canvas.height =
 		trackAreaRulerCtx.canvas.clientHeight);
 	for (
-		let i = (projectState.trackAreaScreenPos % 50) - 50;
-		i < rulerWidth;
-		i += 50
+		let gradationMarkNum = Math.floor(
+			projectState.trackAreaScreenPos / projectState.rulerGradationMarkGap
+		);
+		gradationMarkNum <
+		Math.floor(
+			projectState.trackAreaScreenPos / projectState.rulerGradationMarkGap
+		) +
+			rulerWidth / projectState.rulerGradationMarkGap +
+			1;
+		gradationMarkNum += 1
 	) {
-		trackAreaRulerCtx.fillRect(i, 0, 5, rulerHeight);
+		let gradationMarkHeight;
+		if (gradationMarkNum % 2 === 1) {
+			gradationMarkHeight = rulerHeight * 0.2;
+		} else {
+			gradationMarkHeight = rulerHeight * 0.4;
+		}
+		if (gradationMarkNum % 4 === 0) {
+			gradationMarkHeight = rulerHeight * 0.6;
+		}
+		if (gradationMarkNum % 8 === 0) {
+			gradationMarkHeight = rulerHeight * 0.8;
+		}
+		let pos =
+			gradationMarkNum * projectState.rulerGradationMarkGap -
+			projectState.trackAreaScreenPos;
+		trackAreaRulerCtx.fillRect(pos, 0, 2, gradationMarkHeight);
+		trackAreaRulerCtx.fillText(
+			FrameTime.multiply(
+				trackScaleUnits[currentTrackScale],
+				gradationMarkNum
+			).toFormattedString(),
+			pos,
+			10
+		);
 	}
-	projectState.trackAreaScreenPos;
 }
 resizeCallbacks.push(updateTrackRuler);
 updateTrackRuler();
 setInterval(() => {
-	projectState.trackAreaScreenPos += 2;
+	projectState.trackAreaScreenPos += 1;
 	updateTrackRuler();
-}, 50);
+}, 20);

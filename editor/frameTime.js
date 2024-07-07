@@ -81,9 +81,9 @@ export default class FrameTime {
 		}
 	}
 	static multiply(t1, amount) {
-		let multipliedFrames = t1.frames * amount;
-		let rem = multipliedFrames % 120;
-		let additionalSecs = (multipliedFrames - rem) / 120;
+		let multipliedFrame = t1.frame * amount;
+		let rem = multipliedFrame % 120;
+		let additionalSecs = (multipliedFrame - rem) / 120;
 		return new FrameTime(t1.secs * amount + additionalSecs, rem, 120);
 	}
 	static zero = () => FrameTime.fromSecs(0);
