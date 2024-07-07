@@ -28,6 +28,18 @@ export default class FrameTime {
 		const secs = String(this.secs % 60).padStart(2, "0");
 		const mins = String(Math.floor(this.secs / 60) % 60).padStart(2, "0");
 		const hrs = String(Math.floor(this.secs / (60 * 60))).padStart(2, "0");
+		let formattedString = "";
+		if (hrs !== "00") formattedString += hrs + ":";
+		formattedString += `${mins}:${secs}`
+		if (this.frame !== 0) formattedString += ` ${this.getFrameWithFPS(
+			projectState.fps
+		)}/${projectState.fps}`
+		return formattedString;
+	}
+	toFormattedStringFull() {
+		const secs = String(this.secs % 60).padStart(2, "0");
+		const mins = String(Math.floor(this.secs / 60) % 60).padStart(2, "0");
+		const hrs = String(Math.floor(this.secs / (60 * 60))).padStart(2, "0");
 		return `${hrs}:${mins}:${secs} ${this.getFrameWithFPS(
 			projectState.fps
 		)}/${projectState.fps}`;

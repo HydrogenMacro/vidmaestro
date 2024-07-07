@@ -9,6 +9,6 @@ const projectState = {
 	currentVideoLength: FrameTime.zero(),
 	trackAreaScreenPos: 0,
 	focusArea: "video",
-	rulerGradationMarkGap: 70,
+	rulerGradationMarkGap: 20,
 };
 export default projectState;
