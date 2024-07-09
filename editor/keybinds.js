@@ -18,14 +18,19 @@ const Keybinds = {
 				all: null,
 			});
 		}
-		this.registry.get(key)[focusArea] = this.registry.get(key).all = [
+		this.registry.get(key)[focusArea] = [
 			cb,
 			endCb,
 		];
 	},
-	registerWithModifiers(keyInfo) {
+	registerWithModifiers(keyInfo, focusArea, cb, endCb = null) {
 		const { key, ctrl, alt, shift } = keyInfo;
-		this.register(transformKey(key, ctrl, alt, shift));
+		this.register(
+			transformKey(key, ctrl, alt, shift),
+			focusArea,
+			cb,
+			endCb
+		);
 	},
 };
 document.addEventListener("keydown", (e) => {

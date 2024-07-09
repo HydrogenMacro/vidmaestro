@@ -19,7 +19,7 @@ export default class FrameTime {
 	}
 	getFrameWithFPS(fps) {
 		assertFPS(fps);
-		return this.frame * (fps / 120);
+		return Math.floor(this.frame * (fps / 120));
 	}
 	toSecs() {
 		return this.secs + this.frame / 120;
@@ -99,7 +99,7 @@ export default class FrameTime {
 		return new FrameTime(t1.secs * amount + additionalSecs, rem, 120);
 	}
 	static getScaleFactor(fromFT, toFT) {
-		toFT.toSecs() / fromFT.toSecs();
+		return toFT.toSecs() / fromFT.toSecs();
 	}
 	static zero = () => FrameTime.fromSecs(0);
 	static oneSec = () => FrameTime.fromSecs(1);

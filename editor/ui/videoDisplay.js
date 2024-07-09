@@ -4,6 +4,7 @@ import TextComponent from "../components/text.js";
 import PolygonComponent from "../components/geometry.js";
 import OverlayOperation from "../components/operations/overlay.js";
 import { quicksort } from "../utils.js";
+import FrameTime from "../frameTime.js";
 
 const videoDisplay = document.querySelector("#video-display");
 const videoDisplayContainer = document.querySelector("#video-display-container");
@@ -63,6 +64,8 @@ t2.text = "BBBB"
 t2.translation = [69, 42];
 const o1 = new OverlayOperation();
 o1.args = [t1, t2];
+o1.startTime = FrameTime.fromSecs(2);
+o1.duration = FrameTime.fromSecs(3);
 /*
 setInterval(() => {
 	polyComponent.rotation += .1;

@@ -3,6 +3,7 @@ import Keybinds from "../keybinds.js";
 import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
+import { updateTrackPositions } from "./tracks.js";
 
 const trackArea = document.querySelector("#track-area");
 const trackAreaRuler = document.querySelector("#track-area-ruler");
@@ -15,17 +16,8 @@ const trackAreaScrollUpBtn = document.querySelector(
 const trackAreaScrollDownBtn = document.querySelector(
 	"#track-area-scroll-down-btn"
 );
-const trackScaleUnits = [
-	new FrameTime(0, 8, 120),
-	new FrameTime(0, 40, 120),
-	new FrameTime(1, 0, 120),
-	new FrameTime(8, 0, 120),
-	new FrameTime(32, 0, 120),
-	new FrameTime(60, 0, 120),
-	new FrameTime(240, 0, 120),
-	new FrameTime(1000, 0, 120),
-];
-let currentTrackScale = 3;
+const trackElems = document.getElementsByClassName("track-area-track");
+ 
 export function updateTrackLength() {
 	let currentLength = 0;
 	for (const track of projectState.currentTracks) {
@@ -38,43 +30,7 @@ export function updateTrackLength() {
 	}
 	projectState.currentLength = currentLength;
 }
-function updateTracks() {
-	const trackElems = document.getElementsByClassName("track-area-track");
-	for (let i = 0; i < projectState.currentTracks.length; i++) {
-		const track = trackAreaTracks.children.item(i);
-		const trackComponents = projectState.currentTracks[i];
-		let trackElem = trackElems.item(i);
-		// clears all children of trackElem
-		console.log(projectState.currentTracks)
-		while (trackElem.lastElementChild) {
-			trackElem.removeChild(trackElem.lastElementChild);
-		}
-		for (const trackComponent of trackComponents) {
-			if (!trackComponent.trackDisplayElement) {
-				trackComponent.trackDisplayElement = parseHTML(`
-					<div class="track-area-track-component">
-						<div class="track-area-track-component-left-handle">
-						</div>
-						<div class="track-area-track-component-body-handle">
-						</div>
-						<div class="track-area-track-component-right-handle">
-						</div>
-					</div>
-				`);
-			}
-			trackElem.style.left =
-				projectState.trackAreaScreenPos *
-					FrameTime.getScaleFactor(
-						trackComponent.startTime,
-						trackScaleUnits[currentTrackScale]
-					) +
-				"px";
 
-			trackElem.appendChild(trackComponent.trackDisplayElement);
-		}
-	}
-}
-updateTracks();
 
 function createNewTrack() {
 	projectState.currentTracks.push([]);
@@ -167,7 +123,9 @@ function updateTrackRuler() {
 			trackAreaRulerCtx.fillStyle = "#000";
 			trackAreaRulerCtx.fillText(
 				FrameTime.multiply(
-					trackScaleUnits[currentTrackScale],
+					projectState.trackScaleUnits[
+						projectState.currentTrackScale
+					],
 					Math.max(gradationMarkNum, 0) / 8
 				).toFormattedString(),
 				pos,
@@ -202,11 +160,13 @@ trackAreaRuler.addEventListener("wheel", (e) => {
 	let scrollDelta = e.deltaX / 4;
 	if (!scrollDelta) scrollDelta = -e.deltaY / 4;
 	scrollTrackAreaHorizonatallyBy(scrollDelta);
+	updateTrackPositions();
 });
 trackAreaTracks.addEventListener("wheel", (e) => {
 	let scrollDelta = e.deltaX / 4;
 	if (!scrollDelta) scrollDelta = -e.deltaY / 4;
 	scrollTrackAreaHorizonatallyBy(scrollDelta);
+	updateTrackPositions();
 });
 function scrollTrackAreaHorizonatallyBy(delta) {
 	projectState.trackAreaScreenPos = Math.max(
@@ -215,3 +175,22 @@ function scrollTrackAreaHorizonatallyBy(delta) {
 	);
 	updateTrackRuler();
 }
+Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
+	console.log("a")
+	projectState.currentTrackScale = Math.min(projectState.currentTrackScale + 1, projectState.trackScaleUnits.length - 1);
+	updateTrackRuler();
+	updateTrackPositions();
+})
+Keybinds.register(
+	"-",
+	Keybinds.FocusArea.Tracks,
+	() => {
+		console.log("b")
+		projectState.currentTrackScale = Math.max(
+			projectState.currentTrackScale - 1,
+			0
+		);
+		updateTrackRuler();
+		updateTrackPositions();
+	}
+);

@@ -63,7 +63,7 @@ export function parseHTML(html) {
 	// https://stackoverflow.com/a/34333750/20913545
 	var t = document.createElement("template");
 	t.innerHTML = html;
-	return t.content;
+	return t.content.firstElementChild;
 }
 
 function _quicksort(array, lo, hi, mapFn) {

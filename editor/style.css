@@ -33,7 +33,7 @@ header {
 }
 /* #endregion */
 #workspace-left {
-	width: 60vw;
+	width: 65vw;
 	background: mediumseagreen;
 	display: flex;
 	flex-direction: column;
@@ -42,7 +42,7 @@ header {
 /* #region video display */
 #video-display-container {
 	width: 100%;
-	height: 55svh;
+	height: 40svh;
 	background: black;
 	display: flex;
 	align-items: center;
@@ -201,6 +201,7 @@ header {
 	height: 100%;
 	display: flex;
 	align-items: center;
+	position: relative;
 }
 .track-area-track-component-selected {
 	border: solid yellow 1px;
