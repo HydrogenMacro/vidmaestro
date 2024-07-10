@@ -17,7 +17,7 @@ const trackAreaScrollDownBtn = document.querySelector(
 	"#track-area-scroll-down-btn"
 );
 const trackElems = document.getElementsByClassName("track-area-track");
- 
+
 export function updateTrackLength() {
 	let currentLength = 0;
 	for (const track of projectState.currentTracks) {
@@ -30,7 +30,6 @@ export function updateTrackLength() {
 	}
 	projectState.currentLength = currentLength;
 }
-
 
 function createNewTrack() {
 	projectState.currentTracks.push([]);
@@ -175,22 +174,23 @@ function scrollTrackAreaHorizonatallyBy(delta) {
 	);
 	updateTrackRuler();
 }
-Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
-	console.log("a")
-	projectState.currentTrackScale = Math.min(projectState.currentTrackScale + 1, projectState.trackScaleUnits.length - 1);
+Keybinds.register("-", Keybinds.FocusArea.Tracks, () => {
+	console.log("a");
+	projectState.currentTrackScale = Math.min(
+		projectState.currentTrackScale + 1,
+		projectState.trackScaleUnits.length - 1
+	);
+	projectState.trackAreaScreenPos /= 2;
 	updateTrackRuler();
 	updateTrackPositions();
-})
-Keybinds.register(
-	"-",
-	Keybinds.FocusArea.Tracks,
-	() => {
-		console.log("b")
-		projectState.currentTrackScale = Math.max(
-			projectState.currentTrackScale - 1,
-			0
-		);
-		updateTrackRuler();
-		updateTrackPositions();
-	}
-);
+});
+Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
+	console.log("b");
+	projectState.currentTrackScale = Math.max(
+		projectState.currentTrackScale - 1,
+		0
+	);
+	projectState.trackAreaScreenPos *= 2;
+	updateTrackRuler();
+	updateTrackPositions();
+});
