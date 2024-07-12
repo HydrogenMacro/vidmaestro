@@ -1,6 +1,7 @@
 import Component from "./component.js";
 import { rotateBoundingBox } from "../utils.js";
 export default class PolygonComponent extends Component {
+	name = "Polygon"
 	fill = "purple";
 	_points = [
 		[0, 0],

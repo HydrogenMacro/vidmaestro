@@ -1,5 +1,6 @@
-import Component from "../component.js";
+import Component from "./component.js";
 export default class VideoComponent extends Component {
+	name = "Video"
 	video = null;
 	videoStartTime = 0
 }

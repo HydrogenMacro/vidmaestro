@@ -31,7 +31,7 @@ export function updateTrackLength() {
 	projectState.currentLength = currentLength;
 }
 
-function createNewTrack() {
+export function createNewTrack() {
 	projectState.currentTracks.push([]);
 	trackAreaTrackLabels.insertAdjacentHTML(
 		"beforeend",
@@ -45,6 +45,7 @@ function createNewTrack() {
 	);
 	trackAreaTrackLabels.scrollTop = trackAreaTrackLabels.scrollHeight;
 	trackAreaTracks.scrollTop = trackAreaTracks.scrollHeight;
+	return projectState.currentTracks[projectState.currentTracks.length - 1];
 }
 trackAreaAddBtn.addEventListener("click", createNewTrack);
 let trackAreaScrollDir = 0;

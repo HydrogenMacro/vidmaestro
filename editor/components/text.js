@@ -1,6 +1,7 @@
 import Component from "./component.js";
 import { rotateBoundingBox } from "../utils.js";
 export default class TextComponent extends Component {
+	name = "Text"
 	text = "";
 	font = "100px serif";
 	fill = "green";

@@ -7,6 +7,7 @@ const trackAreaTracks = document.querySelector("#track-area-tracks");
 const trackElems = document.getElementsByClassName("track-area-track");
 
 export function updateTracks() {
+	console.log(projectState.currentTracks);
 	for (let i = 0; i < projectState.currentTracks.length; i++) {
 		const trackComponents = projectState.currentTracks[i];
 		let trackElem = trackElems.item(i);
@@ -28,11 +29,10 @@ export function updateTracks() {
 				`);
 			}
 			trackElem.appendChild(trackComponent.trackDisplayElement);
-			updateTrackPositions();
 		}
 	}
+	updateTrackPositions();
 }
-updateTracks();
 export function updateTrackPositions() {
 	for (const track of projectState.currentTracks) {
 		for (const trackComponent of track) {

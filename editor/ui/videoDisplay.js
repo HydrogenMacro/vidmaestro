@@ -5,6 +5,8 @@ import PolygonComponent from "../components/geometry.js";
 import OverlayOperation from "../components/operations/overlay.js";
 import { quicksort } from "../utils.js";
 import FrameTime from "../frameTime.js";
+import { updateTracks } from "./tracks.js";
+import { createNewTrack } from "./trackArea.js";
 
 const videoDisplay = document.querySelector("#video-display");
 const videoDisplayContainer = document.querySelector("#video-display-container");
@@ -14,7 +16,7 @@ resizeCallbacks.push(() => {
 	videoDisplayContainerRatio = videoDisplayContainer.clientWidth / videoDisplayContainer.clientHeight;
 	updateVideoDisplayDimensions();
 	updateVideoDebugDisplay();
-	updateComponents();
+	drawComponents();
 });
 
 function updateVideoDisplayDimensions() {
@@ -33,9 +35,10 @@ updateVideoDisplayDimensions();
 
 export function addComponents(...componentsToAdd) {
 	for (const component of componentsToAdd) {
-		videoDisplay.appendChild(component.canvas);
-		projectState.currentTracks[0].push(component);
+		createNewTrack().push(component);
 	}
+
+	updateTracks();
 }
 
 const videoDebugDisplayCtx = videoDebugDisplay.getContext("2d");
@@ -48,7 +51,7 @@ function updateVideoDebugDisplay() {
 		videoDebugDisplayCtx.strokeRect(x, y, w, h);
 	}
 }
-function updateComponents() {
+function drawComponents() {
 	let sortedComponents = projectState.currentTracks.flat();
 	quicksort(sortedComponents, c => c.zIndex);
 	for (const component of sortedComponents) {
@@ -74,5 +77,6 @@ setInterval(() => {
 }, 100); 
 */
 addComponents(o1)
+drawComponents();
 //projectState.selectedVideoComponent = polyComponent;
 updateVideoDebugDisplay()
