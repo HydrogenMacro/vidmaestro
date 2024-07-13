@@ -17,6 +17,10 @@ export default class FrameTime {
 			120
 		);
 	}
+
+	static fromFrame(frame, fps) {
+		return new FrameTime(0, frame, fps);
+	}
 	getFrameWithFPS(fps) {
 		assertFPS(fps);
 		return Math.floor(this.frame * (fps / 120));

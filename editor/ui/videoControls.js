@@ -62,7 +62,5 @@ document.documentElement.addEventListener("click", e => {
 })
 addComponentOptionVideoElem.addEventListener("click", () => {
 	const a = new VideoComponent();
-	a.duration = FrameTime.fromSecs(1)
 	addComponents(a);
-	console.log(projectState.currentTracks)
 });

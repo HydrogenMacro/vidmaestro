@@ -7,7 +7,7 @@ export default class Component {
 	scale = [1, 1];
 	zIndex = 0;
 	startTime = FrameTime.zero();
-	duration = FrameTime.zero();
+	duration = FrameTime.fromFrame(1, projectState.fps);
 	parentAttributes = [];
 	attributes = componentAttributes();
 	name = "Component";

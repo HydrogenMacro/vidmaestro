@@ -40,7 +40,7 @@ document.addEventListener("keydown", (e) => {
 	}
 	Keybinds._keyMods.set(e.key, keyWithMods);
 	Keybinds.registry.get(keyWithMods)[projectState.focusArea][0]?.(e);
-	Keybinds.registry.get(keyWithMods).all[0]?.(e);
+	Keybinds.registry.get(keyWithMods).all?.[0]?.(e);
 });
 document.addEventListener("keyup", (e) => {
 	let keyWithMods = Keybinds._keyMods.get(e.key);
@@ -48,7 +48,7 @@ document.addEventListener("keyup", (e) => {
 		return;
 	}
 	Keybinds.registry.get(keyWithMods)[projectState.focusArea][1]?.(e);
-	Keybinds.registry.get(keyWithMods).all[1]?.(e);
+	Keybinds.registry.get(keyWithMods).all?.[1]?.(e);
 });
 function transformKey(key, ctrl, alt, shift) {
 	if (ctrl || alt || shift) key += "_";
