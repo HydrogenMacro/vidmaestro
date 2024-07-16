@@ -3,7 +3,6 @@ const propertyTypes = [
 	"Number",
 	"String",
 	"Bool",
-	"Boolean",
 	"Component",
 	"Color",
 ];

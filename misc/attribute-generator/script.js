@@ -5,8 +5,8 @@ const input = $("textarea");
 const generateBtn = $("#generate");
 
 generateBtn.onclick = () => {
-	$("output").textContent = stringify(parse(input.value));
-	console.log(parse(input.value))
+	$("output").innerText = stringify(parse(input.value));
+	console.log(parse(input.value));
 };
 
 function parse(attrText) {
@@ -18,7 +18,20 @@ function parse(attrText) {
 }
 
 function stringify(obj) {
-	var cleaned = JSON.stringify(obj, null, 2);
+	var cleaned = JSON.stringify(
+		obj,
+		(key, value) => {
+			if (value === Infinity) {
+				return "$$__ATTRIBUTE_GENERATOR_PARSE_GRAPH__Infinity";
+			}
+			if (value === -Infinity) {
+				return "$$__ATTRIBUTE_GENERATOR_PARSE_GRAPH__Neg_Infinity";
+			}
+			return value;
+		},
+	)
+		.replaceAll("\"$$__ATTRIBUTE_GENERATOR_PARSE_GRAPH__Infinity\"", "Infinity")
+		.replaceAll("\"$$__ATTRIBUTE_GENERATOR_PARSE_GRAPH__Neg_Infinity\"", "-Infinity");
 
 	return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, function (match) {
 		return match.replace(/"/g, "");

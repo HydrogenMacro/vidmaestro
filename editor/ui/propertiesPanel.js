@@ -8,9 +8,31 @@ let currentDisplayedComponent = null;
  * @param {Component} component 
  */
 export function showPropertiesOfComponent(component) {
+	resetPropertiesPanel();
 	currentDisplayedComponent = component;
-	for (const parentAttribute of component.constructor.attributesTree) {
-		console.log(parentAttribute);
+	for (const descendantAttributes of component.constructor.attributesTree) {
+		propertiesPanel.insertAdjacentHTML("beforeend", 
+			`<p>${descendantAttributes.name}</p>`
+		)
+		for (const attribute of descendantAttributes.attributes) {
+			switch (attribute.baseType) {
+				case "Number":
+					const numberInput = document.createElement("input");
+					numberInput.addEventListener("change", () => {
+						alert(numberInput.value)
+					});
+					propertiesPanel.insertAdjacentElement("beforeend", numberInput)
+					break;
+				case "String":
+					break;
+				case "Bool":
+					break;
+				case "Component":
+					break;
+				case "Number":
+					break;
+			}
+		}
 	}
 }
 /*
