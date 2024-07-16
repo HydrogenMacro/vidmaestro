@@ -24,3 +24,4 @@ export default class TextComponent extends Component {
 		);
 	}
 }
+Component.registerComponentAttributes(TextComponent);

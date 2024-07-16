@@ -176,20 +176,33 @@ function scrollTrackAreaHorizonatallyBy(delta) {
 	updateTrackRuler();
 }
 Keybinds.register("-", Keybinds.FocusArea.Tracks, () => {
+	let prevTrackScale = projectState.trackScaleUnits[projectState.currentTrackScale];
 	projectState.currentTrackScale = Math.min(
 		projectState.currentTrackScale + 1,
 		projectState.trackScaleUnits.length - 1
 	);
-	projectState.trackAreaScreenPos /= 2;
+	projectState.trackAreaScreenPos *=
+		prevTrackScale.toSecs() /
+		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs();
+	console.log(
+		prevTrackScale.toSecs() /
+			projectState.trackScaleUnits[
+				projectState.currentTrackScale
+			].toSecs()
+	);
 	updateTrackRuler();
 	updateTrackComponentDisplayElems();
 });
 Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
+		let prevTrackScale =
+			projectState.trackScaleUnits[projectState.currentTrackScale];
 	projectState.currentTrackScale = Math.max(
 		projectState.currentTrackScale - 1,
 		0
 	);
-	projectState.trackAreaScreenPos *= 2;
+	projectState.trackAreaScreenPos *=
+		prevTrackScale.toSecs() /
+		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs();
 	updateTrackRuler();
 	updateTrackComponentDisplayElems();
 });

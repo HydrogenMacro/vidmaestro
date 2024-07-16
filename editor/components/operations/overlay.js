@@ -1,6 +1,6 @@
 import { mergeBoundingBoxes } from "../../utils.js";
 import Operation from "./operation.js";
-
+import Component from "../component.js";
 export default class OverlayOperation extends Operation {
 	args = [];
 	draw(relativeFrame) {
@@ -11,3 +11,4 @@ export default class OverlayOperation extends Operation {
 		}
 	}
 }
+Component.registerComponentAttributes(OverlayOperation);

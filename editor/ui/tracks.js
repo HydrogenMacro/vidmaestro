@@ -1,20 +1,18 @@
 import FrameTime from "../frameTime.js";
 import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
-import { parseHTML } from "../utils.js";
+import { removeAllChildren, parseHTML } from "../utils.js";
+import { resetPropertiesPanel, showPropertiesOfComponent } from "./propertiesPanel.js";
 
 const trackAreaTracks = document.querySelector("#track-area-tracks");
 const trackElems = document.getElementsByClassName("track-area-track");
 
 export function updateTracks() {
-	console.log(projectState.currentTracks);
 	for (let i = 0; i < projectState.currentTracks.length; i++) {
 		const trackComponents = projectState.currentTracks[i];
 		let trackElem = trackElems.item(i);
 		// clears all children of trackElem
-		while (trackElem.lastElementChild) {
-			trackElem.removeChild(trackElem.lastElementChild);
-		}
+		removeAllChildren(trackElem);
 		for (const trackComponent of trackComponents) {
 			if (!trackComponent.trackDisplayElement) {
 				trackComponent.trackDisplayElement = parseHTML(`
@@ -82,10 +80,12 @@ function selectComponent(component) {
 	component.trackDisplayElement.classList.add(
 		"track-area-track-component-selected"
 	);
+	showPropertiesOfComponent(component);
 }
 function unselectComponent() {
 	projectState.selectedVideoComponent.trackDisplayElement.classList.remove(
 		"track-area-track-component-selected"
 	);
 	projectState.selectedVideoComponent = null;
+	resetPropertiesPanel();
 }

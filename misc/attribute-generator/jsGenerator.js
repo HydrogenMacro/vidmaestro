@@ -28,16 +28,16 @@ export default function generateJS(parseGraphOutput) {
 				currentObj.isArray = true;
 				break;
 			case "arrayMinLength":
-				currentObj.arrayLengthRange[0] = value;
+				currentObj.arrayLengthRange[0] = +value;
 				break;
 			case "arrayMaxLength":
-				currentObj.arrayLengthRange[1] = value;
+				currentObj.arrayLengthRange[1] = +value;
 				break;
 			case "boundsMin":
-				currentObj.valueRange[0] = value;
+				currentObj.valueRange[0] = +value;
 				break;
 			case "boundsMax":
-				currentObj.valueRange[1] = value;
+				currentObj.valueRange[1] = +value;
 				break;
 			case "label":
 				currentObj.labels.push(value);

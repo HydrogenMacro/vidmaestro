@@ -96,3 +96,8 @@ export function lerp(x, target, progress) {
 export function easeOut(x) {
 	return 1 - Math.pow(1 - x, 5);
 }
+export function removeAllChildren(elem) {
+	while (elem.lastElementChild) {
+		elem.removeChild(elem.lastElementChild);
+	}
+}

@@ -18,7 +18,7 @@ parseGraph.addConnection(
 parseGraph.addConnection("leadingWhitespace", String.raw`\w+`, "displayName");
 parseGraph.addConnection(
 	"wrappedDisplayNameStart",
-	String.raw`\w+`,
+	String.raw`[\w\s]+`,
 	"wrappedDisplayName"
 );
 parseGraph.addConnection(
@@ -81,7 +81,7 @@ parseGraph.addConnection(
 );
 parseGraph.addConnection("boundsRangeSeparator", NUMBER, "boundsMax");
 parseGraph.addConnection(
-	["baseType", "endArrayDeclaration", "boundsMax"],
+	["baseType", "endArrayDeclaration", "boundsMax", "boundsRangeSeparator"],
 	String.raw`<`,
 	"startLabelDeclaration"
 );
@@ -93,7 +93,7 @@ parseGraph.addConnection(
 parseGraph.addConnection("label", String.raw`,\s*`, "labelSeparator");
 parseGraph.addConnection("label", String.raw`>`, "endLabelDeclaration");
 parseGraph.addConnection(
-	["baseType", "endArrayDeclaration", "boundsMax", "endLabelDeclaration"],
+	["baseType", "endArrayDeclaration", "boundsMax", "boundsRangeSeparator", "endLabelDeclaration"],
 	String.raw`{`,
 	"startTagDeclaration"
 );
@@ -114,6 +114,7 @@ parseGraph.addConnection(
 	[
 		"baseType",
 		"endArrayDeclaration",
+		"boundsRangeSeparator",
 		"boundsMax",
 		"endLabelDeclaration",
 		"endTagDeclaration",

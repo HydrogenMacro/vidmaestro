@@ -47,3 +47,4 @@ export default class ChromaKeyOperation extends Operation {
 		ctx.putImageData(foregroundImgData, 0, 0);
 	}
 }
+Component.registerComponent(ChromaKeyOperation);

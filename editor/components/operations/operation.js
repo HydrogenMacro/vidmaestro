@@ -5,3 +5,4 @@ export default class Operation extends Component {
 		return true;
 	}
 }
+Component.registerComponentAttributes(Operation);

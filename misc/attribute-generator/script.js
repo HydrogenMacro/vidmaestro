@@ -6,6 +6,7 @@ const generateBtn = $("#generate");
 
 generateBtn.onclick = () => {
 	$("output").textContent = stringify(parse(input.value));
+	console.log(parse(input.value))
 };
 
 function parse(attrText) {

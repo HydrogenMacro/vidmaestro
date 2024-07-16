@@ -46,3 +46,4 @@ export default class PolygonComponent extends Component {
 		this._localBounds = [xmin, ymin, xmax - xmin, ymax - ymin];
 	}
 }
+Component.registerComponentAttributes(PolygonComponent);

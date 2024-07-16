@@ -13,7 +13,7 @@ const projectState = {
 	trackScaleUnits: [
 		new FrameTime(0, 16, 120),
 		new FrameTime(0, 32, 120),
-		new FrameTime(0, 64, 120),
+		new FrameTime(0, 60, 120),
 		new FrameTime(1, 0, 120),
 		new FrameTime(2, 0, 120),
 		new FrameTime(4, 0, 120),
@@ -21,6 +21,7 @@ const projectState = {
 		new FrameTime(15, 0, 120),
 		new FrameTime(30, 0, 120),
 		new FrameTime(60, 0, 120),
+		new FrameTime(120, 0, 120),
 		new FrameTime(300, 0, 120),
 		new FrameTime(600, 0, 120),
 		new FrameTime(1200, 0, 120),

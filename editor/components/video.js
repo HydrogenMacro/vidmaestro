@@ -4,3 +4,4 @@ export default class VideoComponent extends Component {
 	video = null;
 	videoStartTime = 0
 }
+Component.registerComponentAttributes(VideoComponent);

@@ -9,3 +9,4 @@ export default class GroupOperation extends Operation {
 		}
 	}
 }
+Component.registerComponent(GroupOperation);
