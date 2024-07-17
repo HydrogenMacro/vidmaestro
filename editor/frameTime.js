@@ -32,28 +32,21 @@ export default class FrameTime {
 		const secs = String(this.secs % 60).padStart(2, "0");
 		const mins = String(Math.floor(this.secs / 60) % 60).padStart(2, "0");
 		const hrs = String(Math.floor(this.secs / (60 * 60))).padStart(2, "0");
-		let formattedString = "";
-		if (hrs !== "00") formattedString += hrs + ":";
-		formattedString += `${mins}:${secs}`
-		if (this.frame !== 0) formattedString += ` ${this.getFrameWithFPS(
-			projectState.fps
-		)}/${projectState.fps}`
-		return formattedString;
-	}
-	toFormattedStringFull() {
-		const secs = String(this.secs % 60).padStart(2, "0");
-		const mins = String(Math.floor(this.secs / 60) % 60).padStart(2, "0");
-		const hrs = String(Math.floor(this.secs / (60 * 60))).padStart(2, "0");
 		return `${hrs}:${mins}:${secs} ${this.getFrameWithFPS(
 			projectState.fps
 		)}/${projectState.fps}`;
 	}
 	static fromString(frameTimeString) {
 		let regex =
-			/^(?:(?:(?<hrs>\d+):(?=\d+:\d+))?(?:(?<mins>\d+):)?(?<secs>\d+)?(?:(?: ?(?:(?<frame>\d+)(?:\/(?<fps>\d+))?))|(?<secsDecimal>\.\d+)))$/;
+			/^(\s*(?:(?<frame>\d+)\/(?<fps>\d+))|(?:(?:(?<hrs>\d+):(?<mins>\d+):(?<secs>\d+)|(?<mins_>\d+):(?<secs_>\d+)|(?<secs__>\d+))(?:(?<secsDecimal>\.\d+)|(?: (?<frame_>\d+)\/(?<fps_>\d+)))?)\s*)$/;
 		let groups = regex.exec(frameTimeString)?.groups;
 		if (groups) {
-			let { hrs, mins, secs, secsDecimal, frame, fps } = groups;
+			let hrs = groups.hrs;
+			let mins = groups.mins ?? groups.mins_;
+			let secs = groups.secs ?? groups.secs_ ?? groups.secs__;
+			let secsDecimal = groups.secsDecimal;
+			let frame = groups.frame ?? groups.frame_;
+			let fps = groups.fps ?? groups.fps_;
 			if (!(secs || frame)) return null;
 			if (secs && !mins) {
 				// only secs

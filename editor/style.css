@@ -215,11 +215,12 @@ header {
 }
 /* #region workspace right*/
 #properties-panel {
+	box-sizing: border-box;
 	flex: 1;
 	background: purple;
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 /* #endregion */
 
