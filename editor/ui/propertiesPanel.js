@@ -59,11 +59,17 @@ export function showPropertiesOfComponent(component) {
 					createAttributeInput(
 						"text",
 						attribute,
-						component[attribute.field].toFormattedString() ?? FrameTime.zero().toFormattedString(),
+						component[attribute.field].toFormattedString() ??
+							FrameTime.zero().toFormattedString(),
 						(e) => {
-							let parsedFrameTime = FrameTime.fromString(e.target.value);
-							component[attribute.field] = parsedFrameTime ?? component[attribute.field];
-							e.target.value = parsedFrameTime.toFormattedString();
+							let parsedFrameTime = FrameTime.fromString(
+								e.target.value
+							);
+							component[attribute.field] =
+								parsedFrameTime ?? component[attribute.field];
+							e.target.value = (
+								parsedFrameTime ?? component[attribute.field]
+							).toFormattedString();
 						}
 					);
 					break;
@@ -72,16 +78,21 @@ export function showPropertiesOfComponent(component) {
 	}
 }
 function createAttributeLabel(attributeAlias) {
-	propertiesPanel.insertAdjacentHTML(
-		"beforeend",
-		`<p>${attributeAlias}</p>`
-	);
+	propertiesPanel.insertAdjacentHTML("beforeend", `<p>${attributeAlias}</p>`);
 }
 function createAttributeInput(inputType, attribute, defaultValue, inputCb) {
 	const attributeInput = document.createElement("input");
-	attribute.type = inputType;
+	attributeInput.type = inputType;
+	if (attributeInput.type === "text") {
+		attributeInput.addEventListener("click", () => {
+			attributeInput.select();
+		});
+	}
 	attributeInput.value = defaultValue;
-	attributeInput.addEventListener("change", inputCb);
+	attributeInput.addEventListener("change", (e) => {
+		inputCb(e);
+		updateUI();
+	});
 	propertiesPanel.insertAdjacentElement("beforeend", attributeInput);
 }
 function updateUI() {

@@ -1,6 +1,7 @@
 import VideoComponent from "../components/video.js";
 import FrameTime from "../frameTime.js";
 import projectState from "../projectState.js";
+import { updateTrackLength } from "./trackArea.js";
 import { updateTracks } from "./tracks.js";
 import { addComponents } from "./videoDisplay.js";
 const addComponentsBtn = document.getElementById(
@@ -18,6 +19,19 @@ const addComponentOptionTextElem = document.getElementById(
 const addComponentOptionShapeElem = document.getElementById(
 	"video-control-add-component-btn-option-shape"
 );
+const videoSeekToStartBtn = document.getElementById(
+	"video-control-seek-to-start-btn"
+);
+const videoSeekBackwardBtn = document.getElementById(
+	"video-control-seek-backward-btn"
+);
+const videoSeekForwardBtn = document.getElementById(
+	"video-control-seek-forward-btn"
+);
+const videoSeekToEndBtn = document.getElementById(
+	"video-control-seek-to-end-btn"
+);
+
 const seekPosInput = document.querySelector("#video-control-seek-pos");
 seekPosInput.addEventListener("click", () => {
 	seekPosInput.select();
@@ -63,4 +77,14 @@ document.documentElement.addEventListener("click", e => {
 addComponentOptionVideoElem.addEventListener("click", () => {
 	const a = new VideoComponent();
 	addComponents(a);
+});
+
+
+videoSeekToStartBtn.addEventListener("click", () => {
+	projectState.videoSeekPos = 0;
+});
+videoSeekToEndBtn.addEventListener("click", () => {
+	updateTrackLength();
+	console.log(projectState.currentVideoLength)
+	projectState.videoSeekPos = projectState.currentVideoLength;
 });

@@ -10,6 +10,8 @@ const trackAreaRuler = document.querySelector("#track-area-ruler");
 const trackAreaTrackLabels = document.querySelector("#track-area-track-labels");
 const trackAreaTracks = document.querySelector("#track-area-tracks");
 const trackAreaAddBtn = document.querySelector("#track-area-add-track-btn");
+const trackAreaCaret = document.querySelector("#track-area-caret");
+
 const trackAreaScrollUpBtn = document.querySelector(
 	"#track-area-scroll-up-btn"
 );
@@ -19,17 +21,16 @@ const trackAreaScrollDownBtn = document.querySelector(
 const trackElems = document.getElementsByClassName("track-area-track");
 
 export function updateTrackLength() {
-	let currentLength = 0;
+	projectState.currentVideoLength = FrameTime.zero();
 	for (const track of projectState.currentTracks) {
 		for (const component of track) {
-			currentLength = Math.max(
-				currentLength,
-				component.startTime + component.duration
-			);
+			if (component.startTime.toSecs() + component.duration.toSecs() > projectState.currentVideoLength.toSecs()) {
+				projectState.currentVideoLength = FrameTime.add(component.startTime, component.duration);
+			}
 		}
 	}
-	projectState.currentLength = currentLength;
 }
+updateTrackLength();
 
 export function createNewTrack() {
 	projectState.currentTracks.push([]);
@@ -206,3 +207,8 @@ Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
 	updateTrackRuler();
 	updateTrackComponentDisplayElems();
 });
+
+function updateCaret() {
+	trackAreaCaret.style.left = projectState.videoSeekPos;
+}
+updateCaret();

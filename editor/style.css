@@ -168,6 +168,7 @@ header {
 	overflow: hidden;
 }
 #track-area-tracks {
+	position: relative;
 	grid-area: d;
 	background: lawngreen;
 	display: flex;
@@ -205,6 +206,13 @@ header {
 }
 .track-area-track-component-selected {
 	border: solid yellow 1px;
+}
+#track-area-caret {
+	position: absolute;
+	width: 2px;
+	height: 100%;
+	background: salmon;
+	z-index: 10;
 }
 /* #endregion */
 #vertical-separator {
