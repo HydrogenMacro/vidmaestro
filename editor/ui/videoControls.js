@@ -1,7 +1,7 @@
 import VideoComponent from "../components/video.js";
 import FrameTime from "../frameTime.js";
 import projectState from "../projectState.js";
-import { updateTrackLength } from "./trackArea.js";
+import { updateCaret, updateTrackLength } from "./trackArea.js";
 import { updateTracks } from "./tracks.js";
 import { addComponents } from "./videoDisplay.js";
 const addComponentsBtn = document.getElementById(
@@ -81,10 +81,40 @@ addComponentOptionVideoElem.addEventListener("click", () => {
 
 
 videoSeekToStartBtn.addEventListener("click", () => {
-	projectState.videoSeekPos = 0;
+	projectState.videoSeekPos = FrameTime.zero();
+	updateCaret();
+});
+videoSeekBackwardBtn.addEventListener("click", () => {
+	let delta = FrameTime.fromSecs(
+		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs() /
+			-32
+	);
+	if (-delta.toSecs() > projectState.videoSeekPos.toSecs()) {
+		projectState.videoSeekPos = FrameTime.zero();
+		return;
+	}
+	projectState.videoSeekPos = FrameTime.add(
+		projectState.videoSeekPos,
+		delta
+	);
+	updateCaret();
+});
+videoSeekForwardBtn.addEventListener("click", () => {
+	let delta = FrameTime.fromSecs(
+		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs() /
+		32
+	);
+	if (delta.toSecs() === 0) {
+		delta = FrameTime.fromFrame(1, projectState.fps);
+	}
+	projectState.videoSeekPos = FrameTime.add(
+		projectState.videoSeekPos,
+		delta
+	);
+	updateCaret();
 });
 videoSeekToEndBtn.addEventListener("click", () => {
 	updateTrackLength();
-	console.log(projectState.currentVideoLength)
 	projectState.videoSeekPos = projectState.currentVideoLength;
+	updateCaret();
 });

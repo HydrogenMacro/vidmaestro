@@ -170,7 +170,7 @@ header {
 #track-area-tracks {
 	position: relative;
 	grid-area: d;
-	background: lawngreen;
+	background: lightgray;
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
@@ -202,7 +202,7 @@ header {
 	display: flex;
 	align-items: center;
 	position: relative;
-	background: red;
+	background: rgb(69, 116, 83);
 }
 .track-area-track-component-selected {
 	border: solid yellow 1px;
@@ -213,6 +213,7 @@ header {
 	height: 100%;
 	background: salmon;
 	z-index: 10;
+	cursor: col-resize;
 }
 /* #endregion */
 #vertical-separator {
@@ -238,6 +239,7 @@ header {
 	height: 100svh;
 	position: fixed;
 	pointer-events: none;
+	z-index: 100;
 }
 #overlay > * {
 	pointer-events: all;
