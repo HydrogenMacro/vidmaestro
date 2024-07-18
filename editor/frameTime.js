@@ -32,9 +32,11 @@ export default class FrameTime {
 		const secs = String(this.secs % 60).padStart(2, "0");
 		const mins = String(Math.floor(this.secs / 60) % 60).padStart(2, "0");
 		const hrs = String(Math.floor(this.secs / (60 * 60))).padStart(2, "0");
-		return `${hrs !== "00" ? hrs + ":" : ""}${mins}:${secs} ${this.getFrameWithFPS(
+		return `${
+			hrs !== "00" ? hrs + ":" : ""
+		}${mins}:${secs} ${this.getFrameWithFPS(projectState.fps)}/${
 			projectState.fps
-		)}/${projectState.fps}`;
+		}`;
 	}
 	static fromString(frameTimeString) {
 		let regex =
@@ -88,6 +90,9 @@ export default class FrameTime {
 		} else {
 			return new FrameTime(t1.secs + t2.secs, combinedFrameLength, 120);
 		}
+	}
+	static subtract(minuendFT, subtrachendFT) {
+		return FrameTime.fromSecs(minuendFT.toSecs() - subtrachendFT.toSecs());
 	}
 	static multiply(t1, amount) {
 		let multipliedFrame = t1.frame * amount;
