@@ -97,6 +97,7 @@ function createAttributeInput(inputType, attribute, defaultValue, inputCb) {
 }
 function updateUI() {
 	updateTrackComponentDisplayElems();
+	updateVideoDebugDisplay();
 }
 /*
 "Display Name"(fieldName): Number[~100]@100~<abc, def, ghi>{boolean,key=value},

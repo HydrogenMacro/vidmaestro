@@ -13,7 +13,7 @@ export default class PolygonComponent extends Component {
 		super();
 		this._calcLocalBounds();
 	}
-	draw(relativeFrame) {
+	draw(relativeFrameTime) {
 		this.ctx.fillStyle = this.fill;
 		let [lastX, lastY] = this._points[this._points.length - 1];
 		this.ctx.moveTo(lastX, lastY);

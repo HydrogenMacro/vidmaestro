@@ -31,6 +31,9 @@ const videoSeekForwardBtn = document.getElementById(
 const videoSeekToEndBtn = document.getElementById(
 	"video-control-seek-to-end-btn"
 );
+const videoPlayButton = document.getElementById(
+	"video-control-play-btn"
+);
 
 const seekPosInput = document.querySelector("#video-control-seek-pos");
 seekPosInput.addEventListener("click", () => {

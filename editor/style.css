@@ -47,16 +47,17 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	position: relative;
 }
 
 #video-display {
 	background: white;
-	position: relative;
 }
 #video-debug-display {
 	position: absolute;
 }
 .video-component {
+	position: absolute;
 	width: 100%;
 	height: 100%;
 }

@@ -3,9 +3,9 @@ import { rotateBoundingBox } from "../utils.js";
 export default class TextComponent extends Component {
 	name = "Text"
 	text = "";
-	font = "100px serif";
+	font = "100px monospace";
 	fill = "green";
-	draw(relativeFrame) {
+	draw(relativeFrameTime) {
 		this.ctx.font = this.font;
 		this.ctx.fillStyle = this.fill;
 		const textHeight = this.ctx.measureText(this.text).fontBoundingBoxAscent;

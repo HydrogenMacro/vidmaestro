@@ -23,12 +23,16 @@ function updateVideoDisplayDimensions() {
 	const videoDisplayRatio = projectState.videoSize[0] / projectState.videoSize[1];
 	if (videoDisplayContainerRatio > videoDisplayRatio) {
 		// pillar box: ||
-		videoDisplay.style.width = videoDisplayContainer.clientHeight * videoDisplayRatio + "px";
-		videoDisplay.style.height = videoDisplayContainer.clientHeight + "px";
+		videoDisplay.style.width = videoDebugDisplay.style.width =
+			videoDisplayContainer.clientHeight * videoDisplayRatio + "px";
+		videoDisplay.style.height = videoDebugDisplay.style.height =
+			videoDisplayContainer.clientHeight + "px";
 	} else {
 		// letter box: =
-		videoDisplay.style.width = videoDisplayContainer.clientWidth + "px";
-		videoDisplay.style.height = videoDisplayContainer.clientWidth / videoDisplayRatio + "px";
+		videoDisplay.style.width = videoDebugDisplay.style.width =
+			videoDisplayContainer.clientWidth + "px";
+		videoDisplay.style.height = videoDebugDisplay.style.height =
+			videoDisplayContainer.clientWidth / videoDisplayRatio + "px";
 	}
 }
 updateVideoDisplayDimensions();
@@ -36,13 +40,13 @@ updateVideoDisplayDimensions();
 export function addComponents(...componentsToAdd) {
 	for (const component of componentsToAdd) {
 		createNewTrack().push(component);
+		videoDisplay.appendChild(component.canvas);
 	}
-
 	updateTracks();
 }
 
 const videoDebugDisplayCtx = videoDebugDisplay.getContext("2d");
-function updateVideoDebugDisplay() {
+export function updateVideoDebugDisplay() {
 	if (projectState.selectedVideoComponent) {
 		videoDebugDisplay.width = videoDisplay.clientWidth;
 		videoDebugDisplay.height = videoDisplay.clientHeight;
@@ -51,13 +55,19 @@ function updateVideoDebugDisplay() {
 		videoDebugDisplayCtx.strokeRect(x, y, w, h);
 	}
 }
-function drawComponents() {
+export function drawComponents() {
 	let sortedComponents = projectState.currentTracks.flat();
 	quicksort(sortedComponents, c => c.zIndex);
 	for (const component of sortedComponents) {
+		component.clearCanvas();
+		if (projectState.videoSeekPos.toSecs() < component.startTime.toSecs()) continue;
+		let relativeFrameTime = FrameTime.subtract(projectState.videoSeekPos, component.startTime);
+		if (relativeFrameTime.toSecs() > component.duration.toSecs()) continue;
 		component.update();
-		component.draw();
+		component.draw(relativeFrameTime);
 	}
+	updateVideoDebugDisplay();
+
 }
 const t1 = new TextComponent();
 t1.text = "AAAA"
@@ -65,10 +75,6 @@ t1.translation = [69, 42];
 const t2 = new TextComponent();
 t2.text = "BBBB"
 t2.translation = [69, 42];
-const o1 = new OverlayOperation();
-o1.args = [t1, t2];
-o1.startTime = FrameTime.fromSecs(2);
-o1.duration = FrameTime.fromSecs(3);
 /*
 setInterval(() => {
 	polyComponent.rotation += .1;
@@ -76,7 +82,5 @@ setInterval(() => {
 	updateVideoDebugDisplay()
 }, 100); 
 */
-addComponents(o1)
+addComponents(t1, t2)
 drawComponents();
-//projectState.selectedVideoComponent = polyComponent;
-updateVideoDebugDisplay()

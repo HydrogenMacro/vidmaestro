@@ -6,6 +6,7 @@ export default class OverlayOperation extends Operation {
 	draw(relativeFrame) {
 		this.ctx.globalAlpha = 1 / this.args.length;
 		for (const component of this.args) {
+			console.log(component)
 			component.draw();
 			this.ctx.drawImage(component.canvas, 0, 0);
 		}

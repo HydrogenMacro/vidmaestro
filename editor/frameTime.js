@@ -28,6 +28,9 @@ export default class FrameTime {
 	toSecs() {
 		return this.secs + this.frame / 120;
 	}
+	toFrames(fps) {
+		return this.frame * (fps / 120) + this.secs * fps;
+	}
 	toFormattedString() {
 		const secs = String(this.secs % 60).padStart(2, "0");
 		const mins = String(Math.floor(this.secs / 60) % 60).padStart(2, "0");
@@ -93,6 +96,11 @@ export default class FrameTime {
 	}
 	static subtract(minuendFT, subtrachendFT) {
 		return FrameTime.fromSecs(minuendFT.toSecs() - subtrachendFT.toSecs());
+	}
+	static clampedSubtract(minuendFT, subtrachendFT) {
+		return minuendFT.toSecs() > subtrachendFT.toSecs()
+			? FrameTime.subtract(minuendFT, subtrachendFT)
+			: FrameTime.zero();
 	}
 	static multiply(t1, amount) {
 		let multipliedFrame = t1.frame * amount;

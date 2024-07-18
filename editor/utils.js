@@ -66,22 +66,22 @@ export function parseHTML(html) {
 	return t.content.firstElementChild;
 }
 
-function _quicksort(array, lo, hi, mapFn) {
+function _quicksort(array, lo, hi, mapFn, id=0) {
 	if (lo >= hi || lo < 0) return;
-	let pivot = partition(array, lo, hi, mapFn);
-	quicksort(array, lo, pivot - 1, mapFn);
-	quicksort(array, pivot + 1, hi, mapFn);
-	function partition(array, lo, hi, mapFn) {
-		let i = lo;
-		for (let j = lo; j < hi; j++) {
-			if (mapFn(array[j]) <= mapFn(array[i])) {
-				[array[i], array[j]] = [array[j], array[i]];
-				i += 1;
-			}
+	let pivot = _partition(array, lo, hi, mapFn, id);
+	_quicksort(array, lo, pivot - 1, mapFn, ++id);
+	_quicksort(array, pivot + 1, hi, mapFn, ++id);
+}
+function _partition(array, lo, hi, mapFn, id) {
+	let i = lo;
+	for (let j = lo; j < hi; j++) {
+		if (mapFn(array[j]) <= mapFn(array[i])) {
+			[array[i], array[j]] = [array[j], array[i]];
+			i += 1;
 		}
-		[array[i], array[hi]] = [array[hi], array[i]];
-		return i;
 	}
+	[array[i], array[hi]] = [array[hi], array[i]];
+	return i;
 }
 
 export function quicksort(array, mapFn = a => a) {

@@ -5,6 +5,7 @@ import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
 import { updateTrackComponentDisplayElems, updateTracks } from "./tracks.js";
 import { updateAddComponentOptions } from "./videoControls.js";
+import { drawComponents } from "./videoDisplay.js";
 
 const trackArea = document.querySelector("#track-area");
 const trackAreaRuler = document.querySelector("#track-area-ruler");
@@ -229,10 +230,12 @@ export function updateCaret() {
 			projectState.rulerGradationMarkGap -
 		projectState.trackAreaScreenPos +
 		"px";
+	drawComponents();
 }
 updateCaret();
 
 let pointerX = 0;
+let pointerAutoScroll = 0;
 trackAreaCaret.addEventListener("pointerdown", (e) => {
 	caretBeingAdjusted = true;
 	pointerX = e.pageX;
@@ -240,40 +243,22 @@ trackAreaCaret.addEventListener("pointerdown", (e) => {
 document.body.addEventListener("pointermove", (e) => {
 	if (!caretBeingAdjusted) return;
 	const deltaX = e.pageX - pointerX;
-	const deltaXFrameTime = FrameTime.multiply(
-		projectState.trackScaleUnits[projectState.currentTrackScale],
-		deltaX / (projectState.rulerGradationMarkGap * 8)
-	);
-	if (-deltaXFrameTime.toSecs() > projectState.videoSeekPos.toSecs()) {
-		projectState.videoSeekPos = FrameTime.zero();
-	}
-	if (
-		!(
-			trackAreaCaret.offsetLeft >
-			trackAreaTracks.offsetWidth - caretScrollTolerance
-		)
-	) {
-		projectState.videoSeekPos = FrameTime.add(
-			projectState.videoSeekPos,
-			deltaXFrameTime
+	// always positive, must check deltaX for sense
+	const deltaXFT = FrameTime.multiply(
+			projectState.trackScaleUnits[projectState.currentTrackScale],
+			Math.abs(deltaX) / (projectState.rulerGradationMarkGap * 8)
 		);
-	} else {
-		// im too lazy to refactor this
-		if (deltaX > 0) {
-		} else if (
-			e.pageX >
-			trackAreaTracks.offsetLeft +
-				trackAreaTracks.offsetWidth -
-				caretScrollTolerance
-		) {
-		} else {
-			projectState.videoSeekPos = FrameTime.add(
-				projectState.videoSeekPos,
-				deltaXFrameTime
-			);
+	const relativePointerX = e.pageX - trackAreaTracks.offsetLeft;
+	const applyScrollDelta = deltaX > 0 ? FrameTime.add : FrameTime.clampedSubtract;
+	if (relativePointerX < caretScrollTolerance) {
+		if (projectState.trackAreaScreenPos < caretScrollTolerance) {
+			// normal
 		}
-	}
+	} else if (relativePointerX > trackAreaTracks.offsetWidth - caretScrollTolerance) {
 
+	} else {
+		projectState.videoSeekPos = applyScrollDelta(projectState.videoSeekPos, deltaXFT);
+	}
 	updateCaret();
 	pointerX = e.pageX;
 });
@@ -282,39 +267,8 @@ setInterval(() => {
 		projectState.trackScaleUnits[projectState.currentTrackScale],
 		caretScrollTolerance / (projectState.rulerGradationMarkGap * 8)
 	);
+	
 	if (!caretBeingAdjusted) return;
-	if (
-		pointerX >
-		trackAreaTracks.offsetWidth +
-			trackAreaTracks.offsetLeft -
-			caretScrollTolerance
-	) {
-		projectState.trackAreaScreenPos += caretScrollTolerance;
-		projectState.videoSeekPos = FrameTime.add(
-			projectState.videoSeekPos,
-			deltaFT
-		);
-		updateTrackComponentDisplayElems();
-		updateTrackRuler();
-		updateCaret();
-	}
-	if (pointerX < trackAreaTracks.offsetLeft + caretScrollTolerance) {
-		projectState.trackAreaScreenPos = Math.max(
-			projectState.trackAreaScreenPos - caretScrollTolerance,
-			0
-		);
-		if (projectState.trackAreaScreenPos === 0) {
-			return;
-		}
-		projectState.videoSeekPos = FrameTime.subtract(
-			projectState.videoSeekPos,
-			deltaFT
-		);
-		console.log(projectState.videoSeekPos);
-		updateTrackComponentDisplayElems();
-		updateTrackRuler();
-		updateCaret();
-	}
 }, 50);
 document.body.addEventListener("pointerup", () => {
 	caretBeingAdjusted = false;

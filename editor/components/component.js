@@ -39,13 +39,16 @@ export default class Component {
 		this.canvas.className = "video-component";
 		this.ctx = this.canvas.getContext("2d");
 	}
-	draw(relativeFrame) {}
+	draw(relativeFrameTime) {}
 	update() {
 		this.canvas.width = projectState.videoSize[0];
 		this.canvas.height = projectState.videoSize[1];
 		this.ctx.reset();
 		this.ctx.translate(this.translation[0], this.translation[1]);
 		this.ctx.rotate(this.rotation);
+	}
+	clearCanvas() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 	getBoundingBox() {
 		return [this.translation[0], this.translation[0], 0, 0];
