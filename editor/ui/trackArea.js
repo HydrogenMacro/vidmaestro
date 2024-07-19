@@ -23,7 +23,7 @@ const trackAreaScrollDownBtn = document.querySelector(
 const trackElems = document.getElementsByClassName("track-area-track");
 
 let caretBeingAdjusted = false;
-let caretScrollTolerance = 15;
+let caretScrollTolerance = 10;
 
 export function updateTrackLength() {
 	projectState.currentVideoLength = FrameTime.zero();
@@ -235,47 +235,90 @@ export function updateCaret() {
 updateCaret();
 
 let pointerX = 0;
-let pointerAutoScroll = 0;
+let caretAutoScroll = 0;
 trackAreaCaret.addEventListener("pointerdown", (e) => {
 	caretBeingAdjusted = true;
 	pointerX = e.pageX;
 });
 document.body.addEventListener("pointermove", (e) => {
 	if (!caretBeingAdjusted) return;
+	caretAutoScroll = 0;
 	const deltaX = e.pageX - pointerX;
 	// always positive, must check deltaX for sense
 	const deltaXFT = FrameTime.multiply(
-			projectState.trackScaleUnits[projectState.currentTrackScale],
-			Math.abs(deltaX) / (projectState.rulerGradationMarkGap * 8)
-		);
+		projectState.trackScaleUnits[projectState.currentTrackScale],
+		Math.abs(deltaX) / (projectState.rulerGradationMarkGap * 8)
+	);
 	const relativePointerX = e.pageX - trackAreaTracks.offsetLeft;
-	const applyScrollDelta = deltaX > 0 ? FrameTime.add : FrameTime.clampedSubtract;
+	const applyScrollDelta =
+		deltaX > 0 ? FrameTime.add : FrameTime.clampedSubtract;
 	if (relativePointerX < caretScrollTolerance) {
-		if (projectState.trackAreaScreenPos < caretScrollTolerance) {
+		// should scroll left
+		if (projectState.trackAreaScreenPos <= caretScrollTolerance) {
+			// if beginning is visible:
 			// normal
+			if (e.pageX >= trackAreaTracks.offsetLeft + caretScrollTolerance) {
+				projectState.videoSeekPos = applyScrollDelta(
+					projectState.videoSeekPos,
+					deltaXFT
+				);
+			}
+		} else {
+			caretAutoScroll = -caretScrollTolerance;
 		}
-	} else if (relativePointerX > trackAreaTracks.offsetWidth - caretScrollTolerance) {
-
+	} else if (
+		relativePointerX >
+		trackAreaTracks.offsetWidth - caretScrollTolerance
+	) {
+		// should scroll right
+		projectState.trackAreaScreenPos = 0;
+		
+		caretAutoScroll = caretScrollTolerance;
 	} else {
-		projectState.videoSeekPos = applyScrollDelta(projectState.videoSeekPos, deltaXFT);
+		if (
+			relativePointerX <=
+				trackAreaTracks.offsetWidth -
+				caretScrollTolerance
+		)
+			projectState.videoSeekPos = applyScrollDelta(
+				projectState.videoSeekPos,
+				deltaXFT
+			);
 	}
 	updateCaret();
 	pointerX = e.pageX;
 });
 setInterval(() => {
-	let deltaFT = FrameTime.multiply(
-		projectState.trackScaleUnits[projectState.currentTrackScale],
-		caretScrollTolerance / (projectState.rulerGradationMarkGap * 8)
-	);
-	
 	if (!caretBeingAdjusted) return;
+	if (caretAutoScroll === 0) return;
+
+	const applyScrollDelta =
+		caretAutoScroll > 0 ? FrameTime.add : FrameTime.clampedSubtract;
+	projectState.trackAreaScreenPos = Math.max(
+		projectState.trackAreaScreenPos + caretAutoScroll,
+		0
+	);
+	projectState.videoSeekPos = applyScrollDelta(
+		projectState.videoSeekPos,
+		FrameTime.multiply(
+			projectState.trackScaleUnits[projectState.currentTrackScale],
+			Math.abs(caretAutoScroll) / (projectState.rulerGradationMarkGap * 8)
+		)
+	);
+	console.log(projectState.videoSeekPos);
+	updateCaret();
+	updateTrackComponentDisplayElems();
+	updateTrackRuler();
 }, 50);
 document.body.addEventListener("pointerup", () => {
 	caretBeingAdjusted = false;
+	caretAutoScroll = 0;
 });
 window.addEventListener("blur", () => {
 	caretBeingAdjusted = false;
+	caretAutoScroll = 0;
 });
 document.body.addEventListener("pointercancel", () => {
 	caretBeingAdjusted = false;
+	caretAutoScroll = 0;
 });

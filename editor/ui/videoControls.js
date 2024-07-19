@@ -2,8 +2,8 @@ import VideoComponent from "../components/video.js";
 import FrameTime from "../frameTime.js";
 import projectState from "../projectState.js";
 import { updateCaret, updateTrackLength } from "./trackArea.js";
-import { updateTracks } from "./tracks.js";
-import { addComponents } from "./videoDisplay.js";
+import { updateTrackComponentDisplayElems, updateTracks } from "./tracks.js";
+import { addComponents, drawComponents } from "./videoDisplay.js";
 const addComponentsBtn = document.getElementById(
 	"video-control-add-component-btn"
 );
@@ -108,7 +108,7 @@ videoSeekForwardBtn.addEventListener("click", () => {
 		32
 	);
 	if (delta.toSecs() === 0) {
-		delta = FrameTime.fromFrame(1, projectState.fps);
+		delta = FrameTime.fromFrames(1, projectState.fps);
 	}
 	projectState.videoSeekPos = FrameTime.add(
 		projectState.videoSeekPos,
@@ -121,3 +121,22 @@ videoSeekToEndBtn.addEventListener("click", () => {
 	projectState.videoSeekPos = projectState.currentVideoLength;
 	updateCaret();
 });
+
+let playVideoIntervalHandle = null;
+videoPlayButton.addEventListener("click", () => {
+	if (playVideoIntervalHandle) {
+		// is already playing, so pause
+		clearInterval(playVideoIntervalHandle);
+		playVideoIntervalHandle = null;
+	} else {
+		playVideoIntervalHandle = setInterval(
+			() => {
+				projectState.videoSeekPos = FrameTime.add(projectState.videoSeekPos, FrameTime.fromFrames(1, projectState.fps));
+				updateCaret();
+				updateTrackComponentDisplayElems();
+				drawComponents();
+			},
+			1 / projectState.fps
+		)
+	}
+})

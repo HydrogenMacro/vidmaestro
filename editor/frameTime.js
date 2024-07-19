@@ -18,7 +18,7 @@ export default class FrameTime {
 		);
 	}
 
-	static fromFrame(frame, fps) {
+	static fromFrames(frame, fps) {
 		return new FrameTime(0, frame, fps);
 	}
 	getFrameWithFPS(fps) {
