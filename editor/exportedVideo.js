@@ -2,18 +2,38 @@ import FrameTime from "./frameTime.js";
 import projectState from "./projectState.js";
 import { updateTrackLength } from "./ui/trackArea.js";
 import { quicksort } from "./utils.js";
+// only dependency!
+import {
+	Muxer,
+	ArrayBufferTarget,
+} from "https://cdn.jsdelivr.net/npm/webm-muxer/+esm";
+
 const videoRenderCanvas = document.createElement("canvas");
 const videoRenderCtx = videoRenderCanvas.getContext("2d");
-document.body.insertAdjacentElement("afterbegin", videoRenderCanvas);
 async function generateVideo() {
-	const videoRenderMediaSource = new MediaSource();
+	let videoMuxer = new Muxer({
+		target: new ArrayBufferTarget(),
+		video: {
+			codec: "V_VP9",
+			width: projectState.videoSize[0],
+			height: projectState.videoSize[1],
+		},
+	});
 	updateTrackLength();
 	let sortedComponents = projectState.currentTracks.flat();
 	quicksort(sortedComponents, (c) => c.zIndex);
 	videoRenderCanvas.width = projectState.videoSize[0];
 	videoRenderCanvas.height = projectState.videoSize[1];
-	await new Promise(res => videoRenderMediaSource.onsourceopen = res);
-	const videoRenderSourceBuffer = videoRenderMediaSource.addSourceBuffer("video/webm")
+	const videoEncoder = new VideoEncoder({
+		output: (chunk, meta) => videoMuxer.addVideoChunk(chunk, meta),
+		error: (e) => console.error(e),
+	});
+	videoEncoder.configure({
+		codec: "vp09.00.10.08",
+		width: projectState.videoSize[0],
+		height: projectState.videoSize[1],
+		bitrate: 1e6,
+	});
 	for (
 		let frame = 0;
 		frame < projectState.currentVideoLength.toFrames(projectState.fps);
@@ -37,17 +57,30 @@ async function generateVideo() {
 			)
 				continue;
 			component.update();
-			console.log("drawing", component.text)
-			component.draw(FrameTime.fromFrames(frame - startTimeInFrames, projectState.fps));
-			videoRenderCtx.drawImage(
-				component.canvas,
-				0,
-				0
+			component.draw(
+				FrameTime.fromFrames(
+					frame - startTimeInFrames,
+					projectState.fps
+				)
 			);
-			
+			videoRenderCtx.drawImage(component.canvas, 0, 0);
 		}
-		
+		const videoFrame = new VideoFrame(videoRenderCanvas, {
+			timestamp: Math.round((frame / projectState.fps) * 1000000),
+		});
+		videoEncoder.encode(videoFrame);
+		videoFrame.close();
 	}
+	await videoEncoder.flush();
+	videoMuxer.finalize();
+	const reader = new FileReader();
+	reader.readAsDataURL(
+		new Blob([videoMuxer.target.buffer], { type: "video/webm" })
+	);
+	reader.onloadend = () => {
+		console.log(reader.result)
+	}
+	return;
 }
 const a = await generateVideo();
-console.log(a)
+console.log(a);
