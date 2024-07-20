@@ -10,7 +10,7 @@ import {
 
 const videoRenderCanvas = document.createElement("canvas");
 const videoRenderCtx = videoRenderCanvas.getContext("2d");
-async function generateVideo() {
+export async function generateVideo() {
 	let videoMuxer = new Muxer({
 		target: new ArrayBufferTarget(),
 		video: {
@@ -73,14 +73,8 @@ async function generateVideo() {
 	}
 	await videoEncoder.flush();
 	videoMuxer.finalize();
-	const reader = new FileReader();
-	reader.readAsDataURL(
+	return URL.createObjectURL(
 		new Blob([videoMuxer.target.buffer], { type: "video/webm" })
 	);
-	reader.onloadend = () => {
-		console.log(reader.result)
-	}
-	return;
 }
-const a = await generateVideo();
-console.log(a);
+
