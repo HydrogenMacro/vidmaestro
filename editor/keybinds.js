@@ -34,12 +34,14 @@ const Keybinds = {
 	},
 };
 document.addEventListener("keydown", (e) => {
+	if (e.target instanceof HTMLInputElement) return;
+	if (e.repeat) return;
 	let keyWithMods = transformKey(e.key, e.ctrlKey, e.altKey, e.shiftKey);
 	if (!Keybinds.registry.has(keyWithMods)) {
 		return;
 	}
 	Keybinds._keyMods.set(e.key, keyWithMods);
-	Keybinds.registry.get(keyWithMods)[projectState.focusArea][0]?.(e);
+	Keybinds.registry.get(keyWithMods)[projectState.focusArea]?.[0]?.(e);
 	Keybinds.registry.get(keyWithMods).all?.[0]?.(e);
 });
 document.addEventListener("keyup", (e) => {
@@ -47,7 +49,7 @@ document.addEventListener("keyup", (e) => {
 	if (!keyWithMods) {
 		return;
 	}
-	Keybinds.registry.get(keyWithMods)[projectState.focusArea][1]?.(e);
+	Keybinds.registry.get(keyWithMods)[projectState.focusArea]?.[1]?.(e);
 	Keybinds.registry.get(keyWithMods).all?.[1]?.(e);
 });
 function transformKey(key, ctrl, alt, shift) {

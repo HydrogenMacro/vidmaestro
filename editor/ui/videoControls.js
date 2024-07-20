@@ -1,5 +1,6 @@
 import VideoComponent from "../components/video.js";
 import FrameTime from "../frameTime.js";
+import Keybinds from "../keybinds.js";
 import projectState from "../projectState.js";
 import { updateCaret, updateTrackLength } from "./trackArea.js";
 import { updateTrackComponentDisplayElems, updateTracks } from "./tracks.js";
@@ -34,8 +35,8 @@ const videoSeekToEndBtn = document.getElementById(
 const videoPlayButton = document.getElementById(
 	"video-control-play-btn"
 );
-
 const seekPosInput = document.querySelector("#video-control-seek-pos");
+let playVideoIntervalHandle = null;
 seekPosInput.addEventListener("click", () => {
 	seekPosInput.select();
 })
@@ -122,21 +123,26 @@ videoSeekToEndBtn.addEventListener("click", () => {
 	updateCaret();
 });
 
-let playVideoIntervalHandle = null;
-videoPlayButton.addEventListener("click", () => {
+videoPlayButton.addEventListener("click", togglePlay);
+function togglePlay() {
 	if (playVideoIntervalHandle) {
 		// is already playing, so pause
+		videoPlayButton.textContent = "play_arrow";
 		clearInterval(playVideoIntervalHandle);
 		playVideoIntervalHandle = null;
 	} else {
-		playVideoIntervalHandle = setInterval(
-			() => {
-				projectState.videoSeekPos = FrameTime.add(projectState.videoSeekPos, FrameTime.fromFrames(1, projectState.fps));
-				updateCaret();
-				updateTrackComponentDisplayElems();
-				drawComponents();
-			},
-			1 / projectState.fps
-		)
+		videoPlayButton.textContent = "pause";
+		playVideoIntervalHandle = setInterval(() => {
+			projectState.videoSeekPos = FrameTime.add(
+				projectState.videoSeekPos,
+				FrameTime.fromFrames(1, projectState.fps)
+			);
+			updateCaret();
+			updateTrackComponentDisplayElems();
+			drawComponents();
+		}, 1 / projectState.fps);
 	}
+}
+Keybinds.register(" ", Keybinds.FocusArea.All, () => {
+	togglePlay()
 })

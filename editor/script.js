@@ -4,4 +4,3 @@ import "./ui/videoControls.js";
 import "./ui/trackArea.js";
 import "./ui/header.js";
 import "./widgets.js";
-import "./videoExportWorker.js";

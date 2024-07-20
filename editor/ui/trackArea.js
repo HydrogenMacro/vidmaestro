@@ -22,9 +22,6 @@ const trackAreaScrollDownBtn = document.querySelector(
 );
 const trackElems = document.getElementsByClassName("track-area-track");
 
-let caretBeingAdjusted = false;
-let caretScrollTolerance = 10;
-
 export function updateTrackLength() {
 	projectState.currentVideoLength = FrameTime.zero();
 	for (const track of projectState.currentTracks) {
@@ -67,15 +64,30 @@ trackAreaScrollUpBtn.addEventListener("pointerdown", () => {
 	trackAreaScrollDir = -15;
 	resetCurrentScrollInterval();
 });
-Keybinds.register("ArrowUp", Keybinds.FocusArea.Tracks, () => {
-	scrollTrackAreaVerticallyBy(-8);
-});
+let verticalArrowKeyScrollIntervalHandle = null;
+Keybinds.register(
+	"ArrowUp",
+	Keybinds.FocusArea.Tracks,
+	() => {
+		verticalArrowKeyScrollIntervalHandle = setInterval(() => {
+			scrollTrackAreaVerticallyBy(-16);
+		}, 50);
+	},
+	() => clearInterval(verticalArrowKeyScrollIntervalHandle)
+);
+Keybinds.register(
+	"ArrowDown",
+	Keybinds.FocusArea.Tracks,
+	() => {
+		verticalArrowKeyScrollIntervalHandle = setInterval(() => {
+			scrollTrackAreaVerticallyBy(16);
+		}, 50);
+	},
+	() => clearInterval(verticalArrowKeyScrollIntervalHandle)
+);
 trackAreaScrollDownBtn.addEventListener("pointerdown", () => {
 	trackAreaScrollDir = 30;
 	resetCurrentScrollInterval();
-});
-Keybinds.register("ArrowDown", Keybinds.FocusArea.Tracks, () => {
-	scrollTrackAreaVerticallyBy(8);
 });
 document.body.addEventListener("pointerup", () => {
 	trackAreaScrollDir = -15;
@@ -200,7 +212,6 @@ Keybinds.register("-", Keybinds.FocusArea.Tracks, () => {
 		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs();
 	updateTrackRuler();
 	updateTrackComponentDisplayElems();
-	caretBeingAdjusted = false;
 });
 Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
 	let prevTrackScale =
@@ -214,7 +225,6 @@ Keybinds.register("=", Keybinds.FocusArea.Tracks, () => {
 		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs();
 	updateTrackRuler();
 	updateTrackComponentDisplayElems();
-	caretBeingAdjusted = false;
 });
 
 export function updateCaret() {
@@ -233,92 +243,82 @@ export function updateCaret() {
 	drawComponents();
 }
 updateCaret();
+let caretBeingAdjusted = false;
+let caretScrollTolerance = 15;
 
-let pointerX = 0;
-let caretAutoScroll = 0;
+let caretAutoScrollDir = 0;
 trackAreaCaret.addEventListener("pointerdown", (e) => {
 	caretBeingAdjusted = true;
-	pointerX = e.pageX;
 });
 document.body.addEventListener("pointermove", (e) => {
 	if (!caretBeingAdjusted) return;
-	caretAutoScroll = 0;
-	const deltaX = e.pageX - pointerX;
-	// always positive, must check deltaX for sense
-	const deltaXFT = FrameTime.multiply(
-		projectState.trackScaleUnits[projectState.currentTrackScale],
-		Math.abs(deltaX) / (projectState.rulerGradationMarkGap * 8)
-	);
-	const relativePointerX = e.pageX - trackAreaTracks.offsetLeft;
-	const applyScrollDelta =
-		deltaX > 0 ? FrameTime.add : FrameTime.clampedSubtract;
-	if (relativePointerX < caretScrollTolerance) {
-		// should scroll left
-		if (projectState.trackAreaScreenPos <= caretScrollTolerance) {
-			// if beginning is visible:
-			// normal
-			if (e.pageX >= trackAreaTracks.offsetLeft + caretScrollTolerance) {
-				projectState.videoSeekPos = applyScrollDelta(
-					projectState.videoSeekPos,
-					deltaXFT
-				);
+	let caretRelativePos = e.pageX - trackAreaTracks.offsetLeft;
+	if (caretRelativePos < caretScrollTolerance) {
+		if (projectState.trackAreaScreenPos < caretScrollTolerance) {
+			// clamp to 0 instead
+			if (caretRelativePos < 0) {
+				trackAreaCaret.style.left = "0px";
+			} else {
+				trackAreaCaret.style.left = caretRelativePos + "px";
 			}
+			caretAutoScrollDir = 0;
 		} else {
-			caretAutoScroll = -caretScrollTolerance;
+			trackAreaCaret.style.left = caretScrollTolerance + "px";
+			caretAutoScrollDir = -1;
 		}
 	} else if (
-		relativePointerX >
+		caretRelativePos >
 		trackAreaTracks.offsetWidth - caretScrollTolerance
 	) {
-		// should scroll right
-		projectState.trackAreaScreenPos = 0;
-		
-		caretAutoScroll = caretScrollTolerance;
+		trackAreaCaret.style.left =
+			trackAreaTracks.offsetWidth - caretScrollTolerance + "px";
+		caretAutoScrollDir = 1;
 	} else {
-		if (
-			relativePointerX <=
-				trackAreaTracks.offsetWidth -
-				caretScrollTolerance
-		)
-			projectState.videoSeekPos = applyScrollDelta(
-				projectState.videoSeekPos,
-				deltaXFT
-			);
+		trackAreaCaret.style.left = caretRelativePos + "px";
+		caretAutoScrollDir = 0;
 	}
+
+	let px = trackAreaCaret.offsetLeft + projectState.trackAreaScreenPos;
+	let oneSecInPx =
+		(projectState.rulerGradationMarkGap * 8) /
+		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs();
+	projectState.videoSeekPos = FrameTime.fromSecs(px / oneSecInPx);
+	updateTrackRuler();
+	drawComponents();
 	updateCaret();
-	pointerX = e.pageX;
 });
 setInterval(() => {
-	if (!caretBeingAdjusted) return;
-	if (caretAutoScroll === 0) return;
-
-	const applyScrollDelta =
-		caretAutoScroll > 0 ? FrameTime.add : FrameTime.clampedSubtract;
+	if (caretAutoScrollDir === 0) return;
+	let oneSecInPx =
+		(projectState.rulerGradationMarkGap * 8) /
+		projectState.trackScaleUnits[projectState.currentTrackScale].toSecs();
+	let caretScrollToleranceFT = FrameTime.fromSecs(
+		caretScrollTolerance / oneSecInPx
+	);
+	const applyDelta =
+		caretAutoScrollDir === 1 ? FrameTime.add : FrameTime.clampedSubtract;
+	projectState.videoSeekPos = applyDelta(
+		projectState.videoSeekPos,
+		caretScrollToleranceFT
+	);
 	projectState.trackAreaScreenPos = Math.max(
-		projectState.trackAreaScreenPos + caretAutoScroll,
+		projectState.trackAreaScreenPos +
+			caretAutoScrollDir * caretScrollTolerance,
 		0
 	);
-	projectState.videoSeekPos = applyScrollDelta(
-		projectState.videoSeekPos,
-		FrameTime.multiply(
-			projectState.trackScaleUnits[projectState.currentTrackScale],
-			Math.abs(caretAutoScroll) / (projectState.rulerGradationMarkGap * 8)
-		)
-	);
-	console.log(projectState.videoSeekPos);
 	updateCaret();
 	updateTrackComponentDisplayElems();
 	updateTrackRuler();
 }, 50);
 document.body.addEventListener("pointerup", () => {
 	caretBeingAdjusted = false;
-	caretAutoScroll = 0;
+	caretAutoScrollDir = 0;
 });
 window.addEventListener("blur", () => {
 	caretBeingAdjusted = false;
-	caretAutoScroll = 0;
+	caretAutoScrollDir = 0;
 });
 document.body.addEventListener("pointercancel", () => {
 	caretBeingAdjusted = false;
-	caretAutoScroll = 0;
+	caretAutoScrollDir = 0;
 });
