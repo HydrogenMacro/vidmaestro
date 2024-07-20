@@ -30,10 +30,10 @@
 
 <body>
 	<header>
-		<div class="header-btn btn" id="header-file-btn">File</div>
-		<div class="header-btn btn" id="header-edit-btn">Edit</div>
-		<div class="header-btn btn" id="header-view-btn">View</div>
-		<div class="header-btn btn" id="header-options-btn">Options</div>
+		<div class="header-btn btn" id="header-file-btn" data-dropdown="file">File</div>
+		<div class="header-btn btn" id="header-edit-btn" data-dropdown="edit">Edit</div>
+		<div class="header-btn btn" id="header-view-btn" data-dropdown="view">View</div>
+		<div class="header-btn btn" id="header-options-btn" data-dropdown="options">Options</div>
 	</header>
 	<div id="workspace">
 		<div id="workspace-left">
@@ -108,7 +108,22 @@
 			<div class="track-area-add-options-entry btn" id="video-control-add-component-btn-option-text">Text</div>
 			<div class="track-area-add-options-entry btn" id="video-control-add-component-btn-option-shape">Shape</div>
 		</div>
-		<div id="header-file-dropdown">
+		<div id="header-file-dropdown" class="header-dropdown">
+			<div class="header-dropdown-option btn" data-action="new">New</div>
+			<div class="header-dropdown-option btn" data-action="save">Save</div>
+			<div class="header-dropdown-option btn" data-action="export">Export</div>
+		</div>
+		<div id="header-edit-dropdown" class="header-dropdown">
+			<div class="header-dropdown-option btn">New</div>
+			<div class="header-dropdown-option btn">Save</div>
+			<div class="header-dropdown-option btn">Export</div>
+		</div>
+		<div id="header-view-dropdown" class="header-dropdown">
+			<div class="header-dropdown-option btn">New</div>
+			<div class="header-dropdown-option btn">Save</div>
+			<div class="header-dropdown-option btn">Export</div>
+		</div>
+		<div id="header-options-dropdown" class="header-dropdown">
 			<div class="header-dropdown-option btn">New</div>
 			<div class="header-dropdown-option btn">Save</div>
 			<div class="header-dropdown-option btn">Export</div>

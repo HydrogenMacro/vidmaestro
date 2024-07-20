@@ -1,4 +1,5 @@
 {
 	"codetogether.virtualCursorJoin": "ownVirtualCursor",
-	"codetogether.virtualCursorRemember": true
+	"codetogether.virtualCursorRemember": true,
+	"livePreview.defaultPreviewPath": "/misc/attribute-generator/index.html"
 }

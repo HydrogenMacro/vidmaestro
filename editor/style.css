@@ -279,10 +279,9 @@ header {
 	background: azure;
 	padding: .5rem;
 }
-#header-file-dropdown {
+.header-dropdown {
 	position: fixed;
 	top: 2rem;
-	left: 1rem;
 	width: 20rem;
 	max-height: 70%;
 	background: cadetblue;
@@ -290,6 +289,7 @@ header {
 	display: flex;
 	flex-direction: column;
 }
+
 .header-dropdown-option {
 	background: inherit;
 	padding: .5rem;

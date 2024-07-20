@@ -2,6 +2,7 @@ import Component from "../components/component.js";
 import FrameTime from "../frameTime.js";
 import { removeAllChildren } from "../utils.js";
 import { updateTrackComponentDisplayElems } from "./tracks.js";
+import { updateVideoDebugDisplay } from "./videoDisplay.js";
 
 const propertiesPanel = document.getElementById("properties-panel");
 let currentDisplayedComponent = null;

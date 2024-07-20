@@ -10,7 +10,7 @@ import {
 
 const videoRenderCanvas = document.createElement("canvas");
 const videoRenderCtx = videoRenderCanvas.getContext("2d");
-export async function generateVideo() {
+async function generateVideo() {
 	let videoMuxer = new Muxer({
 		target: new ArrayBufferTarget(),
 		video: {
@@ -78,3 +78,6 @@ export async function generateVideo() {
 	);
 }
 
+onmessage = async () => {
+	postMessage(await generateVideo());
+}
