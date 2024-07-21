@@ -322,3 +322,9 @@ document.body.addEventListener("pointercancel", () => {
 	caretBeingAdjusted = false;
 	caretAutoScrollDir = 0;
 });
+
+Keybinds.register("Delete", Keybinds.FocusArea.Tracks, () => {
+	if (projectState.selectedVideoComponent) {
+		projectState.selectedVideoComponent
+	}
+})

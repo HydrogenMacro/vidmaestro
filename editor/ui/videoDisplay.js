@@ -68,20 +68,3 @@ export function drawComponents() {
 	}
 	updateVideoDebugDisplay();
 }
-const t1 = new TextComponent();
-t1.text = "AAAA"
-t1.translation = [69, 42];
-const t2 = new TextComponent();
-t2.text = "BBBB"
-t2.translation = [69, 42];
-t2.startTime = FrameTime.fromSecs(1);
-t2.duration = FrameTime.fromSecs(2);
-/*
-setInterval(() => {
-	polyComponent.rotation += .1;
-	polyComponent.display();
-	updateVideoDebugDisplay()
-}, 100); 
-*/
-addComponents(t1, t2)
-drawComponents();

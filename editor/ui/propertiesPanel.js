@@ -2,7 +2,7 @@ import Component from "../components/component.js";
 import FrameTime from "../frameTime.js";
 import { removeAllChildren } from "../utils.js";
 import { updateTrackComponentDisplayElems } from "./tracks.js";
-import { updateVideoDebugDisplay } from "./videoDisplay.js";
+import { drawComponents, updateVideoDebugDisplay } from "./videoDisplay.js";
 
 const propertiesPanel = document.getElementById("properties-panel");
 let currentDisplayedComponent = null;
@@ -24,7 +24,6 @@ export function showPropertiesOfComponent(component) {
 				case "Number":
 					createAttributeInput(
 						"text",
-						attribute,
 						component[attribute.field] ?? 0,
 						(e) => {
 							component[attribute.field] =
@@ -35,7 +34,6 @@ export function showPropertiesOfComponent(component) {
 				case "String":
 					createAttributeInput(
 						"text",
-						attribute,
 						component[attribute.field] ?? "",
 						(e) => {
 							component[attribute.field] = e.target.value;
@@ -45,7 +43,6 @@ export function showPropertiesOfComponent(component) {
 				case "Bool":
 					createAttributeInput(
 						"checkbox",
-						attribute,
 						component[attribute.field] ?? false,
 						(e) => {
 							component[attribute.field] = e.target.value;
@@ -55,11 +52,13 @@ export function showPropertiesOfComponent(component) {
 				case "Component":
 					break;
 				case "Color":
+					createAttributeInput("color", "#000000", (e) => {
+						component[attribute.field] = e.target.value;
+					});
 					break;
 				case "FrameTime":
 					createAttributeInput(
 						"text",
-						attribute,
 						component[attribute.field].toFormattedString() ??
 							FrameTime.zero().toFormattedString(),
 						(e) => {
@@ -81,14 +80,12 @@ export function showPropertiesOfComponent(component) {
 function createAttributeLabel(attributeAlias) {
 	propertiesPanel.insertAdjacentHTML("beforeend", `<p>${attributeAlias}</p>`);
 }
-function createAttributeInput(inputType, attribute, defaultValue, inputCb) {
+function createAttributeInput(inputType, defaultValue, inputCb) {
 	const attributeInput = document.createElement("input");
 	attributeInput.type = inputType;
-	if (attributeInput.type === "text") {
-		attributeInput.addEventListener("click", () => {
-			attributeInput.select();
-		});
-	}
+	attributeInput.addEventListener("click", () => {
+		attributeInput.select();
+	});
 	attributeInput.value = defaultValue;
 	attributeInput.addEventListener("change", (e) => {
 		inputCb(e);
@@ -97,6 +94,7 @@ function createAttributeInput(inputType, attribute, defaultValue, inputCb) {
 	propertiesPanel.insertAdjacentElement("beforeend", attributeInput);
 }
 function updateUI() {
+	drawComponents();
 	updateTrackComponentDisplayElems();
 	updateVideoDebugDisplay();
 }

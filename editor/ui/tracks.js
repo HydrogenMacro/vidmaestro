@@ -3,6 +3,7 @@ import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
 import { removeAllChildren, parseHTML } from "../utils.js";
 import { resetPropertiesPanel, showPropertiesOfComponent } from "./propertiesPanel.js";
+import { drawComponents } from "./videoDisplay.js";
 
 const trackAreaTracks = document.querySelector("#track-area-tracks");
 const trackElems = document.getElementsByClassName("track-area-track");
@@ -24,6 +25,7 @@ export function updateTracks() {
 		}
 	}
 	updateTrackComponentDisplayElems();
+	drawComponents();
 }
 export function updateTrackComponentDisplayElems() {
 	for (const track of projectState.currentTracks) {

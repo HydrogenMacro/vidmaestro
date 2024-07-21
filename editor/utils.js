@@ -1,5 +1,3 @@
-import projectState from "./projectState.js";
-
 export function rotateBoundingBox(boundingBox, rot) {
 	if (rot === 0) return boundingBox;
 	let [x, y, w, h] = boundingBox;

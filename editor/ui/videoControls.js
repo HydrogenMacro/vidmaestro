@@ -1,3 +1,5 @@
+import PolygonComponent from "../components/geometry.js";
+import TextComponent from "../components/text.js";
 import VideoComponent from "../components/video.js";
 import FrameTime from "../frameTime.js";
 import Keybinds from "../keybinds.js";
@@ -78,11 +80,19 @@ document.documentElement.addEventListener("click", e => {
 	addComponentOptionsVisible = false;
 	updateAddComponentOptions();
 })
+
 addComponentOptionVideoElem.addEventListener("click", () => {
 	const a = new VideoComponent();
 	addComponents(a);
 });
-
+addComponentOptionTextElem.addEventListener("click", () => {
+	const a = new TextComponent();
+	addComponents(a);
+});
+addComponentOptionShapeElem.addEventListener("click", () => {
+	const a = new PolygonComponent();
+	addComponents(a);
+});
 
 videoSeekToStartBtn.addEventListener("click", () => {
 	projectState.videoSeekPos = FrameTime.zero();

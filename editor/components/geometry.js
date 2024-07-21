@@ -5,8 +5,8 @@ export default class PolygonComponent extends Component {
 	fill = "purple";
 	_points = [
 		[0, 0],
-		[30, 30],
-		[-30, 30],
+		[0, 500],
+		[500, 500],
 	];
 	_localBounds = [];
 	constructor() {

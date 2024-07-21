@@ -3,10 +3,12 @@ import projectState from "./projectState.js";
 export default class FrameTime {
 	constructor(secs, frame, fps) {
 		assertFPS(fps);
-		if (frames > fps)
+		if (frame > fps) {
+			console.log(frame, fps)
 			throw new Error(
 				"FrameTime: Frame must be less than or equal to FPS"
 			);
+		}
 		this.secs = secs;
 		this.frame = frame / (fps / 120);
 	}
@@ -18,8 +20,8 @@ export default class FrameTime {
 		);
 	}
 
-	static fromFrames(frame, fps) {
-		return new FrameTime(0, frame, fps);
+	static fromFrames(frames, fps) {
+		return new FrameTime(Math.floor(frames / fps), frames % fps, fps);
 	}
 	getFrameWithFPS(fps) {
 		assertFPS(fps);

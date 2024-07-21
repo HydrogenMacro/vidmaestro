@@ -1,5 +1,4 @@
 import FrameTime from "../frameTime.js";
-import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
 export default class Component {
 	canvas = document.createElement("canvas");
