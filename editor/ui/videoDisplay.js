@@ -53,6 +53,7 @@ export function deleteComponent(component) {
 			projectState.selectedVideoComponent = null;
 			updateVideoDebugDisplay();
 		}
+		component.canvas.remove();
 		updateTrackComponentDisplayElems();
 		updateTracks();
 		drawComponents();

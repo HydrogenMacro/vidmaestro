@@ -5,7 +5,7 @@ import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
 import { resetPropertiesPanel } from "./propertiesPanel.js";
 import { updateTrackComponentDisplayElems, updateTracks } from "./tracks.js";
-import { updateAddComponentOptions } from "./videoControls.js";
+import { updateAddComponentOptions, updateSeekPosInput } from "./videoControls.js";
 import { deleteComponent, drawComponents } from "./videoDisplay.js";
 
 const trackArea = document.querySelector("#track-area");
@@ -258,6 +258,7 @@ export function updateCaret() {
 			projectState.rulerGradationMarkGap -
 		projectState.trackAreaScreenPos +
 		"px";
+	updateSeekPosInput();
 	drawComponents();
 }
 updateCaret();

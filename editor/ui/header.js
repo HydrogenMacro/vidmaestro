@@ -3,6 +3,7 @@ import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
 import { generateVideo } from "../videoExport.js";
 import { toggleProjectSettingsModal } from "./projectSettings.js";
+import { resetPropertiesPanel } from "./propertiesPanel.js";
 import {
 	createNewTrack,
 	removeTrack,

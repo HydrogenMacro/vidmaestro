@@ -95,6 +95,24 @@ export function showPropertiesOfComponent(component) {
 						}
 					);
 					break;
+				case "Video":
+					createAttributeInput(
+						"file",
+						null,
+						(e) => {
+							let file = e.target.files[0];
+							if (!file.type.startsWith("video/")) return;
+							const reader = new FileReader();
+							reader.onload = () => {
+								if (!(component[attribute.field] instanceof HTMLVideoElement)) {
+									component[attribute.field] = document.createElement("video");
+								}
+								component[attribute.field].src = reader.result;
+							};
+							reader.readAsDataURL(file);
+						}
+					);
+					break;
 			}
 		}
 	}

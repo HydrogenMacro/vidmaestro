@@ -50,7 +50,7 @@ seekPosInput.addEventListener("change", () => {
 	updateSeekPosInput();
 });
 
-function updateSeekPosInput() {
+export function updateSeekPosInput() {
 	seekPosInput.value = projectState.videoSeekPos.toFormattedString();
 	seekPosInput.style.fontSize = Math.max(1 / Math.sqrt(seekPosInput.value.length * .3), .5) + "rem"
 }
