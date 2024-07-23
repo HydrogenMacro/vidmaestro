@@ -1,9 +1,10 @@
 import FrameTime from "../frameTime.js";
 import projectState from "../projectState.js";
+import { degToRad } from "../utils.js";
 export default class Component {
 	canvas = document.createElement("canvas");
 	translation = [0, 0];
-	rotation = 0; // radians
+	rotation = 0; // degrees
 	scale = [1, 1];
 	zIndex = 0;
 	startTime = FrameTime.zero();
@@ -32,7 +33,6 @@ export default class Component {
 			name: currentComponentDescendant.name,
 			attributes: currentComponentDescendant.attributes,
 		});
-		console.log(componentClass.attributesTree)
 	}
 	constructor() {
 		this.canvas.className = "video-component";
@@ -44,7 +44,7 @@ export default class Component {
 		this.canvas.height = projectState.videoSize[1];
 		this.ctx.reset();
 		this.ctx.translate(this.translation[0], this.translation[1]);
-		this.ctx.rotate(this.rotation);
+		this.ctx.rotate(degToRad(this.rotation));
 	}
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

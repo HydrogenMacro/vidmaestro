@@ -6,9 +6,9 @@ import { resetPropertiesPanel, showPropertiesOfComponent } from "./propertiesPan
 import { drawComponents } from "./videoDisplay.js";
 
 const trackAreaTracks = document.querySelector("#track-area-tracks");
-const trackElems = document.getElementsByClassName("track-area-track");
 
 export function updateTracks() {
+	const trackElems = document.getElementsByClassName("track-area-track");
 	for (let i = 0; i < projectState.currentTracks.length; i++) {
 		const trackComponents = projectState.currentTracks[i];
 		let trackElem = trackElems.item(i);
@@ -71,7 +71,7 @@ function setupComponentDisplayElement(component) {
 		}
 	});
 }
-function selectComponent(component) {
+export function selectComponent(component) {
 	if (projectState.selectedVideoComponent) {
 		projectState.selectedVideoComponent.trackDisplayElement.classList.remove(
 			"track-area-track-component-selected"
@@ -84,7 +84,7 @@ function selectComponent(component) {
 	);
 	showPropertiesOfComponent(component);
 }
-function unselectComponent() {
+export function unselectComponent() {
 	projectState.selectedVideoComponent.trackDisplayElement.classList.remove(
 		"track-area-track-component-selected"
 	);

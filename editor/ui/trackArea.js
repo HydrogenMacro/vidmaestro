@@ -3,9 +3,10 @@ import Keybinds from "../keybinds.js";
 import { resizeCallbacks } from "../panelSizes.js";
 import projectState from "../projectState.js";
 import { parseHTML, clamp, lerp, easeOut } from "../utils.js";
+import { resetPropertiesPanel } from "./propertiesPanel.js";
 import { updateTrackComponentDisplayElems, updateTracks } from "./tracks.js";
 import { updateAddComponentOptions } from "./videoControls.js";
-import { drawComponents } from "./videoDisplay.js";
+import { deleteComponent, drawComponents } from "./videoDisplay.js";
 
 const trackArea = document.querySelector("#track-area");
 const trackAreaRuler = document.querySelector("#track-area-ruler");
@@ -55,6 +56,23 @@ export function createNewTrack() {
 	trackAreaTrackLabels.scrollTop = trackAreaTrackLabels.scrollHeight;
 	trackAreaTracks.scrollTop = trackAreaTracks.scrollHeight;
 	return projectState.currentTracks[projectState.currentTracks.length - 1];
+}
+createNewTrack();
+export function removeTrack(trackIndex) {
+	projectState.currentTracks.splice(trackIndex, 1);
+	document
+		.getElementsByClassName("track-area-track-label")
+		[trackIndex].remove();
+	document.getElementsByClassName("track-area-track")[trackIndex].remove();
+	trackAreaTrackLabels.scrollTop = Math.min(
+		trackAreaTrackLabels.scrollTop,
+		trackAreaTrackLabels.scrollHeight
+	);
+	trackAreaTracks.scrollTop = Math.min(
+		trackAreaTracks.scrollHeight,
+		trackAreaTracks.scrollTop
+	);
+	updateTracks();
 }
 trackAreaAddBtn.addEventListener("click", createNewTrack);
 let trackAreaScrollDir = 0;
@@ -119,7 +137,7 @@ function resizeTrackRuler() {
 }
 resizeCallbacks.push(resizeTrackRuler);
 resizeTrackRuler();
-function updateTrackRuler() {
+export function updateTrackRuler() {
 	let rulerWidth = trackAreaRulerCtx.canvas.clientWidth;
 	let rulerHeight = trackAreaRulerCtx.canvas.clientHeight;
 	trackAreaRulerCtx.clearRect(0, 0, rulerWidth, rulerHeight);
@@ -323,8 +341,12 @@ document.body.addEventListener("pointercancel", () => {
 	caretAutoScrollDir = 0;
 });
 
-Keybinds.register("Delete", Keybinds.FocusArea.Tracks, () => {
+Keybinds.register("Backspace", Keybinds.FocusArea.Tracks, () => {
 	if (projectState.selectedVideoComponent) {
-		projectState.selectedVideoComponent
+		deleteComponent(projectState.selectedVideoComponent);
+		updateTracks();
+		updateTrackComponentDisplayElems();
+		drawComponents();
+		resetPropertiesPanel();
 	}
-})
+});

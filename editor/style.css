@@ -163,6 +163,8 @@ header {
 	flex-direction: column;
 	gap: 3px;
 	overflow: hidden;
+	position: relative;
+	z-index: 10;
 }
 .track-area-track-label {
 	width: 100%;
@@ -198,11 +200,15 @@ header {
 	grid-area: e;
 	background: lavenderblush;
 	text-align: center;
+	position: relative;
+	z-index: 10;
 }
 #track-area-add-track-btn {
 	grid-area: f;
 	background: violet;
 	text-align: center;
+	position: relative;
+	z-index: 10;
 }
 .track-area-track-component {
 	flex: 0 0 auto;
@@ -217,12 +223,13 @@ header {
 	border: solid yellow 1px;
 }
 #track-area-caret {
-	position: absolute;
+	transform: translateX(2rem);
+	position: fixed;
 	display: block;
 	width: 2px;
 	height: 100%;
 	background: salmon;
-	z-index: 10;
+	z-index: 5;
 	cursor: col-resize;
 }
 /* #endregion */
@@ -231,6 +238,8 @@ header {
 	height: 100%;
 	background: grey;
 	cursor: col-resize;
+	position: relative;
+	z-index: 10;
 }
 /* #region workspace right*/
 #properties-panel {
@@ -240,6 +249,8 @@ header {
 	display: flex;
 	flex-direction: column;
 	overflow-x: hidden;
+	position: relative;
+	z-index: 10;
 }
 /* #endregion */
 
@@ -292,5 +303,20 @@ header {
 .header-dropdown-option {
 	background: inherit;
 	padding: .5rem;
+}
+
+
+#project-settings-modal {
+	position: fixed;
+	width: min(80%, 30rem);
+	height: min(80%, 24rem);
+	background: green;
+	transform: translate(-50%, -50%);
+	left: 50svw;
+	top: 50svh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 1rem;
 }
 /* #endregion */

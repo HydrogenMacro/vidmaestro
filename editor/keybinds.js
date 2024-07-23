@@ -40,6 +40,7 @@ document.addEventListener("keydown", (e) => {
 	if (!Keybinds.registry.has(keyWithMods)) {
 		return;
 	}
+	e.preventDefault();
 	Keybinds._keyMods.set(e.key, keyWithMods);
 	Keybinds.registry.get(keyWithMods)[projectState.focusArea]?.[0]?.(e);
 	Keybinds.registry.get(keyWithMods).all?.[0]?.(e);

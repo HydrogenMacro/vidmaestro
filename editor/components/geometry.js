@@ -9,6 +9,7 @@ export default class PolygonComponent extends Component {
 		[500, 500],
 	];
 	_localBounds = [];
+	static attributes = componentAttributes()
 	constructor() {
 		super();
 		this._calcLocalBounds();
@@ -47,3 +48,17 @@ export default class PolygonComponent extends Component {
 	}
 }
 Component.registerComponentAttributes(PolygonComponent);
+function componentAttributes() {
+	return [
+		{
+			field: "fill",
+			alias: "Fill Color",
+			baseType: "Color",
+			isArray: false,
+			arrayLengthRange: [-Infinity, Infinity],
+			valueRange: [-Infinity, Infinity],
+			labels: [],
+			tags: {},
+		},
+	];
+}

@@ -99,3 +99,7 @@ export function removeAllChildren(elem) {
 		elem.removeChild(elem.lastElementChild);
 	}
 }
+export function degToRad(deg) {
+	// 2pi*deg/360=rad
+	return Math.PI * deg / 180;
+}

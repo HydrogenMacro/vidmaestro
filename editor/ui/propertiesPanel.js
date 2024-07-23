@@ -22,14 +22,36 @@ export function showPropertiesOfComponent(component) {
 			createAttributeLabel(attribute.alias);
 			switch (attribute.baseType) {
 				case "Number":
-					createAttributeInput(
-						"text",
-						component[attribute.field] ?? 0,
-						(e) => {
-							component[attribute.field] =
-								+e.target.value ?? component[attribute.field];
-						}
-					);
+					if (attribute.isArray) {
+						createAttributeInput(
+							"number",
+							component[attribute.field][0] ?? 0,
+							(e) => {
+								component[attribute.field][0] =
+									+e.target.value ??
+									component[attribute.field][0];
+							}
+						);
+						createAttributeInput(
+							"number",
+							component[attribute.field][1] ?? 0,
+							(e) => {
+								component[attribute.field][1] =
+									+e.target.value ??
+									component[attribute.field][1];
+							}
+						);
+					} else {
+						createAttributeInput(
+							"number",
+							component[attribute.field] ?? 0,
+							(e) => {
+								component[attribute.field] =
+									+e.target.value ??
+									component[attribute.field];
+							}
+						);
+					}
 					break;
 				case "String":
 					createAttributeInput(

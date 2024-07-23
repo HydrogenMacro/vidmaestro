@@ -72,26 +72,9 @@
 
 					</canvas>
 					<div id="track-area-track-labels">
-						<div class="track-area-track-label">1</div>
-						<div class="track-area-track-label">2</div>
-						<div class="track-area-track-label">3</div>
 					</div>
 					<div id="track-area-tracks">
 						<div id="track-area-caret"></div>
-						<div class="track-area-track">
-							<!-- 
-							<div class="track-area-track-component">
-								<div class="track-area-track-component-left-handle">
-								</div>
-								<div class="track-area-track-component-body-handle">
-								</div>
-								<div class="track-area-track-component-right-handle">
-								</div>
-							</div> 
-							-->
-						</div>
-						<div class="track-area-track"></div>
-						<div class="track-area-track"></div>
 					</div>
 					<div id="track-area-scroll-down-btn" class="material-symbols-outlined btn">keyboard_arrow_down</div>
 					<div id="track-area-add-track-btn" class="material-symbols-outlined btn">Add</div>
@@ -110,23 +93,27 @@
 		</div>
 		<div id="header-file-dropdown" class="header-dropdown">
 			<div class="header-dropdown-option btn" data-action="new">New</div>
-			<div class="header-dropdown-option btn" data-action="save">Save</div>
 			<div class="header-dropdown-option btn" data-action="export">Export</div>
 		</div>
 		<div id="header-edit-dropdown" class="header-dropdown">
-			<div class="header-dropdown-option btn">New</div>
-			<div class="header-dropdown-option btn">Save</div>
-			<div class="header-dropdown-option btn">Export</div>
+			<div class="header-dropdown-option btn" data-action="delete">Delete</div>
 		</div>
 		<div id="header-view-dropdown" class="header-dropdown">
-			<div class="header-dropdown-option btn">New</div>
-			<div class="header-dropdown-option btn">Save</div>
-			<div class="header-dropdown-option btn">Export</div>
+			<div class="header-dropdown-option btn" data-action="scroll-to-start">Scroll To Start</div>
+			<div class="header-dropdown-option btn" data-action="scroll-to-cursor">Scroll To Cursor</div>
+			<div class="header-dropdown-option btn" data-action="scroll-to-end">Scroll To End</div>
 		</div>
 		<div id="header-options-dropdown" class="header-dropdown">
-			<div class="header-dropdown-option btn">New</div>
-			<div class="header-dropdown-option btn">Save</div>
-			<div class="header-dropdown-option btn">Export</div>
+			<div class="header-dropdown-option btn" data-action="project-settings">Project Settings</div>
+		</div>
+		<div id="project-settings-modal">
+			<div>FPS:</div>
+			<input id="project-settings-modal-fps" type="number">
+			<div>Video Width:</div>
+			<input id="project-settings-modal-video-width" type="number">
+			<div>Video Height:</div>
+			<input id="project-settings-modal-video-height" type="number">
+			<button id="project-settings-modal-exit-btn">Exit</button>
 		</div>
 	</div>
 </body>

@@ -5,7 +5,10 @@ const propertyTypes = [
 	"Bool",
 	"Component",
 	"Color",
-	"FrameTime"
+	"FrameTime",
+	"Video",
+	"Image",
+	"AnimationEase"
 ];
 const parseGraph = new ParseGraph("initial");
 const NUMBER = String.raw`\-?\d+`;

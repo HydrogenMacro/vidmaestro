@@ -5,7 +5,7 @@ const projectState = {
 	videoSize: [1920, 1080],
 	videoSeekPos: FrameTime.zero(),
 	selectedVideoComponent: null,
-	currentTracks: [[], [], []],
+	currentTracks: [],
 	currentVideoLength: FrameTime.zero(),
 	trackAreaScreenPos: 0,
 	focusArea: "video",

@@ -5,7 +5,7 @@ import PolygonComponent from "../components/geometry.js";
 import OverlayOperation from "../components/operations/overlay.js";
 import { quicksort } from "../utils.js";
 import FrameTime from "../frameTime.js";
-import { updateTracks } from "./tracks.js";
+import { updateTrackComponentDisplayElems, updateTracks } from "./tracks.js";
 import { createNewTrack } from "./trackArea.js";
 
 const videoDisplay = document.querySelector("#video-display");
@@ -44,7 +44,22 @@ export function addComponents(...componentsToAdd) {
 	}
 	updateTracks();
 }
-
+export function deleteComponent(component) {
+	for (const track of projectState.currentTracks) {
+		let componentIndex = track.indexOf(component);
+		if (componentIndex === -1) continue;
+		track.splice(componentIndex, 1);
+		if (component === projectState.selectedVideoComponent ) {
+			projectState.selectedVideoComponent = null;
+			updateVideoDebugDisplay();
+		}
+		updateTrackComponentDisplayElems();
+		updateTracks();
+		drawComponents();
+		return true;
+	}
+	return false;
+}
 const videoDebugDisplayCtx = videoDebugDisplay.getContext("2d");
 export function updateVideoDebugDisplay() {
 	if (projectState.selectedVideoComponent) {
